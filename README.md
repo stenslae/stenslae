@@ -1,5 +1,5 @@
 - 👋 Hi, welcome to my GitHub! <3
-- 🤠 I'm an Electrical Engineering student with a focus in Cybersecurity, Embedded Systems, and Aerospace!
+- 🤠 I'm an electrical engineering undergrad with an interest in cybersecurity, embedded systems, and aerospace!
 - 📫 Reach me at: emma@stensland.com 
 
 <!---
