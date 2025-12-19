@@ -1,8 +1,10 @@
 - 👋 Hi, welcome!
 
-- 🤠 I'm an Electrical Engineering undergrad at Montana State University with a minor in Computer Science and Computer Engineering. I do stuff in embedded systems, FPGA design, CubeSat instrumentation, and cybersecurity.  
+- 🤠 Electrical Engineering undergrad @ Montana State University | Minors: Computer Science & Computer Engineering
 
-- 💻 Check out my [Portfolio](https://github.com/stenslae/Portfolio)!
+- 💻 Embedded systems, FPGA design, Analog PCB Design, CubeSat instrumentation, and cybersecurity
+
+- 🚀 Check out my [Portfolio](https://github.com/stenslae/Portfolio)!
 
 - 📫 Reach me at: [emma@stensland.com](mailto:emma@stensland.com)  
 
