@@ -1,6 +1,6 @@
 - 👋 Hi, welcome!
 
-- 🤠 I'm an Electrical Engineering undergrad at Montana State University with minors in Computer Science & Computer Engineering. I like doing stuff in cybersecurity, embedded systems, analog & PCB design, and systems analysis. I've worked on projects in CubeSat Instrumentation and Industrial Data Acquisition Systems.
+- 🤠 I'm an Electrical Engineering undergrad at Montana State University. I like doing stuff in cybersecurity, embedded systems, and PCB design. I've worked on projects in CubeSat instrumentation and industrial data acquisition systems.
 
 - 🚀 Check out my [Portfolio](https://github.com/stenslae/Portfolio)!
 
