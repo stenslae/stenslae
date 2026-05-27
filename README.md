@@ -1,6 +1,6 @@
 - 🐎 Hi, welcome!
 
-- 🤠 My releases are shared on my personal website. [Email me]() for inquiries.
+- 🤠 My releases are shared on my personal website. [Email me]() for access!
 
 <!---
 hi! here's a joke for the people who look at source code:
