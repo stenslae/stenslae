@@ -1,4 +1,4 @@
-- 🐎 Hi!
+- 🐎 Hi! I'm Emma.
   
 - 🤠 Would you like to play a game? https://emma-stensland.com/terminal
 
