@@ -1,4 +1,6 @@
 - 🐎 Hi!
+  
+- 🤠 Would you like to play a game? https://emma-stensland.com/terminal
 
 <!---
 hi! here's a joke for the people who look at source code:
