@@ -1,6 +1,4 @@
-- 🐎 Hi! I'm Emma.
-  
-- 🤠 Would you like to play a game? https://emma-stensland.com/terminal
+- 🐎 Hi! I'm Emma. I keep my repos private here (mostly), but they're mirrored on my personal site.
 
 <!---
 hi! here's a joke for the people who look at source code:
