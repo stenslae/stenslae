@@ -1,0 +1,629 @@
+<svg width="800" height="742" viewBox="0 0 800 742" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Drop shadow for the floating collage cards -->
+    <filter id="card-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="2" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.2" />
+    </filter>
+    <filter id="soft-glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="14" />
+    </filter>
+    <filter id="bar-glow" x="-40%" y="-200%" width="180%" height="500%">
+      <feGaussianBlur stdDeviation="2.5" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Aurora curtain filter: fractal-noise displacement + blur for wavy ribbons -->
+    <filter id="aurora-warp" x="-50%" y="-40%" width="200%" height="180%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.006 0.022" numOctaves="3" seed="9" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="32" xChannelSelector="R" yChannelSelector="G" result="waved"/>
+      <feGaussianBlur in="waved" stdDeviation="10"/>
+    </filter>
+
+    <!-- Card gradient: top-to-bottom near-black plum -> pitch black, darker than any layer of the landscape so the cards always sit in front of it. -->
+    <linearGradient id="card-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#110b16" stop-opacity="0.90"/>
+      <stop offset="100%" stop-color="#040205" stop-opacity="0.98"/>
+    </linearGradient>
+    <linearGradient id="bar-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b98af5" />
+      <stop offset="100%" stop-color="#ff9dc4" />
+    </linearGradient>
+
+    <!-- Sky gradient: deep blue overhead easing down through violet into a thin band of late sunset warmth that sits right behind the peaks. -->
+    <linearGradient id="sky-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"  stop-color="#08040d" />
+      <stop offset="24%" stop-color="#1e0d2d" />
+      <stop offset="34%" stop-color="#402045" />
+      <stop offset="43%" stop-color="#7d5738" />
+    </linearGradient>
+
+    <!-- valley haze for each forest row: dark at the row's treeline, lifting toward mist where the next row starts. userSpaceOnUse so the ramp spans only the part of the band that stays visible. The foreground stays plum rather than black so the cards read against it. -->
+    <linearGradient id="haze-1" gradientUnits="userSpaceOnUse" x1="0" y1="378" x2="0" y2="402">
+      <stop offset="0" stop-color="#2a1b37" /><stop offset="1" stop-color="#3a2a4b" />
+    </linearGradient>
+    <linearGradient id="haze-2" gradientUnits="userSpaceOnUse" x1="0" y1="401" x2="0" y2="436">
+      <stop offset="0" stop-color="#221530" /><stop offset="1" stop-color="#342443" />
+    </linearGradient>
+    <linearGradient id="haze-3" gradientUnits="userSpaceOnUse" x1="0" y1="434" x2="0" y2="521">
+      <stop offset="0" stop-color="#1b0f27" /><stop offset="1" stop-color="#2e1e3c" />
+    </linearGradient>
+    <linearGradient id="haze-4" gradientUnits="userSpaceOnUse" x1="0" y1="520" x2="0" y2="742">
+      <stop offset="0" stop-color="#170c21" /><stop offset="1" stop-color="#21142d" />
+    </linearGradient>
+
+    <!-- three conifer silhouettes drawn tip down: asymmetric, with branch tips that droop below the notch above them so the edge reads as needles rather than a plain triangle -->
+    <path id="pine-a"
+          d="M0,0 L-1.3,4.4 L-0.5,5.1 L-2.5,9.4 L-1.1,10.3 L-3.8,14.5 L-1.8,15.5
+             L-5.1,19.7 L-2.5,20.8 L-6.5,25.1 L-3.1,26.2 L-7.9,31 L8.3,31
+             L3.3,25.9 L6.8,24.7 L2.6,20.4 L5.4,19.2 L1.9,15.1 L4,13.9
+             L1.2,9.9 L2.7,8.9 L0.6,4.8 L1.4,4.1 Z" />
+    <path id="pine-b"
+          d="M0,0 L-1.6,3.6 L-0.6,4.3 L-3,7.8 L-1.3,8.7 L-4.6,12.3 L-2.1,13.3
+             L-6.3,17 L-2.9,18.1 L-8.2,22.4 L7.6,22.4 L3,18 L6,16.7
+             L2.2,13.1 L4.4,11.9 L1.5,8.4 L3.2,7.4 L0.8,4.1 L1.7,3.4 Z" />
+    <path id="pine-c"
+          d="M0,0 L-1,5.2 L-0.4,6 L-1.9,11.2 L-0.8,12.1 L-2.9,17.2 L-1.3,18.2
+             L-3.9,23.3 L-1.8,24.4 L-5,29.5 L-2.2,30.7 L-6,34 L6.4,34
+             L2.4,30.4 L5.2,29.2 L1.9,24.1 L4.1,22.9 L1.4,17.9 L3.1,16.7
+             L0.9,11.8 L2.1,10.9 L0.5,5.7 L1.1,4.9 Z" />
+
+    <!-- distant versions of the same three conifers, same heights so they drop into the same positions: fewer tiers with deeper notches, so the needled edge still reads at a few pixels tall instead of collapsing to a plain triangle -->
+    <path id="pine-far-a"
+          d="M0,0 L-3.2,7.5 L-1.3,7 L-4.8,15 L-2,14.2 L-6.4,22.6 L-2.6,21.8 L-8,31
+             L8.2,31 L2.8,21.6 L6.6,22.4 L2.1,14 L5,14.8 L1.4,6.8 L3.3,7.3 Z" />
+    <path id="pine-far-b"
+          d="M0,0 L-3.6,7 L-1.5,6.4 L-5.8,14 L-2.4,13.2 L-8.2,22.4
+             L7.8,22.4 L2.5,13 L6,13.8 L1.6,6.2 L3.8,6.8 Z" />
+    <path id="pine-far-c"
+          d="M0,0 L-2.2,6.5 L-0.9,6.1 L-3.4,13 L-1.4,12.4 L-4.4,19.6 L-1.8,19 L-5.2,26.4 L-2.2,25.6 L-6,34
+             L6.2,34 L2.3,25.4 L5.4,26.2 L1.9,18.8 L4.6,19.4 L1.5,12.2 L3.5,12.8 L1,5.9 L2.3,6.3 Z" />
+  </defs>
+
+  <style>
+    /* One dusk palette throughout: indigo structure, amber warm accent, rose and violet cool accents */
+    .bg { fill: url(#sky-grad); }
+
+    /* hairline rim so the cards separate from the darkest foreground */
+    .card-bg { fill: url(#card-grad); stroke: #ffb2d2; stroke-opacity: 0.1; stroke-width: 1; }
+
+    .text-title { font-family: 'Georgia', serif; font-size: 20px; fill: #ffb2d2; font-style: italic; letter-spacing: 0.5px; }
+
+    /* Sans-serif for clean data readability */
+    .text-data-bold { font-family: system-ui, -apple-system, sans-serif; font-size: 44px; font-weight: 800; fill: #ff5c93; letter-spacing: -1px; }
+    .text-data-label { font-family: system-ui, -apple-system, sans-serif; font-size: 13px; font-weight: 500; fill: #e8b07f; text-transform: uppercase; letter-spacing: 1px; }
+
+    .text-lang-name { font-family: system-ui, -apple-system, sans-serif; font-size: 14px; font-weight: 600; fill: #ff9dc4; }
+    .text-lang-pct { font-family: system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 400; fill: #ffd0de; }
+
+    .text-cal-label { font-family: system-ui, -apple-system, sans-serif; font-size: 10px; font-weight: 500; fill: #a685ad; }
+
+    .text-link { font-family: system-ui, -apple-system, sans-serif; font-size: 16px; font-weight: 700; fill: #ff5c93; }
+
+    .text-tiny { font-family: system-ui, -apple-system, sans-serif; font-size: 9.5px; font-weight: 500; fill: #ffd0de; }
+
+    /* Contribution calendar cells: every level is rose, and busier days get both brighter and more vivid (OKLCH L .40 -> .75, C .075 -> .21 at the sRGB edge), so quiet days recede as dusky rose instead of grey and no busier level is dimmer than a quieter one. */
+    .cal-lvl-0 { fill: #2c2233; }
+    .cal-lvl-1 { fill: #67354a; }
+    .cal-lvl-2 { fill: #a34770; }
+    .cal-lvl-3 { fill: #df4e92; }
+    .cal-lvl-4 { fill: #ff69b5; }
+
+    /* Subtle dusk-sky motion: twinkling stars, drifting aurora. Each star carries its own duration and phase inline (see generate_stars), so the sky never pulses in unison. */
+    @keyframes twinkle { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+    @keyframes drift { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(10px); } }
+    .star { fill: #ffd0de; }
+    .twinkle { animation: twinkle 4s ease-in-out infinite; }
+    .aurora-drift { animation: drift 14s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+    @media (prefers-reduced-motion: reduce) {
+      .twinkle, .aurora-drift { animation: none; }
+    }
+  </style>
+
+  <!-- ART ZONE: BACKGROUND -->
+  <g id="art-background">
+    <rect width="800" height="742" class="bg" />
+
+    <!-- AURORA: tall vertical ribbons of colored light, displaced by fractal noise for the wavy curtain effect. -->
+    <g style="opacity: 0.7">
+      <!-- primary violet curtain, left of center -->
+      <rect x="50"  y="-90" width="220" height="310" rx="90"
+            fill="#b98af5" opacity="0.11" filter="url(#aurora-warp)"
+            class="aurora-drift" />
+      <!-- secondary amber layer, slightly offset for layered glow -->
+      <rect x="170" y="-60" width="150" height="260" rx="70"
+            fill="#e0a878" opacity="0.09" filter="url(#aurora-warp)"
+            class="aurora-drift" style="animation-delay: -3s;" />
+      <!-- pink/magenta curtain, right of center -->
+      <rect x="430" y="-80" width="200" height="290" rx="80"
+            fill="#ff9dc4" opacity="0.09" filter="url(#aurora-warp)"
+            class="aurora-drift" style="animation-delay: -7s;" />
+      <!-- violet accent, far right -->
+      <rect x="590" y="-50" width="170" height="240" rx="65"
+            fill="#b98af5" opacity="0.08" filter="url(#aurora-warp)"
+            class="aurora-drift" style="animation-delay: -11s;" />
+    </g>
+
+    <!-- MILKY WAY + STARS: a soft diagonal glow band (the Milky Way core) plus a scattered star field that thins out toward the horizon glow. -->
+    <g>
+      <!-- Milky Way soft glow: blurred diagonal band crossing the sky -->
+      <ellipse cx="310" cy="190" rx="450" ry="60"
+               fill="#ffd0de" opacity="0.045" filter="url(#soft-glow)"
+               transform="rotate(-22, 310, 190)" />
+      <!-- star field: generated by generate_stars() in update_svg.py, each with its own twinkle period and phase -->
+      {% for star in stars %}
+      <circle class="star{% if star.dur %} twinkle{% endif %}" cx="{{ star.x }}" cy="{{ star.y }}" r="{{ star.r }}" fill-opacity="{{ star.opacity }}"{% if star.dur %} style="animation-duration: {{ star.dur }}s; animation-delay: {{ star.delay }}s;"{% endif %}/>
+      {% endfor %}
+    </g>
+
+
+    <!-- TETON RANGE, LAKE AND FOREST: every layer has its own profile so the range reads with depth rather than as one shape repeated. Back to front: hazy distant domes, the jagged Teton wall (Buck Mtn, Nez Perce, South and Middle Teton, the Lower Saddle notch, Grand Teton at x=410, Gunsight, Mt Owen, Teewinot, Cascade Canyon, Mt St John, Rockchuck, Leigh Canyon, Mt Moran), then one landform that runs from the near ridge down into the valley floor, holding a crescent lake and the river feeding it, stands scattered over its shore, and four rows of forest that darken and close in as they come forward. -->
+
+    <!-- farfar: hazy distant summits, broad and rounded, no spires of their own -->
+    <path id="mountain-farfar"
+          d="M0,324.9 C6.3,324.2 25.7,321 38,320.8 C50.3,320.6 61,324.9 74,323.5 C87,322.2 102,315.8 116,312.6 C130,309.5 144.7,305.4 158,304.5
+             C171.3,303.6 183.7,305.6 196,307.2 C208.3,308.8 219.3,313.5 232,314 C244.7,314.5 258.7,312.4 272,309.9 C285.3,307.4 299,302.2 312,299 C325,295.9 337.7,293.4 350,290.9
+             C362.3,288.4 374.3,284.5 386,284.1 C397.7,283.6 409,285.4 420,288.2 C431,290.9 441,297.5 452,300.4 C463,303.3 474,306.3 486,305.8 C498,305.4 511.3,298.4 524,297.7
+             C536.7,297 549.7,299.7 562,301.8 C574.3,303.8 586,307.9 598,309.9 C610,312 621.7,314.5 634,314 C646.3,313.5 659.3,307.4 672,307.2 C684.7,307 697.3,310.6 710,312.6
+             C722.7,314.7 733,318.8 748,319.4 C763,320.1 791.3,317.2 800,316.7
+             L800,742 L0,742 Z"
+          fill="#58426f" />
+
+    <!-- far: the Teton wall itself, the only layer drawn with hard angular segments -->
+    <path id="mountain-far"
+          d="M0,345.4 L62,340.9 L118,334 L156,336.3 L190,322.6
+             L214,309 L226,313.5 L238,311.2 L252,316.9 L268,309
+             L280,299.8 L292,290.7 L300,294.1 L310,287.3 L318,291.9
+             L330,274.8 L338,265.6 L344,270.2 L352,279.3 L358,285
+             L366,291.9 L376,287.3 L386,272.5 L394,259.9 L400,249.7
+             L405,241.7 L410,236 L415,245.1 L419,255.4 L424,265.6
+             L430,271.3 L437,257.7 L443,263.4 L450,275.9 L458,281.6
+             L465,267.9 L470,277 L478,288.4 L492,302.1 L508,309
+             L522,305.5 L536,294.1 L548,299.8 L560,290.7 L574,298.7
+             L588,307.8 L604,311.2 L620,299.8 L634,289.6 L652,286.2
+             L672,287.3 L686,295.3 L700,306.7 L714,302.1 L728,311.2
+             L746,318.1 L768,329.5 L800,338.6
+             L800,742 L0,742 Z"
+          fill="#47335b" />
+
+    <!-- mid: near ridge, same fill as the valley floor so the two read as one landform -->
+    <path id="mountain-mid"
+          d="M0,339.2 C7.7,338.4 31.7,334.5 46,334.2 C60.3,333.8 72.3,337.5 86,337 C99.7,336.6 114.7,332.8 128,331.3 C141.3,329.7 154,327.8 166,327.7
+             C178,327.6 188,329.7 200,330.6 C212,331.4 225,333.3 238,332.7 C251,332.1 265,327.4 278,327 C291,326.5 303.7,330.3 316,329.8 C328.3,329.4 340,324.7 352,324.1
+             C364,323.5 375.3,326.6 388,326.2 C400.7,325.9 415,322 428,321.9 C441,321.8 454,324.2 466,325.5 C478,326.8 488,329.7 500,329.8 C512,330 525.3,327.3 538,326.2
+             C550.7,325.2 563.7,323.1 576,323.4 C588.3,323.6 599.7,326.2 612,327.7 C624.3,329.1 637.3,331.8 650,332 C662.7,332.2 675.3,328.9 688,329.1 C700.7,329.4 713.3,332.2 726,333.4
+             C738.7,334.6 751.7,336.2 764,336.3 C776.3,336.4 794,334.5 800,334.2
+             L800,742 L0,742 Z"
+          fill="#392a48" />
+
+    <!-- valley floor: the same landform again, carrying a distant treeline -->
+    <path id="mountain-near"
+          d="M0,349 C12,348.8 47.7,348.1 72,348 C96.3,347.9 122.3,348.7 146,348.6 C169.7,348.6 190.7,347.6 214,347.5 C237.3,347.5 262,348.3 286,348.3
+             C310,348.3 334.3,347.4 358,347.4 C381.7,347.3 404.7,348.2 428,348.2 C451.3,348.1 475,347.2 498,347.2 C521,347.2 542.7,347.9 566,348 C589.3,348.1 613.7,347.4 638,347.5
+             C662.3,347.6 685,348.4 712,348.5 C739,348.5 785.3,347.9 800,347.8
+             L800,742 L0,742 Z"
+          fill="#392a48" />
+    <g id="treeline-far" fill="#2b1d39">
+      <use href="#pine-far-a" transform="translate(-12, 343) scale(0.29)" />
+      <use href="#pine-far-c" transform="translate(10, 343) scale(0.21)" />
+      <use href="#pine-far-a" transform="translate(31, 340.5) scale(0.31)" />
+      <use href="#pine-far-b" transform="translate(51, 345.8) scale(0.23)" />
+      <use href="#pine-far-c" transform="translate(76, 342.2) scale(0.25)" />
+      <use href="#pine-far-a" transform="translate(92, 340.9) scale(0.27)" />
+      <use href="#pine-far-b" transform="translate(132, 343.3) scale(0.31)" />
+      <use href="#pine-far-c" transform="translate(165, 341.3) scale(0.26)" />
+      <use href="#pine-far-a" transform="translate(191, 342.8) scale(0.22)" />
+      <use href="#pine-far-a" transform="translate(224, 339.2) scale(0.33)" />
+      <use href="#pine-far-c" transform="translate(277, 342.2) scale(0.26)" />
+      <use href="#pine-far-c" transform="translate(322, 341.6) scale(0.23)" />
+      <use href="#pine-far-a" transform="translate(371, 341) scale(0.31)" />
+      <use href="#pine-far-c" transform="translate(380, 340.7) scale(0.29)" />
+      <use href="#pine-far-c" transform="translate(408, 340.1) scale(0.31)" />
+      <use href="#pine-far-a" transform="translate(437, 343.5) scale(0.23)" />
+      <use href="#pine-far-a" transform="translate(478, 337.9) scale(0.34)" />
+      <use href="#pine-far-a" transform="translate(485, 341.4) scale(0.26)" />
+      <use href="#pine-far-b" transform="translate(522, 345.2) scale(0.21)" />
+      <use href="#pine-far-b" transform="translate(556, 344.2) scale(0.22)" />
+      <use href="#pine-far-b" transform="translate(567, 341.8) scale(0.34)" />
+      <use href="#pine-far-a" transform="translate(628, 342.8) scale(0.23)" />
+      <use href="#pine-far-b" transform="translate(661, 342.7) scale(0.29)" />
+      <use href="#pine-far-c" transform="translate(701, 340) scale(0.29)" />
+      <use href="#pine-far-b" transform="translate(706, 345.5) scale(0.26)" />
+      <use href="#pine-far-a" transform="translate(727, 342.3) scale(0.24)" />
+      <use href="#pine-far-a" transform="translate(744, 343.3) scale(0.22)" />
+      <use href="#pine-far-b" transform="translate(774, 343.1) scale(0.31)" />
+      <use href="#pine-far-b" transform="translate(146, 342.7) scale(0.34)" />
+      <use href="#pine-far-a" transform="translate(510, 341.9) scale(0.29)" />
+      <use href="#pine-far-a" transform="translate(672, 340.0) scale(0.3)" />
+      <use href="#pine-far-c" transform="translate(182, 342.1) scale(0.23)" />
+      <use href="#pine-far-b" transform="translate(249, 346.1) scale(0.19)" />
+      <use href="#pine-far-a" transform="translate(794, 342.2) scale(0.27)" />
+      <use href="#pine-far-a" transform="translate(612, 340.1) scale(0.31)" />
+      <use href="#pine-far-a" transform="translate(644, 342.0) scale(0.27)" />
+      <use href="#pine-far-b" transform="translate(335, 345.2) scale(0.24)" />
+      <use href="#pine-far-b" transform="translate(110, 345.8) scale(0.26)" />
+      <use href="#pine-far-c" transform="translate(793, 340.3) scale(0.27)" />
+    </g>
+
+    <!-- the lake: a rounded shore with one shallow inlet bitten out of its left side, fed by a river whose source is off the left edge. Still water, no surface texture -->
+    <g id="lake">
+      <path d="M-20,342 C-11.7,342.3 13.7,343.8 30,344 C46.3,344.2 62,342.8 78,343 C94,343.2 110.3,344.3 126,345 C141.7,345.7 157.3,346.8 172,347
+             C186.7,347.2 200.7,345.7 214,346 C227.3,346.3 240,347.8 252,349 C264,350.2 276,351.7 286,353 C296,354.3 307.7,356.3 312,357"
+            fill="none" stroke="#10091b" stroke-width="3.4" stroke-linecap="round" />
+      <path d="M667.283,370.1 C667.3,370.5 667.7,372 667.3,372.5 C666.9,373 669.1,372.3 664.9,373.1 C660.8,373.9 648,376.6 642.4,377.3 C636.7,378.1 634,377.1 631,377.6
+             C628,378 629.9,379.3 624.4,380 C618.9,380.7 607.5,381.3 598.1,381.6 C588.6,382 577.8,381.5 567.8,382.1 C557.9,382.7 548.9,384.6 538.4,385.2 C527.9,385.8 515.5,385.9 504.8,385.8
+             C494.1,385.6 484.8,384.4 474.3,384.4 C463.9,384.5 454.4,386.2 441.8,386.2 C429.3,386.2 410.3,384.7 399.2,384.6 C388.2,384.5 385.3,385.3 375.5,385.5 C365.7,385.8 351.2,386.1 340.3,386
+             C329.4,385.9 320.5,385.5 310.3,385.1 C300.1,384.7 287.2,383.9 279,383.4 C270.7,382.8 264.3,382.9 260.8,382 C257.3,381 260.9,378.6 258.1,377.6 C255.2,376.6 242.4,376.3 243.7,375.8
+             C245,375.2 261.3,374.9 265.9,374.3 C270.6,373.7 269.2,372.7 271.5,372.1 C273.9,371.6 278.3,371.2 279.9,370.9 C281.5,370.6 281,370.4 281.2,370.2 C281.5,370.1 282.7,370.2 281.3,369.9
+             C279.8,369.6 275.4,369 272.5,368.5 C269.7,368 267.2,367.9 264,366.9 C260.8,365.9 254.4,363.2 253.3,362.5 C252.3,361.8 255.1,363.1 257.7,362.6 C260.4,362.1 264.6,360.4 269.1,359.4
+             C273.6,358.5 277.5,357.2 284.7,356.7 C291.9,356.2 304.5,356.8 312.4,356.3 C320.4,355.8 322,353.9 332.5,353.8 C343,353.7 364.8,355.6 375.3,355.8 C385.8,355.9 385.4,355.3 395.4,354.9
+             C405.5,354.5 423.6,353 435.6,353.1 C447.6,353.1 455,355 467.6,355.1 C480.1,355.2 499.4,353.7 511.1,353.6 C522.8,353.6 528.3,354.1 538,354.5 C547.7,355 559.1,355.6 569.3,356.5
+             C579.4,357.3 591.1,358.8 598.9,359.7 C606.6,360.5 610.1,361.2 615.6,361.3 C621.1,361.4 625.7,360.3 631.9,360.5 C638.1,360.7 648.7,361.5 652.9,362.3 C657.2,363.1 654.1,364.7 657.2,365.4
+             C660.3,366.2 670,366.1 671.6,366.9 C673.3,367.6 668,369.6 667.3,370.1 Z" fill="#10091b" />
+      <path d="M667.283,370.1 C667.3,370.5 667.7,372 667.3,372.5 C666.9,373 669.1,372.3 664.9,373.1 C660.8,373.9 648,376.6 642.4,377.3 C636.7,378.1 634,377.1 631,377.6
+             C628,378 629.9,379.3 624.4,380 C618.9,380.7 607.5,381.3 598.1,381.6 C588.6,382 577.8,381.5 567.8,382.1 C557.9,382.7 548.9,384.6 538.4,385.2 C527.9,385.8 515.5,385.9 504.8,385.8
+             C494.1,385.6 484.8,384.4 474.3,384.4 C463.9,384.5 454.4,386.2 441.8,386.2 C429.3,386.2 410.3,384.7 399.2,384.6 C388.2,384.5 385.3,385.3 375.5,385.5 C365.7,385.8 351.2,386.1 340.3,386
+             C329.4,385.9 320.5,385.5 310.3,385.1 C300.1,384.7 287.2,383.9 279,383.4 C270.7,382.8 264.3,382.9 260.8,382 C257.3,381 260.9,378.6 258.1,377.6 C255.2,376.6 242.4,376.3 243.7,375.8
+             C245,375.2 261.3,374.9 265.9,374.3 C270.6,373.7 269.2,372.7 271.5,372.1 C273.9,371.6 278.3,371.2 279.9,370.9 C281.5,370.6 281,370.4 281.2,370.2 C281.5,370.1 282.7,370.2 281.3,369.9
+             C279.8,369.6 275.4,369 272.5,368.5 C269.7,368 267.2,367.9 264,366.9 C260.8,365.9 254.4,363.2 253.3,362.5 C252.3,361.8 255.1,363.1 257.7,362.6 C260.4,362.1 264.6,360.4 269.1,359.4
+             C273.6,358.5 277.5,357.2 284.7,356.7 C291.9,356.2 304.5,356.8 312.4,356.3 C320.4,355.8 322,353.9 332.5,353.8 C343,353.7 364.8,355.6 375.3,355.8 C385.8,355.9 385.4,355.3 395.4,354.9
+             C405.5,354.5 423.6,353 435.6,353.1 C447.6,353.1 455,355 467.6,355.1 C480.1,355.2 499.4,353.7 511.1,353.6 C522.8,353.6 528.3,354.1 538,354.5 C547.7,355 559.1,355.6 569.3,356.5
+             C579.4,357.3 591.1,358.8 598.9,359.7 C606.6,360.5 610.1,361.2 615.6,361.3 C621.1,361.4 625.7,360.3 631.9,360.5 C638.1,360.7 648.7,361.5 652.9,362.3 C657.2,363.1 654.1,364.7 657.2,365.4
+             C660.3,366.2 670,366.1 671.6,366.9 C673.3,367.6 668,369.6 667.3,370.1 Z" fill="none" stroke="#4c315e" stroke-width="1.1" />
+    </g>
+
+    <!-- stands scattered over the shore, clustered rather than lined up -->
+    <g id="treeline-shore" fill="#261833">
+      <use href="#pine-far-a" transform="translate(770, 342.9) scale(0.4)" />
+      <use href="#pine-far-b" transform="translate(254, 349.5) scale(0.33)" />
+      <use href="#pine-far-a" transform="translate(64, 348) scale(0.36)" />
+      <use href="#pine-far-a" transform="translate(209, 348.1) scale(0.37)" />
+      <use href="#pine-far-a" transform="translate(231, 345.8) scale(0.48)" />
+      <use href="#pine-far-c" transform="translate(243, 344.4) scale(0.48)" />
+      <use href="#pine-far-c" transform="translate(234, 348.1) scale(0.41)" />
+      <use href="#pine-far-a" transform="translate(259, 345.9) scale(0.53)" />
+      <use href="#pine-far-b" transform="translate(209, 350.1) scale(0.55)" />
+      <use href="#pine-far-a" transform="translate(227, 349.1) scale(0.44)" />
+      <use href="#pine-far-c" transform="translate(234, 346.8) scale(0.47)" />
+      <use href="#pine-far-b" transform="translate(213, 351.9) scale(0.5)" />
+      <use href="#pine-far-a" transform="translate(297, 345.6) scale(0.57)" />
+      <use href="#pine-far-b" transform="translate(237, 352.4) scale(0.49)" />
+      <use href="#pine-far-b" transform="translate(198, 354.1) scale(0.42)" />
+      <use href="#pine-far-c" transform="translate(235, 346.2) scale(0.51)" />
+      <use href="#pine-far-b" transform="translate(214, 353.2) scale(0.47)" />
+      <use href="#pine-far-a" transform="translate(242, 347.4) scale(0.53)" />
+      <use href="#pine-far-a" transform="translate(224, 347.1) scale(0.54)" />
+      <use href="#pine-far-b" transform="translate(184, 351.1) scale(0.57)" />
+      <use href="#pine-far-b" transform="translate(273, 353.2) scale(0.5)" />
+      <use href="#pine-far-a" transform="translate(234, 346.6) scale(0.59)" />
+      <use href="#pine-far-b" transform="translate(279, 352.4) scale(0.59)" />
+      <use href="#pine-far-b" transform="translate(218, 354) scale(0.53)" />
+      <use href="#pine-far-c" transform="translate(192, 347.6) scale(0.54)" />
+      <use href="#pine-far-b" transform="translate(212, 353.3) scale(0.57)" />
+      <use href="#pine-far-a" transform="translate(112, 348.5) scale(0.58)" />
+      <use href="#pine-far-a" transform="translate(232, 349.2) scale(0.56)" />
+      <use href="#pine-far-c" transform="translate(215, 349.5) scale(0.51)" />
+      <use href="#pine-far-c" transform="translate(185, 346.8) scale(0.65)" />
+      <use href="#pine-far-c" transform="translate(134, 348.2) scale(0.61)" />
+      <use href="#pine-far-c" transform="translate(806, 348.4) scale(0.64)" />
+      <use href="#pine-far-a" transform="translate(45, 350.4) scale(0.64)" />
+      <use href="#pine-far-a" transform="translate(210, 351.5) scale(0.71)" />
+      <use href="#pine-far-c" transform="translate(186, 354) scale(0.59)" />
+      <use href="#pine-far-a" transform="translate(215, 351.9) scale(0.72)" />
+      <use href="#pine-far-b" transform="translate(679, 358.4) scale(0.74)" />
+      <use href="#pine-far-b" transform="translate(189, 360.2) scale(0.67)" />
+      <use href="#pine-far-c" transform="translate(218, 354.3) scale(0.62)" />
+      <use href="#pine-far-b" transform="translate(729, 361.9) scale(0.62)" />
+      <use href="#pine-far-c" transform="translate(201, 353.1) scale(0.68)" />
+      <use href="#pine-far-c" transform="translate(217, 355.2) scale(0.62)" />
+      <use href="#pine-far-b" transform="translate(104, 363.5) scale(0.67)" />
+      <use href="#pine-far-a" transform="translate(78, 357.8) scale(0.71)" />
+      <use href="#pine-far-b" transform="translate(257, 363) scale(0.81)" />
+      <use href="#pine-far-b" transform="translate(723, 362.1) scale(0.58)" />
+      <use href="#pine-far-a" transform="translate(210, 348.0) scale(0.49)" />
+      <use href="#pine-far-c" transform="translate(728, 355.5) scale(0.6)" />
+      <use href="#pine-far-a" transform="translate(181, 350.4) scale(0.49)" />
+      <use href="#pine-far-a" transform="translate(710, 358.3) scale(0.57)" />
+      <use href="#pine-far-b" transform="translate(236, 359.9) scale(0.65)" />
+      <use href="#pine-far-a" transform="translate(86, 351.7) scale(0.5)" />
+      <use href="#pine-far-b" transform="translate(221, 352.0) scale(0.54)" />
+      <use href="#pine-far-c" transform="translate(200, 355.0) scale(0.61)" />
+      <use href="#pine-far-b" transform="translate(234, 351.7) scale(0.42)" />
+      <use href="#pine-far-a" transform="translate(752, 358.6) scale(0.54)" />
+      <use href="#pine-far-b" transform="translate(251, 350.0) scale(0.29)" />
+      <use href="#pine-far-c" transform="translate(217, 347.0) scale(0.46)" />
+      <use href="#pine-far-b" transform="translate(245, 355.6) scale(0.47)" />
+      <use href="#pine-far-a" transform="translate(262, 357.4) scale(0.8)" />
+      <use href="#pine-far-c" transform="translate(123, 345.2) scale(0.67)" />
+      <use href="#pine-far-b" transform="translate(128, 364.9) scale(0.76)" />
+    </g>
+
+    <!-- forest rows, each a band serrated by conifers a shade darker than itself, unevenly spaced and crowding toward both edges. Each band lightens toward its lower edge (the haze-N gradients) so the next row's trees stand out against a strip of valley mist instead of merging into it. The distant rows use the pine-far shapes. -->
+    <g id="forest-1">
+      <path d="M0,377 C9.3,377.5 39.3,380 56,380 C72.7,380.1 81.3,377.3 100,377.4 C118.7,377.6 143,380.4 168,380.8 C193,381.2 229,380.3 250,379.9
+             C271,379.6 273,378.9 294,378.7 C315,378.5 353,378.7 376,378.8 C399,379 415.3,379.8 432,379.7 C448.7,379.5 455,378.3 476,378.1 C497,377.9 537,378.2 558,378.3
+             C579,378.5 585.3,378.6 602,378.8 C618.7,379.1 635,379.9 658,379.8 C681,379.7 719,378.1 740,378.1 C761,378.1 774,379.9 784,380 C794,380.2 797.3,379.1 800,378.9
+             L800,742 L0,742 Z" fill="url(#haze-1)" />
+      <g fill="#21142d">
+      <use href="#pine-far-b" transform="translate(-12, 373.4) scale(0.43)" />
+      <use href="#pine-far-c" transform="translate(8, 364.4) scale(0.5)" />
+      <use href="#pine-far-a" transform="translate(12, 369.8) scale(0.38)" />
+      <use href="#pine-far-c" transform="translate(38, 368.2) scale(0.43)" />
+      <use href="#pine-far-c" transform="translate(41, 369) scale(0.36)" />
+      <use href="#pine-far-a" transform="translate(56, 370.6) scale(0.38)" />
+      <use href="#pine-far-b" transform="translate(59, 372.1) scale(0.48)" />
+      <use href="#pine-far-a" transform="translate(84, 373.4) scale(0.31)" />
+      <use href="#pine-far-b" transform="translate(103, 371.9) scale(0.44)" />
+      <use href="#pine-far-b" transform="translate(138, 369.8) scale(0.45)" />
+      <use href="#pine-far-c" transform="translate(172, 369) scale(0.33)" />
+      <use href="#pine-far-c" transform="translate(196, 365.9) scale(0.43)" />
+      <use href="#pine-far-a" transform="translate(242, 370.1) scale(0.32)" />
+      <use href="#pine-far-c" transform="translate(266, 369.9) scale(0.31)" />
+      <use href="#pine-far-a" transform="translate(286, 367.8) scale(0.38)" />
+      <use href="#pine-far-c" transform="translate(329, 366.5) scale(0.41)" />
+      <use href="#pine-far-b" transform="translate(359, 375.5) scale(0.32)" />
+      <use href="#pine-far-a" transform="translate(378, 368.5) scale(0.36)" />
+      <use href="#pine-far-a" transform="translate(382, 372.5) scale(0.33)" />
+      <use href="#pine-far-c" transform="translate(413, 363.9) scale(0.49)" />
+      <use href="#pine-far-c" transform="translate(441, 366.6) scale(0.41)" />
+      <use href="#pine-far-b" transform="translate(478, 368.8) scale(0.51)" />
+      <use href="#pine-far-c" transform="translate(505, 366.2) scale(0.41)" />
+      <use href="#pine-far-a" transform="translate(542, 366.5) scale(0.51)" />
+      <use href="#pine-far-c" transform="translate(579, 365.7) scale(0.47)" />
+      <use href="#pine-far-b" transform="translate(607, 369.8) scale(0.44)" />
+      <use href="#pine-far-b" transform="translate(642, 370.4) scale(0.44)" />
+      <use href="#pine-far-b" transform="translate(676, 373.2) scale(0.36)" />
+      <use href="#pine-far-a" transform="translate(695, 367.5) scale(0.45)" />
+      <use href="#pine-far-a" transform="translate(699, 369.5) scale(0.39)" />
+      <use href="#pine-far-b" transform="translate(720, 370.6) scale(0.38)" />
+      <use href="#pine-far-b" transform="translate(725, 372.1) scale(0.39)" />
+      <use href="#pine-far-c" transform="translate(729, 370.5) scale(0.34)" />
+      <use href="#pine-far-b" transform="translate(742, 373.8) scale(0.34)" />
+      <use href="#pine-far-a" transform="translate(767, 369.6) scale(0.41)" />
+      <use href="#pine-far-a" transform="translate(792, 367.4) scale(0.39)" />
+      <use href="#pine-far-a" transform="translate(795, 366) scale(0.45)" />
+      <use href="#pine-far-c" transform="translate(811, 369.4) scale(0.33)" />
+      <use href="#pine-far-c" transform="translate(26, 369.8) scale(0.35)" />
+      <use href="#pine-far-b" transform="translate(552, 371.7) scale(0.47)" />
+      <use href="#pine-far-c" transform="translate(304, 367.5) scale(0.38)" />
+      <use href="#pine-far-c" transform="translate(369, 363.3) scale(0.49)" />
+      <use href="#pine-far-a" transform="translate(630, 370.8) scale(0.37)" />
+      <use href="#pine-far-a" transform="translate(399, 365.5) scale(0.46)" />
+      <use href="#pine-far-b" transform="translate(154, 375.9) scale(0.29)" />
+      <use href="#pine-far-a" transform="translate(217, 368.1) scale(0.43)" />
+      <use href="#pine-far-c" transform="translate(249, 365.4) scale(0.42)" />
+      <use href="#pine-far-b" transform="translate(458, 372.3) scale(0.39)" />
+      <use href="#pine-far-a" transform="translate(429, 369.3) scale(0.33)" />
+      <use href="#pine-far-a" transform="translate(666, 369.5) scale(0.37)" />
+      <use href="#pine-far-c" transform="translate(121, 366.1) scale(0.41)" />
+      </g>
+    </g>
+    <g id="forest-2">
+      <path d="M0,400.1 C11.3,400.4 45.3,401.5 68,401.6 C90.7,401.8 111,401.1 136,401.2 C161,401.4 193,402.4 218,402.5 C243,402.6 261,402.1 286,401.8
+             C311,401.4 340.7,400.7 368,400.4 C395.3,400.1 427,400 450,400.1 C473,400.1 487.3,400.8 506,400.7 C524.7,400.7 545.3,399.8 562,399.9 C578.7,399.9 587.3,400.2 606,400.9
+             C624.7,401.5 649,403.6 674,404 C699,404.3 735,402.8 756,402.7 C777,402.7 792.7,403.6 800,403.8
+             L800,742 L0,742 Z" fill="url(#haze-2)" />
+      <g fill="#1a0e25">
+      <use href="#pine-far-b" transform="translate(-12, 390.3) scale(0.62)" />
+      <use href="#pine-far-a" transform="translate(24, 384.7) scale(0.69)" />
+      <use href="#pine-far-b" transform="translate(59, 394.3) scale(0.53)" />
+      <use href="#pine-far-a" transform="translate(88, 381.3) scale(0.75)" />
+      <use href="#pine-far-b" transform="translate(106, 389.2) scale(0.75)" />
+      <use href="#pine-far-a" transform="translate(148, 385.3) scale(0.64)" />
+      <use href="#pine-far-b" transform="translate(157, 385.9) scale(0.75)" />
+      <use href="#pine-far-c" transform="translate(200, 379.1) scale(0.67)" />
+      <use href="#pine-far-a" transform="translate(236, 387.4) scale(0.52)" />
+      <use href="#pine-far-b" transform="translate(246, 388.8) scale(0.73)" />
+      <use href="#pine-far-b" transform="translate(301, 389.4) scale(0.74)" />
+      <use href="#pine-far-b" transform="translate(346, 389.1) scale(0.67)" />
+      <use href="#pine-far-a" transform="translate(395, 381.7) scale(0.77)" />
+      <use href="#pine-far-b" transform="translate(433, 392.5) scale(0.57)" />
+      <use href="#pine-far-b" transform="translate(442, 393.8) scale(0.51)" />
+      <use href="#pine-far-c" transform="translate(489, 383.9) scale(0.58)" />
+      <use href="#pine-far-b" transform="translate(540, 390.4) scale(0.54)" />
+      <use href="#pine-far-a" transform="translate(575, 387.6) scale(0.55)" />
+      <use href="#pine-far-c" transform="translate(613, 380) scale(0.75)" />
+      <use href="#pine-far-a" transform="translate(635, 381.3) scale(0.74)" />
+      <use href="#pine-far-b" transform="translate(662, 391.1) scale(0.58)" />
+      <use href="#pine-far-c" transform="translate(693, 382) scale(0.6)" />
+      <use href="#pine-far-a" transform="translate(728, 380.8) scale(0.75)" />
+      <use href="#pine-far-b" transform="translate(764, 388.2) scale(0.66)" />
+      <use href="#pine-far-b" transform="translate(769, 385.8) scale(0.74)" />
+      <use href="#pine-far-c" transform="translate(803, 384.2) scale(0.62)" />
+      <use href="#pine-far-b" transform="translate(711, 389.4) scale(0.63)" />
+      <use href="#pine-far-c" transform="translate(748, 380.9) scale(0.72)" />
+      <use href="#pine-far-b" transform="translate(276, 385.2) scale(0.86)" />
+      <use href="#pine-far-b" transform="translate(43, 394.0) scale(0.48)" />
+      <use href="#pine-far-a" transform="translate(376, 383.0) scale(0.77)" />
+      <use href="#pine-far-a" transform="translate(125, 379.8) scale(0.83)" />
+      <use href="#pine-far-c" transform="translate(784, 387.3) scale(0.51)" />
+      <use href="#pine-far-b" transform="translate(413, 388.7) scale(0.74)" />
+      <use href="#pine-far-a" transform="translate(329, 384.8) scale(0.69)" />
+      </g>
+    </g>
+    <g id="forest-3">
+      <path d="M0,436.2 C13.7,435.9 59,435 82,434.6 C105,434.2 115,433.3 138,433.7 C161,434.1 192.7,436.9 220,437.1 C247.3,437.2 274.7,435.4 302,434.7
+             C329.3,434.1 359,433.1 384,433 C409,432.8 427,433.3 452,433.7 C477,434.1 511,435.1 534,435.6 C557,436.1 569.3,436.7 590,436.6 C610.7,436.5 633,435.2 658,434.9
+             C683,434.6 719,434.8 740,434.8 C761,434.9 774,435.1 784,435.1 C794,435.1 797.3,434.8 800,434.8
+             L800,742 L0,742 Z" fill="url(#haze-3)" />
+      <g fill="#140a1d">
+      <use href="#pine-c" transform="translate(-12, 396.8) scale(1.23)" />
+      <use href="#pine-b" transform="translate(34, 410.3) scale(1.17)" />
+      <use href="#pine-c" transform="translate(75, 403) scale(0.95)" />
+      <use href="#pine-a" transform="translate(94, 409.1) scale(0.9)" />
+      <use href="#pine-b" transform="translate(106, 420.4) scale(0.83)" />
+      <use href="#pine-c" transform="translate(165, 407.4) scale(0.93)" />
+      <use href="#pine-a" transform="translate(221, 406.4) scale(0.93)" />
+      <use href="#pine-a" transform="translate(261, 409.7) scale(0.93)" />
+      <use href="#pine-a" transform="translate(329, 401.9) scale(1.08)" />
+      <use href="#pine-a" transform="translate(360, 405.8) scale(1.01)" />
+      <use href="#pine-a" transform="translate(399, 411.8) scale(0.83)" />
+      <use href="#pine-a" transform="translate(473, 409.3) scale(0.86)" />
+      <use href="#pine-b" transform="translate(534, 418.5) scale(0.86)" />
+      <use href="#pine-c" transform="translate(540, 400.1) scale(1.14)" />
+      <use href="#pine-a" transform="translate(555, 405.8) scale(0.98)" />
+      <use href="#pine-a" transform="translate(599, 401.8) scale(1.16)" />
+      <use href="#pine-b" transform="translate(645, 412.9) scale(1.11)" />
+      <use href="#pine-a" transform="translate(701, 408.9) scale(0.96)" />
+      <use href="#pine-a" transform="translate(731, 400.9) scale(1.19)" />
+      <use href="#pine-b" transform="translate(757, 412.3) scale(1.19)" />
+      <use href="#pine-b" transform="translate(782, 416.1) scale(0.97)" />
+      <use href="#pine-b" transform="translate(381, 412.3) scale(0.99)" />
+      <use href="#pine-b" transform="translate(9, 415.6) scale(1.02)" />
+      <use href="#pine-b" transform="translate(195, 418.3) scale(0.79)" />
+      <use href="#pine-c" transform="translate(508, 405.6) scale(0.98)" />
+      <use href="#pine-a" transform="translate(181, 409.8) scale(0.97)" />
+      <use href="#pine-a" transform="translate(718, 405.5) scale(0.99)" />
+      <use href="#pine-c" transform="translate(155, 401.5) scale(1.14)" />
+      </g>
+    </g>
+    <g id="forest-4">
+      <path d="M0,518.2 C13.7,518.6 59,520.5 82,520.4 C105,520.4 117.3,517.9 138,517.9 C158.7,517.9 187.3,519.9 206,520.5 C224.7,521 231.3,521.2 250,521.2
+             C268.7,521.2 297.3,521.1 318,520.6 C338.7,520.1 353.3,518.4 374,518.3 C394.7,518.3 417,520.1 442,520.3 C467,520.6 496.7,519.6 524,519.8 C551.3,519.9 581,520.7 606,521.1
+             C631,521.5 649,522.1 674,521.9 C699,521.8 735,520.7 756,520.4 C777,520.2 792.7,520.5 800,520.5
+             L800,742 L0,742 Z" fill="url(#haze-4)" />
+      <g fill="#0f0617">
+      <use href="#pine-c" transform="translate(-12, 402.7) scale(3.47)" />
+      <use href="#pine-c" transform="translate(69, 389.2) scale(3.97)" />
+      <use href="#pine-a" transform="translate(80, 375.8) scale(4.68)" />
+      <use href="#pine-a" transform="translate(149, 376.8) scale(4.71)" />
+      <use href="#pine-c" transform="translate(161, 406.8) scale(3.41)" />
+      <use href="#pine-b" transform="translate(272, 433.1) scale(3.9)" />
+      <use href="#pine-a" transform="translate(352, 410.6) scale(3.64)" />
+      <use href="#pine-a" transform="translate(462, 401.7) scale(3.95)" />
+      <use href="#pine-b" transform="translate(603, 403.8) scale(5.34)" />
+      <use href="#pine-b" transform="translate(668, 402.7) scale(5.24)" />
+      <use href="#pine-c" transform="translate(775, 392.2) scale(3.77)" />
+      <use href="#pine-c" transform="translate(788, 353) scale(5.01)" />
+      <use href="#pine-c" transform="translate(510, 398.6) scale(3.44)" />
+      <use href="#pine-c" transform="translate(222, 341.9) scale(5.42)" />
+      <use href="#pine-c" transform="translate(413, 367.1) scale(4.54)" />
+      <use href="#pine-a" transform="translate(322, 407.4) scale(3.54)" />
+      </g>
+    </g>
+  </g>
+
+  <!-- COLLAGE LAYOUT -->
+
+  <!-- CARD 1: Contributions (full-width classic activity chart, top) -->
+  <g id="card-contributions" transform="translate(40, 26) rotate(-0.6)">
+    <!-- ART ZONE: Contributions Card Background -->
+    <g id="art-card-contrib-bg"></g>
+
+    <rect width="720" height="210" rx="18" class="card-bg" filter="url(#card-shadow)" />
+    <text x="30" y="48" class="text-title">Contributions</text>
+    <text x="690" y="48" class="text-title" text-anchor="end" style="font-weight: bold; font-family: system-ui;">{{ stats.total_contribs | commas }}</text>
+
+    <!-- Classic GitHub-style calendar: weekday labels, month labels, week/day grid -->
+    <g transform="translate(66, 92)">
+      <!-- baseline sits ~3.5px below the row's centre so the 10px label is optically centred on it -->
+      <text x="-14" y="{{ 1 * cal_pitch + cal_cell / 2 + 3.5 }}" text-anchor="end" class="text-cal-label">Mon</text>
+      <text x="-14" y="{{ 3 * cal_pitch + cal_cell / 2 + 3.5 }}" text-anchor="end" class="text-cal-label">Wed</text>
+      <text x="-14" y="{{ 5 * cal_pitch + cal_cell / 2 + 3.5 }}" text-anchor="end" class="text-cal-label">Fri</text>
+
+      {% for m in month_labels %}
+        <text x="{{ m.x }}" y="-8" class="text-cal-label">{{ m.label }}</text>
+      {% endfor %}
+
+      <!-- Cells are drawn fully visible and the fade-in starts at 0s, holding at 0 until each cell's stagger point. Anything that doesn't run SMIL (static previews, snapshots) still shows the finished calendar instead of an empty grid. -->
+      {% for dot in calendar_dots %}
+        <rect x="{{ dot.x }}" y="{{ dot.y }}" width="{{ cal_cell }}" height="{{ cal_cell }}" rx="2"
+              class="cal-lvl-{{ dot.level }}">
+          {% set dur = dot.delay + 0.5 %}
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;{{ '%.4f' % (dot.delay / dur) }};1"
+                   dur="{{ dur }}s" begin="0s" fill="freeze" />
+        </rect>
+      {% endfor %}
+    </g>
+
+    <!-- ART ZONE: Contributions Card Foreground -->
+    <g id="art-card-contrib-fg"></g>
+  </g>
+
+  <!-- ART ZONE: MIDGROUND - open valley band between card 1 and the bottom row, where the near Teton ridgeline reads clearly. -->
+  <g id="art-midground"></g>
+
+  <!-- CARD 2: Languages (bottom left) -->
+  <g id="card-languages" transform="translate(40, 372) rotate(0.4)">
+    <!-- ART ZONE: Languages Card Background -->
+    <g id="art-card-lang-bg"></g>
+
+    <rect width="460" height="300" rx="18" class="card-bg" filter="url(#card-shadow)" />
+    <text x="30" y="48" class="text-title">Languages</text>
+
+    <g transform="translate(30, 88)">
+      {% for lang in stats.langs %}
+        <g transform="translate(0, {{ loop.index0 * 30 }})">
+          <text x="0" y="0" class="text-lang-name">{{ lang.name }}</text>
+          <text x="400" y="0" class="text-lang-pct" text-anchor="end">{{ lang.size_label }}</text>
+          <!-- True bar chart: length is size relative to the largest language shown, not a percentage of a whole. Gradient fill + soft glow, animated width. -->
+          <rect x="0" y="8" width="400" height="4" rx="2" fill="#30203e" opacity="0.5" />
+          <!-- Drawn at full length, same static-fallback pattern as the calendar cells: the grow animation holds at 0 until this row's stagger point. -->
+          {% set bar_w = '%.1f' % ((lang.bar_pct / 100.0) * 400) %}
+          {% set delay = loop.index0 * 0.15 %}
+          <rect x="0" y="8" width="{{ bar_w }}" height="4" rx="2" fill="url(#bar-grad)" filter="url(#bar-glow)" opacity="0.9">
+            <animate attributeName="width" values="0;0;{{ bar_w }}" keyTimes="0;{{ '%.4f' % (delay / (delay + 1.2)) }};1"
+                     dur="{{ delay + 1.2 }}s" begin="0s" fill="freeze"
+                     calcMode="spline" keySplines="0 0 1 1;0.25 0.1 0.25 1" />
+          </rect>
+        </g>
+      {% endfor %}
+    </g>
+
+    <!-- ART ZONE: Languages Card Foreground -->
+    <g id="art-card-lang-fg"></g>
+  </g>
+
+  <!-- CARD 3: Merged open-source PRs + streaks (bottom right, top half) -->
+  <g id="card-stats" transform="translate(540, 372) rotate(-1.4)">
+    <!-- ART ZONE: Stats Card Background -->
+    <g id="art-card-stats-bg"></g>
+
+    <rect width="220" height="158" rx="18" class="card-bg" filter="url(#card-shadow)" />
+
+    <g transform="translate(24, 68)">
+      <text x="0" y="0" class="text-data-bold">{{ stats.oss_prs | commas }}</text>
+      <text x="0" y="24" class="text-data-label">Merged OSS PRs</text>
+      <text x="0" y="43" class="text-lang-pct" style="font-style: italic;">{{ stats.current_streak | commas }}-day streak</text>
+      <text x="0" y="61" class="text-lang-pct" style="font-style: italic;">Longest: {{ stats.longest_streak | commas }} days</text>
+    </g>
+
+    <!-- ART ZONE: Stats Card Foreground -->
+    <g id="art-card-stats-fg"></g>
+  </g>
+
+  <!-- CARD 4: Website Link (bottom right, bottom half) -->
+  <g id="card-link" transform="translate(540, 550) rotate(1.6)">
+    <!-- ART ZONE: Link Card Background -->
+    <g id="art-card-link-bg"></g>
+
+    <rect width="220" height="136" rx="18" class="card-bg" filter="url(#card-shadow)" />
+
+    <a href="https://emma-stensland.com" target="_blank" rel="noopener noreferrer">
+      <text x="110" y="44" text-anchor="middle" class="text-link">emma-stensland.com</text>
+      <line x1="25" y1="53" x2="195" y2="53" stroke="#ff5c93" stroke-width="1.5" />
+    </a>
+
+    <!-- Small best-effort widgets sourced from the site itself at generation time - see get_site_widgets() in update_svg.py. Any subset can be missing (site hiccup) and this just renders fewer lines, never a broken one. -->
+    <g transform="translate(25, 70)" text-anchor="start">
+      {% if site.guestbook_count is not none %}
+        <text x="0" y="0" class="text-tiny">• {{ site.guestbook_count | commas }} guestbook signs</text>
+      {% endif %}
+      {% if site.bot_count is not none %}
+        <text x="0" y="16" class="text-tiny">• {{ site.bot_count | commas }} bots caught</text>
+      {% endif %}
+      {% if site.poison_size %}
+        <text x="0" y="32" class="text-tiny">• {{ site.poison_size }} fed to bots</text>
+      {% endif %}
+    </g>
+
+    <!-- ART ZONE: Link Card Foreground -->
+    <g id="art-card-link-fg"></g>
+  </g>
+
+  <!-- ART ZONE: FOREGROUND -->
+  <g id="art-foreground"></g>
+
+</svg>

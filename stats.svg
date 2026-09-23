@@ -1,0 +1,3587 @@
+<svg width="800" height="742" viewBox="0 0 800 742" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Drop shadow for the floating collage cards -->
+    <filter id="card-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="2" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.2" />
+    </filter>
+    <filter id="soft-glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="14" />
+    </filter>
+    <filter id="bar-glow" x="-40%" y="-200%" width="180%" height="500%">
+      <feGaussianBlur stdDeviation="2.5" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Aurora curtain filter: fractal-noise displacement + blur for wavy ribbons -->
+    <filter id="aurora-warp" x="-50%" y="-40%" width="200%" height="180%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.006 0.022" numOctaves="3" seed="9" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="32" xChannelSelector="R" yChannelSelector="G" result="waved"/>
+      <feGaussianBlur in="waved" stdDeviation="10"/>
+    </filter>
+
+    <!-- Card gradient: top-to-bottom near-black plum -> pitch black, darker than any layer of the landscape so the cards always sit in front of it. -->
+    <linearGradient id="card-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#110b16" stop-opacity="0.90"/>
+      <stop offset="100%" stop-color="#040205" stop-opacity="0.98"/>
+    </linearGradient>
+    <linearGradient id="bar-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b98af5" />
+      <stop offset="100%" stop-color="#ff9dc4" />
+    </linearGradient>
+
+    <!-- Sky gradient: deep blue overhead easing down through violet into a thin band of late sunset warmth that sits right behind the peaks. -->
+    <linearGradient id="sky-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"  stop-color="#08040d" />
+      <stop offset="24%" stop-color="#1e0d2d" />
+      <stop offset="34%" stop-color="#402045" />
+      <stop offset="43%" stop-color="#7d5738" />
+    </linearGradient>
+
+    <!-- valley haze for each forest row: dark at the row's treeline, lifting toward mist where the next row starts. userSpaceOnUse so the ramp spans only the part of the band that stays visible. The foreground stays plum rather than black so the cards read against it. -->
+    <linearGradient id="haze-1" gradientUnits="userSpaceOnUse" x1="0" y1="378" x2="0" y2="402">
+      <stop offset="0" stop-color="#2a1b37" /><stop offset="1" stop-color="#3a2a4b" />
+    </linearGradient>
+    <linearGradient id="haze-2" gradientUnits="userSpaceOnUse" x1="0" y1="401" x2="0" y2="436">
+      <stop offset="0" stop-color="#221530" /><stop offset="1" stop-color="#342443" />
+    </linearGradient>
+    <linearGradient id="haze-3" gradientUnits="userSpaceOnUse" x1="0" y1="434" x2="0" y2="521">
+      <stop offset="0" stop-color="#1b0f27" /><stop offset="1" stop-color="#2e1e3c" />
+    </linearGradient>
+    <linearGradient id="haze-4" gradientUnits="userSpaceOnUse" x1="0" y1="520" x2="0" y2="742">
+      <stop offset="0" stop-color="#170c21" /><stop offset="1" stop-color="#21142d" />
+    </linearGradient>
+
+    <!-- three conifer silhouettes drawn tip down: asymmetric, with branch tips that droop below the notch above them so the edge reads as needles rather than a plain triangle -->
+    <path id="pine-a"
+          d="M0,0 L-1.3,4.4 L-0.5,5.1 L-2.5,9.4 L-1.1,10.3 L-3.8,14.5 L-1.8,15.5
+             L-5.1,19.7 L-2.5,20.8 L-6.5,25.1 L-3.1,26.2 L-7.9,31 L8.3,31
+             L3.3,25.9 L6.8,24.7 L2.6,20.4 L5.4,19.2 L1.9,15.1 L4,13.9
+             L1.2,9.9 L2.7,8.9 L0.6,4.8 L1.4,4.1 Z" />
+    <path id="pine-b"
+          d="M0,0 L-1.6,3.6 L-0.6,4.3 L-3,7.8 L-1.3,8.7 L-4.6,12.3 L-2.1,13.3
+             L-6.3,17 L-2.9,18.1 L-8.2,22.4 L7.6,22.4 L3,18 L6,16.7
+             L2.2,13.1 L4.4,11.9 L1.5,8.4 L3.2,7.4 L0.8,4.1 L1.7,3.4 Z" />
+    <path id="pine-c"
+          d="M0,0 L-1,5.2 L-0.4,6 L-1.9,11.2 L-0.8,12.1 L-2.9,17.2 L-1.3,18.2
+             L-3.9,23.3 L-1.8,24.4 L-5,29.5 L-2.2,30.7 L-6,34 L6.4,34
+             L2.4,30.4 L5.2,29.2 L1.9,24.1 L4.1,22.9 L1.4,17.9 L3.1,16.7
+             L0.9,11.8 L2.1,10.9 L0.5,5.7 L1.1,4.9 Z" />
+
+    <!-- distant versions of the same three conifers, same heights so they drop into the same positions: fewer tiers with deeper notches, so the needled edge still reads at a few pixels tall instead of collapsing to a plain triangle -->
+    <path id="pine-far-a"
+          d="M0,0 L-3.2,7.5 L-1.3,7 L-4.8,15 L-2,14.2 L-6.4,22.6 L-2.6,21.8 L-8,31
+             L8.2,31 L2.8,21.6 L6.6,22.4 L2.1,14 L5,14.8 L1.4,6.8 L3.3,7.3 Z" />
+    <path id="pine-far-b"
+          d="M0,0 L-3.6,7 L-1.5,6.4 L-5.8,14 L-2.4,13.2 L-8.2,22.4
+             L7.8,22.4 L2.5,13 L6,13.8 L1.6,6.2 L3.8,6.8 Z" />
+    <path id="pine-far-c"
+          d="M0,0 L-2.2,6.5 L-0.9,6.1 L-3.4,13 L-1.4,12.4 L-4.4,19.6 L-1.8,19 L-5.2,26.4 L-2.2,25.6 L-6,34
+             L6.2,34 L2.3,25.4 L5.4,26.2 L1.9,18.8 L4.6,19.4 L1.5,12.2 L3.5,12.8 L1,5.9 L2.3,6.3 Z" />
+  </defs>
+
+  <style>
+    /* One dusk palette throughout: indigo structure, amber warm accent, rose and violet cool accents */
+    .bg { fill: url(#sky-grad); }
+
+    /* hairline rim so the cards separate from the darkest foreground */
+    .card-bg { fill: url(#card-grad); stroke: #ffb2d2; stroke-opacity: 0.1; stroke-width: 1; }
+
+    .text-title { font-family: 'Georgia', serif; font-size: 20px; fill: #ffb2d2; font-style: italic; letter-spacing: 0.5px; }
+
+    /* Sans-serif for clean data readability */
+    .text-data-bold { font-family: system-ui, -apple-system, sans-serif; font-size: 44px; font-weight: 800; fill: #ff5c93; letter-spacing: -1px; }
+    .text-data-label { font-family: system-ui, -apple-system, sans-serif; font-size: 13px; font-weight: 500; fill: #e8b07f; text-transform: uppercase; letter-spacing: 1px; }
+
+    .text-lang-name { font-family: system-ui, -apple-system, sans-serif; font-size: 14px; font-weight: 600; fill: #ff9dc4; }
+    .text-lang-pct { font-family: system-ui, -apple-system, sans-serif; font-size: 12px; font-weight: 400; fill: #ffd0de; }
+
+    .text-cal-label { font-family: system-ui, -apple-system, sans-serif; font-size: 10px; font-weight: 500; fill: #a685ad; }
+
+    .text-link { font-family: system-ui, -apple-system, sans-serif; font-size: 16px; font-weight: 700; fill: #ff5c93; }
+
+    .text-tiny { font-family: system-ui, -apple-system, sans-serif; font-size: 9.5px; font-weight: 500; fill: #ffd0de; }
+
+    /* Contribution calendar cells: every level is rose, and busier days get both brighter and more vivid (OKLCH L .40 -> .75, C .075 -> .21 at the sRGB edge), so quiet days recede as dusky rose instead of grey and no busier level is dimmer than a quieter one. */
+    .cal-lvl-0 { fill: #2c2233; }
+    .cal-lvl-1 { fill: #67354a; }
+    .cal-lvl-2 { fill: #a34770; }
+    .cal-lvl-3 { fill: #df4e92; }
+    .cal-lvl-4 { fill: #ff69b5; }
+
+    /* Subtle dusk-sky motion: twinkling stars, drifting aurora. Each star carries its own duration and phase inline (see generate_stars), so the sky never pulses in unison. */
+    @keyframes twinkle { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+    @keyframes drift { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(10px); } }
+    .star { fill: #ffd0de; }
+    .twinkle { animation: twinkle 4s ease-in-out infinite; }
+    .aurora-drift { animation: drift 14s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+    @media (prefers-reduced-motion: reduce) {
+      .twinkle, .aurora-drift { animation: none; }
+    }
+  </style>
+
+  <!-- ART ZONE: BACKGROUND -->
+  <g id="art-background">
+    <rect width="800" height="742" class="bg" />
+
+    <!-- AURORA: tall vertical ribbons of colored light, displaced by fractal noise for the wavy curtain effect. -->
+    <g style="opacity: 0.7">
+      <!-- primary violet curtain, left of center -->
+      <rect x="50"  y="-90" width="220" height="310" rx="90"
+            fill="#b98af5" opacity="0.11" filter="url(#aurora-warp)"
+            class="aurora-drift" />
+      <!-- secondary amber layer, slightly offset for layered glow -->
+      <rect x="170" y="-60" width="150" height="260" rx="70"
+            fill="#e0a878" opacity="0.09" filter="url(#aurora-warp)"
+            class="aurora-drift" style="animation-delay: -3s;" />
+      <!-- pink/magenta curtain, right of center -->
+      <rect x="430" y="-80" width="200" height="290" rx="80"
+            fill="#ff9dc4" opacity="0.09" filter="url(#aurora-warp)"
+            class="aurora-drift" style="animation-delay: -7s;" />
+      <!-- violet accent, far right -->
+      <rect x="590" y="-50" width="170" height="240" rx="65"
+            fill="#b98af5" opacity="0.08" filter="url(#aurora-warp)"
+            class="aurora-drift" style="animation-delay: -11s;" />
+    </g>
+
+    <!-- MILKY WAY + STARS: a soft diagonal glow band (the Milky Way core) plus a scattered star field that thins out toward the horizon glow. -->
+    <g>
+      <!-- Milky Way soft glow: blurred diagonal band crossing the sky -->
+      <ellipse cx="310" cy="190" rx="450" ry="60"
+               fill="#ffd0de" opacity="0.045" filter="url(#soft-glow)"
+               transform="rotate(-22, 310, 190)" />
+      <!-- star field: generated by generate_stars() in update_svg.py, each with its own twinkle period and phase -->
+      
+      <circle class="star twinkle" cx="166.0" cy="275.6" r="0.45" fill-opacity="0.67" style="animation-duration: 2.79s; animation-delay: -1.42s;"/>
+      
+      <circle class="star twinkle" cx="256.6" cy="224.3" r="0.7" fill-opacity="0.81" style="animation-duration: 3.62s; animation-delay: -2.27s;"/>
+      
+      <circle class="star" cx="702.3" cy="37.5" r="0.8" fill-opacity="0.6"/>
+      
+      <circle class="star twinkle" cx="374.1" cy="144.0" r="0.78" fill-opacity="0.43" style="animation-duration: 3.53s; animation-delay: -2.4s;"/>
+      
+      <circle class="star twinkle" cx="238.6" cy="194.9" r="0.62" fill-opacity="0.69" style="animation-duration: 4.0s; animation-delay: -3.18s;"/>
+      
+      <circle class="star twinkle" cx="484.0" cy="121.3" r="0.77" fill-opacity="0.84" style="animation-duration: 3.94s; animation-delay: -3.86s;"/>
+      
+      <circle class="star twinkle" cx="238.9" cy="219.5" r="0.74" fill-opacity="0.42" style="animation-duration: 6.32s; animation-delay: -3.62s;"/>
+      
+      <circle class="star twinkle" cx="630.8" cy="41.8" r="0.62" fill-opacity="0.75" style="animation-duration: 5.4s; animation-delay: -2.46s;"/>
+      
+      <circle class="star twinkle" cx="618.3" cy="99.9" r="0.86" fill-opacity="0.43" style="animation-duration: 5.74s; animation-delay: -5.7s;"/>
+      
+      <circle class="star twinkle" cx="586.2" cy="65.9" r="0.6" fill-opacity="0.59" style="animation-duration: 2.61s; animation-delay: -1.21s;"/>
+      
+      <circle class="star twinkle" cx="23.6" cy="314.1" r="0.94" fill-opacity="0.46" style="animation-duration: 4.45s; animation-delay: -3.88s;"/>
+      
+      <circle class="star twinkle" cx="243.5" cy="153.0" r="0.97" fill-opacity="0.83" style="animation-duration: 4.58s; animation-delay: -1.64s;"/>
+      
+      <circle class="star twinkle" cx="637.7" cy="37.1" r="1.07" fill-opacity="0.48" style="animation-duration: 3.66s; animation-delay: -0.85s;"/>
+      
+      <circle class="star twinkle" cx="289.5" cy="176.9" r="0.4" fill-opacity="0.61" style="animation-duration: 5.33s; animation-delay: -5.08s;"/>
+      
+      <circle class="star twinkle" cx="471.4" cy="111.4" r="0.76" fill-opacity="0.71" style="animation-duration: 2.77s; animation-delay: -2.49s;"/>
+      
+      <circle class="star twinkle" cx="568.2" cy="126.5" r="0.67" fill-opacity="0.6" style="animation-duration: 5.67s; animation-delay: -0.35s;"/>
+      
+      <circle class="star twinkle" cx="61.5" cy="305.8" r="0.44" fill-opacity="0.4" style="animation-duration: 3.01s; animation-delay: -1.09s;"/>
+      
+      <circle class="star twinkle" cx="631.4" cy="46.3" r="0.58" fill-opacity="0.57" style="animation-duration: 3.11s; animation-delay: -2.64s;"/>
+      
+      <circle class="star twinkle" cx="735.6" cy="6.0" r="0.73" fill-opacity="0.64" style="animation-duration: 3.01s; animation-delay: -1.03s;"/>
+      
+      <circle class="star twinkle" cx="108.1" cy="280.7" r="0.42" fill-opacity="0.88" style="animation-duration: 3.23s; animation-delay: -1.76s;"/>
+      
+      <circle class="star twinkle" cx="356.7" cy="235.1" r="0.89" fill-opacity="0.53" style="animation-duration: 3.34s; animation-delay: -2.57s;"/>
+      
+      <circle class="star twinkle" cx="335.4" cy="171.0" r="0.95" fill-opacity="0.56" style="animation-duration: 6.56s; animation-delay: -6.46s;"/>
+      
+      <circle class="star twinkle" cx="624.5" cy="83.6" r="0.92" fill-opacity="0.51" style="animation-duration: 4.28s; animation-delay: -0.12s;"/>
+      
+      <circle class="star" cx="116.8" cy="265.2" r="1.07" fill-opacity="0.62"/>
+      
+      <circle class="star twinkle" cx="752.6" cy="60.8" r="1.07" fill-opacity="0.58" style="animation-duration: 3.63s; animation-delay: -0.71s;"/>
+      
+      <circle class="star twinkle" cx="35.2" cy="251.6" r="0.99" fill-opacity="0.64" style="animation-duration: 6.5s; animation-delay: -0.55s;"/>
+      
+      <circle class="star" cx="433.0" cy="91.5" r="1.04" fill-opacity="0.79"/>
+      
+      <circle class="star" cx="299.5" cy="219.0" r="0.63" fill-opacity="0.8"/>
+      
+      <circle class="star twinkle" cx="237.1" cy="270.9" r="0.68" fill-opacity="0.87" style="animation-duration: 3.35s; animation-delay: -0.43s;"/>
+      
+      <circle class="star twinkle" cx="610.9" cy="115.4" r="0.65" fill-opacity="0.67" style="animation-duration: 2.57s; animation-delay: -2.5s;"/>
+      
+      <circle class="star twinkle" cx="438.4" cy="132.3" r="0.77" fill-opacity="0.87" style="animation-duration: 6.86s; animation-delay: -5.67s;"/>
+      
+      <circle class="star twinkle" cx="58.1" cy="291.5" r="0.57" fill-opacity="0.69" style="animation-duration: 4.6s; animation-delay: -0.6s;"/>
+      
+      <circle class="star twinkle" cx="676.7" cy="68.8" r="0.65" fill-opacity="0.63" style="animation-duration: 7.02s; animation-delay: -2.95s;"/>
+      
+      <circle class="star twinkle" cx="660.2" cy="8.6" r="0.77" fill-opacity="0.41" style="animation-duration: 3.42s; animation-delay: -0.01s;"/>
+      
+      <circle class="star twinkle" cx="570.6" cy="84.3" r="0.52" fill-opacity="0.64" style="animation-duration: 5.28s; animation-delay: -1.72s;"/>
+      
+      <circle class="star twinkle" cx="307.5" cy="137.7" r="0.47" fill-opacity="0.68" style="animation-duration: 3.88s; animation-delay: -3.0s;"/>
+      
+      <circle class="star" cx="310.0" cy="170.7" r="0.79" fill-opacity="0.78"/>
+      
+      <circle class="star twinkle" cx="250.4" cy="184.9" r="0.76" fill-opacity="0.75" style="animation-duration: 5.17s; animation-delay: -2.47s;"/>
+      
+      <circle class="star" cx="686.1" cy="13.1" r="0.89" fill-opacity="0.84"/>
+      
+      <circle class="star twinkle" cx="75.4" cy="212.6" r="0.99" fill-opacity="0.47" style="animation-duration: 4.71s; animation-delay: -0.34s;"/>
+      
+      <circle class="star" cx="74.1" cy="257.0" r="0.45" fill-opacity="0.73"/>
+      
+      <circle class="star" cx="666.1" cy="75.1" r="0.86" fill-opacity="0.47"/>
+      
+      <circle class="star twinkle" cx="732.2" cy="61.8" r="0.55" fill-opacity="0.88" style="animation-duration: 4.94s; animation-delay: -4.89s;"/>
+      
+      <circle class="star twinkle" cx="606.0" cy="88.5" r="0.76" fill-opacity="0.57" style="animation-duration: 4.09s; animation-delay: -2.96s;"/>
+      
+      <circle class="star twinkle" cx="355.1" cy="166.0" r="0.63" fill-opacity="0.71" style="animation-duration: 2.82s; animation-delay: -2.78s;"/>
+      
+      <circle class="star twinkle" cx="562.1" cy="90.4" r="1.08" fill-opacity="0.45" style="animation-duration: 2.7s; animation-delay: -2.1s;"/>
+      
+      <circle class="star twinkle" cx="118.0" cy="290.8" r="1.04" fill-opacity="0.81" style="animation-duration: 3.25s; animation-delay: -2.98s;"/>
+      
+      <circle class="star twinkle" cx="380.1" cy="186.3" r="0.89" fill-opacity="0.44" style="animation-duration: 5.94s; animation-delay: -2.53s;"/>
+      
+      <circle class="star twinkle" cx="566.9" cy="68.9" r="0.46" fill-opacity="0.83" style="animation-duration: 6.81s; animation-delay: -3.09s;"/>
+      
+      <circle class="star twinkle" cx="145.5" cy="186.6" r="0.59" fill-opacity="0.46" style="animation-duration: 3.69s; animation-delay: -0.4s;"/>
+      
+      <circle class="star twinkle" cx="6.5" cy="288.4" r="0.44" fill-opacity="0.5" style="animation-duration: 4.03s; animation-delay: -3.06s;"/>
+      
+      <circle class="star twinkle" cx="119.9" cy="246.6" r="0.64" fill-opacity="0.41" style="animation-duration: 2.58s; animation-delay: -1.89s;"/>
+      
+      <circle class="star" cx="354.5" cy="172.0" r="0.53" fill-opacity="0.64"/>
+      
+      <circle class="star twinkle" cx="294.8" cy="164.9" r="0.98" fill-opacity="0.6" style="animation-duration: 5.94s; animation-delay: -5.83s;"/>
+      
+      <circle class="star twinkle" cx="181.6" cy="266.9" r="0.85" fill-opacity="0.6" style="animation-duration: 2.77s; animation-delay: -0.36s;"/>
+      
+      <circle class="star" cx="519.7" cy="104.6" r="0.46" fill-opacity="0.82"/>
+      
+      <circle class="star twinkle" cx="465.3" cy="146.5" r="0.6" fill-opacity="0.52" style="animation-duration: 4.8s; animation-delay: -0.76s;"/>
+      
+      <circle class="star twinkle" cx="260.4" cy="203.2" r="1.08" fill-opacity="0.67" style="animation-duration: 7.33s; animation-delay: -2.27s;"/>
+      
+      <circle class="star twinkle" cx="213.6" cy="311.3" r="0.4" fill-opacity="0.59" style="animation-duration: 5.01s; animation-delay: -1.01s;"/>
+      
+      <circle class="star twinkle" cx="322.9" cy="210.1" r="0.46" fill-opacity="0.6" style="animation-duration: 2.61s; animation-delay: -0.79s;"/>
+      
+      <circle class="star" cx="77.4" cy="284.8" r="0.81" fill-opacity="0.66"/>
+      
+      <circle class="star" cx="442.4" cy="122.4" r="0.67" fill-opacity="0.56"/>
+      
+      <circle class="star twinkle" cx="503.3" cy="105.9" r="0.98" fill-opacity="0.85" style="animation-duration: 6.17s; animation-delay: -5.01s;"/>
+      
+      <circle class="star twinkle" cx="309.4" cy="128.9" r="0.96" fill-opacity="0.81" style="animation-duration: 6.96s; animation-delay: -4.76s;"/>
+      
+      <circle class="star twinkle" cx="477.9" cy="120.5" r="0.56" fill-opacity="0.42" style="animation-duration: 4.3s; animation-delay: -0.45s;"/>
+      
+      <circle class="star twinkle" cx="587.9" cy="35.3" r="0.84" fill-opacity="0.74" style="animation-duration: 2.52s; animation-delay: -2.01s;"/>
+      
+      <circle class="star twinkle" cx="520.7" cy="88.5" r="0.75" fill-opacity="0.67" style="animation-duration: 2.83s; animation-delay: -2.09s;"/>
+      
+      <circle class="star twinkle" cx="101.9" cy="296.8" r="0.91" fill-opacity="0.5" style="animation-duration: 7.38s; animation-delay: -3.64s;"/>
+      
+      <circle class="star" cx="211.6" cy="241.2" r="0.74" fill-opacity="0.74"/>
+      
+      <circle class="star twinkle" cx="409.1" cy="141.8" r="0.5" fill-opacity="0.53" style="animation-duration: 4.02s; animation-delay: -2.28s;"/>
+      
+      <circle class="star twinkle" cx="494.2" cy="163.6" r="0.87" fill-opacity="0.55" style="animation-duration: 4.82s; animation-delay: -2.25s;"/>
+      
+      <circle class="star twinkle" cx="722.1" cy="10.1" r="1.06" fill-opacity="0.41" style="animation-duration: 6.6s; animation-delay: -6.39s;"/>
+      
+      <circle class="star twinkle" cx="265.0" cy="205.6" r="1.06" fill-opacity="0.51" style="animation-duration: 3.21s; animation-delay: -1.68s;"/>
+      
+      <circle class="star twinkle" cx="712.2" cy="49.5" r="0.49" fill-opacity="0.81" style="animation-duration: 6.93s; animation-delay: -4.88s;"/>
+      
+      <circle class="star twinkle" cx="86.3" cy="310.3" r="0.42" fill-opacity="0.4" style="animation-duration: 4.75s; animation-delay: -1.44s;"/>
+      
+      <circle class="star" cx="165.3" cy="223.5" r="0.4" fill-opacity="0.78"/>
+      
+      <circle class="star twinkle" cx="676.1" cy="26.1" r="0.6" fill-opacity="0.59" style="animation-duration: 7.49s; animation-delay: -4.42s;"/>
+      
+      <circle class="star twinkle" cx="165.1" cy="180.8" r="0.7" fill-opacity="0.54" style="animation-duration: 3.01s; animation-delay: -2.51s;"/>
+      
+      <circle class="star twinkle" cx="131.0" cy="284.9" r="0.59" fill-opacity="0.66" style="animation-duration: 4.37s; animation-delay: -4.18s;"/>
+      
+      <circle class="star" cx="641.6" cy="46.4" r="0.97" fill-opacity="0.72"/>
+      
+      <circle class="star twinkle" cx="494.6" cy="63.9" r="0.85" fill-opacity="0.54" style="animation-duration: 7.13s; animation-delay: -0.91s;"/>
+      
+      <circle class="star twinkle" cx="291.5" cy="213.9" r="0.64" fill-opacity="0.55" style="animation-duration: 7.38s; animation-delay: -1.92s;"/>
+      
+      <circle class="star twinkle" cx="441.5" cy="123.9" r="0.68" fill-opacity="0.48" style="animation-duration: 3.54s; animation-delay: -3.21s;"/>
+      
+      <circle class="star" cx="321.1" cy="224.7" r="0.55" fill-opacity="0.85"/>
+      
+      <circle class="star twinkle" cx="271.1" cy="219.2" r="0.46" fill-opacity="0.57" style="animation-duration: 3.7s; animation-delay: -0.95s;"/>
+      
+      <circle class="star twinkle" cx="376.3" cy="179.5" r="1.02" fill-opacity="0.77" style="animation-duration: 4.57s; animation-delay: -2.4s;"/>
+      
+      <circle class="star twinkle" cx="200.6" cy="228.1" r="0.59" fill-opacity="0.88" style="animation-duration: 5.02s; animation-delay: -3.16s;"/>
+      
+      <circle class="star twinkle" cx="629.7" cy="70.7" r="0.55" fill-opacity="0.54" style="animation-duration: 4.5s; animation-delay: -2.01s;"/>
+      
+      <circle class="star twinkle" cx="718.9" cy="63.0" r="0.42" fill-opacity="0.42" style="animation-duration: 6.98s; animation-delay: -3.3s;"/>
+      
+      <circle class="star" cx="367.4" cy="113.3" r="0.4" fill-opacity="0.6"/>
+      
+      <circle class="star twinkle" cx="612.3" cy="121.2" r="0.57" fill-opacity="0.45" style="animation-duration: 5.11s; animation-delay: -3.49s;"/>
+      
+      <circle class="star twinkle" cx="491.8" cy="83.5" r="0.72" fill-opacity="0.68" style="animation-duration: 6.41s; animation-delay: -1.49s;"/>
+      
+      <circle class="star twinkle" cx="660.7" cy="4.3" r="0.85" fill-opacity="0.55" style="animation-duration: 3.76s; animation-delay: -2.39s;"/>
+      
+      <circle class="star twinkle" cx="486.3" cy="128.2" r="0.77" fill-opacity="0.69" style="animation-duration: 3.62s; animation-delay: -2.17s;"/>
+      
+      <circle class="star twinkle" cx="109.5" cy="191.7" r="0.85" fill-opacity="0.84" style="animation-duration: 3.67s; animation-delay: -0.91s;"/>
+      
+      <circle class="star twinkle" cx="718.4" cy="45.0" r="0.89" fill-opacity="0.55" style="animation-duration: 4.99s; animation-delay: -3.37s;"/>
+      
+      <circle class="star twinkle" cx="239.5" cy="216.3" r="1.05" fill-opacity="0.51" style="animation-duration: 4.19s; animation-delay: -1.76s;"/>
+      
+      <circle class="star twinkle" cx="485.8" cy="166.9" r="0.54" fill-opacity="0.8" style="animation-duration: 5.02s; animation-delay: -1.03s;"/>
+      
+      <circle class="star" cx="711.6" cy="5.1" r="0.56" fill-opacity="0.51"/>
+      
+      <circle class="star twinkle" cx="150.5" cy="309.9" r="1.07" fill-opacity="0.65" style="animation-duration: 3.62s; animation-delay: -1.51s;"/>
+      
+      <circle class="star" cx="460.1" cy="146.6" r="0.68" fill-opacity="0.51"/>
+      
+      <circle class="star" cx="661.2" cy="60.1" r="1.02" fill-opacity="0.77"/>
+      
+      <circle class="star twinkle" cx="682.7" cy="29.5" r="1.06" fill-opacity="0.77" style="animation-duration: 5.82s; animation-delay: -2.2s;"/>
+      
+      <circle class="star twinkle" cx="206.4" cy="250.1" r="0.63" fill-opacity="0.48" style="animation-duration: 3.9s; animation-delay: -1.37s;"/>
+      
+      <circle class="star" cx="727.7" cy="80.8" r="0.55" fill-opacity="0.58"/>
+      
+      <circle class="star twinkle" cx="611.0" cy="127.0" r="0.7" fill-opacity="0.42" style="animation-duration: 4.36s; animation-delay: -4.01s;"/>
+      
+      <circle class="star" cx="26.7" cy="259.1" r="0.42" fill-opacity="0.61"/>
+      
+      <circle class="star twinkle" cx="560.5" cy="140.8" r="0.43" fill-opacity="0.42" style="animation-duration: 7.1s; animation-delay: -1.82s;"/>
+      
+      <circle class="star twinkle" cx="533.7" cy="123.3" r="0.59" fill-opacity="0.88" style="animation-duration: 3.81s; animation-delay: -2.73s;"/>
+      
+      <circle class="star" cx="144.0" cy="239.6" r="0.59" fill-opacity="0.4"/>
+      
+      <circle class="star twinkle" cx="50.2" cy="214.8" r="1.07" fill-opacity="0.59" style="animation-duration: 4.65s; animation-delay: -2.29s;"/>
+      
+      <circle class="star twinkle" cx="687.5" cy="50.1" r="0.53" fill-opacity="0.8" style="animation-duration: 6.61s; animation-delay: -5.11s;"/>
+      
+      <circle class="star twinkle" cx="398.8" cy="140.8" r="0.65" fill-opacity="0.79" style="animation-duration: 3.49s; animation-delay: -2.62s;"/>
+      
+      <circle class="star twinkle" cx="98.5" cy="300.5" r="0.45" fill-opacity="0.42" style="animation-duration: 4.13s; animation-delay: -4.05s;"/>
+      
+      <circle class="star twinkle" cx="653.0" cy="76.7" r="0.46" fill-opacity="0.45" style="animation-duration: 6.05s; animation-delay: -2.7s;"/>
+      
+      <circle class="star twinkle" cx="77.7" cy="281.9" r="0.69" fill-opacity="0.71" style="animation-duration: 6.24s; animation-delay: -5.29s;"/>
+      
+      <circle class="star twinkle" cx="468.9" cy="170.7" r="0.61" fill-opacity="0.68" style="animation-duration: 6.19s; animation-delay: -1.23s;"/>
+      
+      <circle class="star" cx="104.7" cy="315.7" r="0.57" fill-opacity="0.48"/>
+      
+      <circle class="star twinkle" cx="462.6" cy="55.0" r="0.64" fill-opacity="0.75" style="animation-duration: 3.66s; animation-delay: -2.96s;"/>
+      
+      <circle class="star" cx="522.7" cy="325.2" r="0.46" fill-opacity="0.51"/>
+      
+      <circle class="star twinkle" cx="672.4" cy="286.0" r="0.42" fill-opacity="0.43" style="animation-duration: 3.45s; animation-delay: -3.35s;"/>
+      
+      <circle class="star twinkle" cx="466.6" cy="293.9" r="0.62" fill-opacity="0.69" style="animation-duration: 3.8s; animation-delay: -2.96s;"/>
+      
+      <circle class="star twinkle" cx="756.6" cy="9.1" r="0.76" fill-opacity="0.58" style="animation-duration: 4.34s; animation-delay: -0.61s;"/>
+      
+      <circle class="star twinkle" cx="163.2" cy="37.0" r="0.76" fill-opacity="0.59" style="animation-duration: 2.56s; animation-delay: -0.84s;"/>
+      
+      <circle class="star" cx="542.7" cy="22.2" r="0.59" fill-opacity="0.39"/>
+      
+      <circle class="star twinkle" cx="438.4" cy="4.0" r="0.46" fill-opacity="0.48" style="animation-duration: 5.7s; animation-delay: -0.52s;"/>
+      
+      <circle class="star twinkle" cx="131.0" cy="184.5" r="0.65" fill-opacity="0.43" style="animation-duration: 7.27s; animation-delay: -2.27s;"/>
+      
+      <circle class="star" cx="453.2" cy="63.6" r="0.65" fill-opacity="0.69"/>
+      
+      <circle class="star twinkle" cx="291.0" cy="24.6" r="0.84" fill-opacity="0.39" style="animation-duration: 7.01s; animation-delay: -2.97s;"/>
+      
+      <circle class="star twinkle" cx="656.3" cy="78.1" r="0.93" fill-opacity="0.51" style="animation-duration: 2.57s; animation-delay: -1.42s;"/>
+      
+      <circle class="star twinkle" cx="512.5" cy="283.7" r="0.45" fill-opacity="0.58" style="animation-duration: 5.02s; animation-delay: -0.73s;"/>
+      
+      <circle class="star twinkle" cx="226.6" cy="116.3" r="0.96" fill-opacity="0.35" style="animation-duration: 6.52s; animation-delay: -6.31s;"/>
+      
+      <circle class="star twinkle" cx="157.9" cy="12.1" r="0.97" fill-opacity="0.74" style="animation-duration: 2.77s; animation-delay: -2.56s;"/>
+      
+      <circle class="star twinkle" cx="310.3" cy="280.9" r="0.77" fill-opacity="0.67" style="animation-duration: 6.43s; animation-delay: -1.43s;"/>
+      
+      <circle class="star twinkle" cx="323.6" cy="252.7" r="0.9" fill-opacity="0.38" style="animation-duration: 4.5s; animation-delay: -2.33s;"/>
+      
+      <circle class="star" cx="306.9" cy="11.6" r="0.55" fill-opacity="0.63"/>
+      
+      <circle class="star" cx="32.9" cy="131.4" r="0.85" fill-opacity="0.32"/>
+      
+      <circle class="star twinkle" cx="94.2" cy="145.5" r="0.73" fill-opacity="0.58" style="animation-duration: 4.6s; animation-delay: -2.68s;"/>
+      
+      <circle class="star twinkle" cx="340.6" cy="169.3" r="0.67" fill-opacity="0.5" style="animation-duration: 5.59s; animation-delay: -2.74s;"/>
+      
+      <circle class="star twinkle" cx="188.2" cy="214.3" r="0.87" fill-opacity="0.51" style="animation-duration: 4.87s; animation-delay: -0.52s;"/>
+      
+      <circle class="star twinkle" cx="102.8" cy="85.7" r="0.46" fill-opacity="0.5" style="animation-duration: 2.7s; animation-delay: -1.72s;"/>
+      
+      <circle class="star twinkle" cx="65.8" cy="201.0" r="0.87" fill-opacity="0.53" style="animation-duration: 5.02s; animation-delay: -1.9s;"/>
+      
+      <circle class="star twinkle" cx="760.7" cy="13.6" r="0.91" fill-opacity="0.75" style="animation-duration: 6.57s; animation-delay: -1.27s;"/>
+      
+      <circle class="star twinkle" cx="785.4" cy="106.0" r="0.97" fill-opacity="0.71" style="animation-duration: 6.44s; animation-delay: -5.99s;"/>
+      
+      <circle class="star" cx="52.4" cy="61.8" r="0.85" fill-opacity="0.37"/>
+      
+      <circle class="star" cx="220.0" cy="238.2" r="0.49" fill-opacity="0.53"/>
+      
+      <circle class="star twinkle" cx="166.7" cy="38.9" r="0.7" fill-opacity="0.44" style="animation-duration: 3.41s; animation-delay: -0.55s;"/>
+      
+      <circle class="star" cx="749.1" cy="177.9" r="0.94" fill-opacity="0.38"/>
+      
+      <circle class="star" cx="92.1" cy="119.8" r="0.78" fill-opacity="0.46"/>
+      
+      <circle class="star" cx="444.1" cy="138.1" r="0.93" fill-opacity="0.35"/>
+      
+      <circle class="star" cx="503.8" cy="74.4" r="0.88" fill-opacity="0.42"/>
+      
+      <circle class="star twinkle" cx="461.9" cy="64.4" r="0.86" fill-opacity="0.5" style="animation-duration: 6.22s; animation-delay: -0.3s;"/>
+      
+      <circle class="star twinkle" cx="655.9" cy="36.8" r="0.78" fill-opacity="0.74" style="animation-duration: 5.82s; animation-delay: -1.82s;"/>
+      
+      <circle class="star twinkle" cx="1.4" cy="1.5" r="0.49" fill-opacity="0.58" style="animation-duration: 5.06s; animation-delay: -4.53s;"/>
+      
+      <circle class="star twinkle" cx="105.6" cy="30.8" r="0.79" fill-opacity="0.31" style="animation-duration: 4.27s; animation-delay: -0.45s;"/>
+      
+      <circle class="star twinkle" cx="285.7" cy="30.2" r="0.75" fill-opacity="0.57" style="animation-duration: 5.62s; animation-delay: -2.67s;"/>
+      
+      <circle class="star twinkle" cx="107.8" cy="297.2" r="0.55" fill-opacity="0.37" style="animation-duration: 5.69s; animation-delay: -4.96s;"/>
+      
+      <circle class="star twinkle" cx="625.7" cy="76.8" r="0.56" fill-opacity="0.31" style="animation-duration: 5.31s; animation-delay: -1.86s;"/>
+      
+      <circle class="star twinkle" cx="516.5" cy="89.9" r="0.96" fill-opacity="0.63" style="animation-duration: 7.02s; animation-delay: -0.31s;"/>
+      
+      <circle class="star" cx="425.2" cy="78.0" r="0.54" fill-opacity="0.33"/>
+      
+      <circle class="star twinkle" cx="9.9" cy="127.1" r="0.96" fill-opacity="0.36" style="animation-duration: 5.54s; animation-delay: -2.81s;"/>
+      
+      <circle class="star twinkle" cx="513.3" cy="237.1" r="0.5" fill-opacity="0.44" style="animation-duration: 2.74s; animation-delay: -2.44s;"/>
+      
+      <circle class="star twinkle" cx="626.4" cy="193.1" r="0.4" fill-opacity="0.68" style="animation-duration: 4.83s; animation-delay: -3.58s;"/>
+      
+      <circle class="star twinkle" cx="362.0" cy="30.5" r="0.46" fill-opacity="0.4" style="animation-duration: 4.18s; animation-delay: -3.13s;"/>
+      
+      <circle class="star twinkle" cx="556.1" cy="252.2" r="0.83" fill-opacity="0.42" style="animation-duration: 4.68s; animation-delay: -3.69s;"/>
+      
+      <circle class="star twinkle" cx="418.6" cy="39.5" r="0.79" fill-opacity="0.73" style="animation-duration: 6.9s; animation-delay: -0.11s;"/>
+      
+      <circle class="star twinkle" cx="208.3" cy="32.8" r="0.85" fill-opacity="0.73" style="animation-duration: 4.13s; animation-delay: -3.64s;"/>
+      
+      <circle class="star twinkle" cx="262.8" cy="33.5" r="0.94" fill-opacity="0.58" style="animation-duration: 5.83s; animation-delay: -5.7s;"/>
+      
+      <circle class="star twinkle" cx="375.6" cy="249.5" r="0.82" fill-opacity="0.69" style="animation-duration: 6.12s; animation-delay: -3.49s;"/>
+      
+      <circle class="star" cx="246.2" cy="27.6" r="0.77" fill-opacity="0.34"/>
+      
+      <circle class="star twinkle" cx="115.7" cy="1.0" r="0.46" fill-opacity="0.72" style="animation-duration: 3.21s; animation-delay: -0.09s;"/>
+      
+      <circle class="star twinkle" cx="33.3" cy="183.4" r="0.78" fill-opacity="0.61" style="animation-duration: 2.83s; animation-delay: -1.67s;"/>
+      
+      <circle class="star twinkle" cx="290.7" cy="239.1" r="0.89" fill-opacity="0.7" style="animation-duration: 6.84s; animation-delay: -6.25s;"/>
+      
+      <circle class="star twinkle" cx="755.5" cy="9.3" r="0.52" fill-opacity="0.35" style="animation-duration: 6.74s; animation-delay: -5.47s;"/>
+      
+      <circle class="star twinkle" cx="507.3" cy="242.6" r="0.78" fill-opacity="0.43" style="animation-duration: 2.99s; animation-delay: -2.26s;"/>
+      
+      <circle class="star twinkle" cx="164.0" cy="53.1" r="0.65" fill-opacity="0.31" style="animation-duration: 3.91s; animation-delay: -2.8s;"/>
+      
+      <circle class="star" cx="294.4" cy="53.5" r="0.98" fill-opacity="0.53"/>
+      
+      <circle class="star" cx="494.6" cy="1.3" r="0.65" fill-opacity="0.5"/>
+      
+      <circle class="star" cx="277.4" cy="188.5" r="0.72" fill-opacity="0.4"/>
+      
+      <circle class="star twinkle" cx="72.7" cy="240.1" r="0.5" fill-opacity="0.3" style="animation-duration: 6.31s; animation-delay: -6.17s;"/>
+      
+      <circle class="star twinkle" cx="3.5" cy="105.7" r="0.69" fill-opacity="0.66" style="animation-duration: 4.97s; animation-delay: -1.73s;"/>
+      
+      <circle class="star twinkle" cx="665.5" cy="38.4" r="0.97" fill-opacity="0.43" style="animation-duration: 6.0s; animation-delay: -2.99s;"/>
+      
+      <circle class="star twinkle" cx="87.9" cy="160.2" r="0.45" fill-opacity="0.65" style="animation-duration: 6.43s; animation-delay: -4.04s;"/>
+      
+      <circle class="star twinkle" cx="284.5" cy="76.6" r="0.64" fill-opacity="0.7" style="animation-duration: 6.94s; animation-delay: -0.17s;"/>
+      
+      <circle class="star twinkle" cx="164.9" cy="39.0" r="0.94" fill-opacity="0.53" style="animation-duration: 6.92s; animation-delay: -1.62s;"/>
+      
+      <circle class="star twinkle" cx="368.7" cy="120.1" r="0.85" fill-opacity="0.64" style="animation-duration: 4.24s; animation-delay: -1.39s;"/>
+      
+      <circle class="star twinkle" cx="124.3" cy="251.1" r="0.8" fill-opacity="0.63" style="animation-duration: 4.69s; animation-delay: -3.63s;"/>
+      
+      <circle class="star twinkle" cx="463.3" cy="12.0" r="0.68" fill-opacity="0.7" style="animation-duration: 3.46s; animation-delay: -1.04s;"/>
+      
+      <circle class="star twinkle" cx="562.5" cy="251.4" r="0.49" fill-opacity="0.37" style="animation-duration: 4.13s; animation-delay: -2.16s;"/>
+      
+      <circle class="star twinkle" cx="128.7" cy="55.5" r="0.51" fill-opacity="0.74" style="animation-duration: 3.01s; animation-delay: -2.9s;"/>
+      
+      <circle class="star twinkle" cx="81.3" cy="71.4" r="0.99" fill-opacity="0.66" style="animation-duration: 4.67s; animation-delay: -0.92s;"/>
+      
+      <circle class="star twinkle" cx="510.4" cy="9.2" r="0.52" fill-opacity="0.47" style="animation-duration: 4.5s; animation-delay: -3.56s;"/>
+      
+      <circle class="star twinkle" cx="554.8" cy="109.0" r="0.78" fill-opacity="0.51" style="animation-duration: 5.52s; animation-delay: -2.23s;"/>
+      
+      <circle class="star twinkle" cx="592.8" cy="282.8" r="0.66" fill-opacity="0.56" style="animation-duration: 4.61s; animation-delay: -1.05s;"/>
+      
+      <circle class="star" cx="577.8" cy="269.0" r="0.86" fill-opacity="0.62"/>
+      
+      <circle class="star twinkle" cx="543.7" cy="162.2" r="0.67" fill-opacity="0.44" style="animation-duration: 2.99s; animation-delay: -1.25s;"/>
+      
+      <circle class="star twinkle" cx="625.9" cy="192.1" r="0.78" fill-opacity="0.41" style="animation-duration: 4.78s; animation-delay: -2.97s;"/>
+      
+      <circle class="star twinkle" cx="327.5" cy="176.1" r="0.96" fill-opacity="0.38" style="animation-duration: 6.39s; animation-delay: -2.48s;"/>
+      
+      <circle class="star twinkle" cx="391.9" cy="316.7" r="0.42" fill-opacity="0.54" style="animation-duration: 6.41s; animation-delay: -6.03s;"/>
+      
+      <circle class="star twinkle" cx="415.4" cy="8.4" r="0.74" fill-opacity="0.54" style="animation-duration: 5.06s; animation-delay: -3.24s;"/>
+      
+      <circle class="star twinkle" cx="663.2" cy="116.5" r="0.65" fill-opacity="0.73" style="animation-duration: 5.92s; animation-delay: -2.32s;"/>
+      
+      <circle class="star twinkle" cx="610.2" cy="11.5" r="0.99" fill-opacity="0.46" style="animation-duration: 3.87s; animation-delay: -1.55s;"/>
+      
+      <circle class="star twinkle" cx="10.6" cy="81.9" r="0.65" fill-opacity="0.61" style="animation-duration: 3.83s; animation-delay: -0.86s;"/>
+      
+      <circle class="star" cx="593.2" cy="298.9" r="0.72" fill-opacity="0.4"/>
+      
+      <circle class="star" cx="313.6" cy="27.6" r="0.48" fill-opacity="0.65"/>
+      
+      <circle class="star" cx="507.4" cy="98.3" r="0.74" fill-opacity="0.4"/>
+      
+      <circle class="star twinkle" cx="282.5" cy="161.1" r="0.89" fill-opacity="0.67" style="animation-duration: 3.97s; animation-delay: -2.18s;"/>
+      
+      <circle class="star twinkle" cx="100.1" cy="246.7" r="0.61" fill-opacity="0.68" style="animation-duration: 4.38s; animation-delay: -1.11s;"/>
+      
+      <circle class="star twinkle" cx="340.9" cy="22.4" r="0.4" fill-opacity="0.62" style="animation-duration: 3.72s; animation-delay: -1.12s;"/>
+      
+      <circle class="star twinkle" cx="383.6" cy="85.0" r="0.78" fill-opacity="0.6" style="animation-duration: 7.14s; animation-delay: -6.1s;"/>
+      
+      <circle class="star twinkle" cx="45.7" cy="243.9" r="0.94" fill-opacity="0.65" style="animation-duration: 6.66s; animation-delay: -4.21s;"/>
+      
+      <circle class="star twinkle" cx="12.0" cy="0.3" r="0.97" fill-opacity="0.6" style="animation-duration: 3.01s; animation-delay: -0.43s;"/>
+      
+      <circle class="star" cx="186.9" cy="220.1" r="0.61" fill-opacity="0.37"/>
+      
+      <circle class="star" cx="633.3" cy="19.0" r="0.93" fill-opacity="0.57"/>
+      
+      <circle class="star twinkle" cx="534.8" cy="275.8" r="0.87" fill-opacity="0.68" style="animation-duration: 5.96s; animation-delay: -3.17s;"/>
+      
+      <circle class="star twinkle" cx="593.5" cy="88.3" r="0.93" fill-opacity="0.55" style="animation-duration: 3.67s; animation-delay: -0.51s;"/>
+      
+      <circle class="star twinkle" cx="394.5" cy="3.5" r="0.68" fill-opacity="0.36" style="animation-duration: 4.99s; animation-delay: -2.69s;"/>
+      
+      <circle class="star twinkle" cx="690.3" cy="0.1" r="0.9" fill-opacity="0.51" style="animation-duration: 5.83s; animation-delay: -4.9s;"/>
+      
+      <circle class="star twinkle" cx="300.0" cy="82.0" r="0.98" fill-opacity="0.33" style="animation-duration: 5.68s; animation-delay: -0.16s;"/>
+      
+      <circle class="star" cx="487.7" cy="179.1" r="0.96" fill-opacity="0.45"/>
+      
+      <circle class="star twinkle" cx="408.5" cy="103.6" r="0.94" fill-opacity="0.32" style="animation-duration: 5.63s; animation-delay: -1.91s;"/>
+      
+      <circle class="star" cx="689.4" cy="66.1" r="0.68" fill-opacity="0.54"/>
+      
+      <circle class="star" cx="168.6" cy="87.2" r="0.65" fill-opacity="0.55"/>
+      
+      <circle class="star twinkle" cx="234.3" cy="243.9" r="0.64" fill-opacity="0.53" style="animation-duration: 5.03s; animation-delay: -4.91s;"/>
+      
+      <circle class="star twinkle" cx="523.6" cy="227.2" r="0.6" fill-opacity="0.44" style="animation-duration: 5.43s; animation-delay: -3.45s;"/>
+      
+      <circle class="star twinkle" cx="627.4" cy="1.9" r="0.83" fill-opacity="0.7" style="animation-duration: 2.75s; animation-delay: -0.83s;"/>
+      
+      <circle class="star twinkle" cx="5.0" cy="23.1" r="0.95" fill-opacity="0.57" style="animation-duration: 6.45s; animation-delay: -5.86s;"/>
+      
+      <circle class="star twinkle" cx="489.4" cy="152.3" r="0.78" fill-opacity="0.61" style="animation-duration: 5.9s; animation-delay: -1.25s;"/>
+      
+      <circle class="star twinkle" cx="533.6" cy="94.6" r="0.86" fill-opacity="0.35" style="animation-duration: 2.68s; animation-delay: -2.08s;"/>
+      
+      <circle class="star" cx="731.3" cy="168.0" r="0.62" fill-opacity="0.67"/>
+      
+      <circle class="star twinkle" cx="449.7" cy="37.8" r="0.58" fill-opacity="0.49" style="animation-duration: 4.65s; animation-delay: -2.99s;"/>
+      
+      <circle class="star twinkle" cx="747.1" cy="3.1" r="0.74" fill-opacity="0.32" style="animation-duration: 6.55s; animation-delay: -3.77s;"/>
+      
+      <circle class="star twinkle" cx="734.9" cy="90.8" r="0.41" fill-opacity="0.47" style="animation-duration: 7.19s; animation-delay: -7.05s;"/>
+      
+      <circle class="star twinkle" cx="380.4" cy="80.0" r="0.46" fill-opacity="0.59" style="animation-duration: 3.26s; animation-delay: -0.05s;"/>
+      
+      <circle class="star twinkle" cx="3.8" cy="179.6" r="0.47" fill-opacity="0.73" style="animation-duration: 6.85s; animation-delay: -0.88s;"/>
+      
+      <circle class="star twinkle" cx="14.2" cy="194.8" r="0.55" fill-opacity="0.63" style="animation-duration: 2.75s; animation-delay: -2.13s;"/>
+      
+      <circle class="star twinkle" cx="570.8" cy="257.1" r="0.84" fill-opacity="0.34" style="animation-duration: 6.05s; animation-delay: -2.78s;"/>
+      
+      <circle class="star twinkle" cx="745.9" cy="36.8" r="0.98" fill-opacity="0.62" style="animation-duration: 2.57s; animation-delay: -1.67s;"/>
+      
+      <circle class="star twinkle" cx="653.9" cy="5.8" r="0.59" fill-opacity="0.63" style="animation-duration: 6.8s; animation-delay: -3.31s;"/>
+      
+      <circle class="star twinkle" cx="47.8" cy="66.5" r="0.74" fill-opacity="0.5" style="animation-duration: 3.22s; animation-delay: -2.57s;"/>
+      
+      <circle class="star twinkle" cx="290.6" cy="163.6" r="0.78" fill-opacity="0.49" style="animation-duration: 6.43s; animation-delay: -6.08s;"/>
+      
+      <circle class="star" cx="627.7" cy="133.1" r="0.58" fill-opacity="0.33"/>
+      
+      <circle class="star" cx="562.6" cy="243.7" r="0.6" fill-opacity="0.57"/>
+      
+      <circle class="star" cx="665.0" cy="146.2" r="0.59" fill-opacity="0.49"/>
+      
+      <circle class="star" cx="301.3" cy="180.1" r="0.76" fill-opacity="0.7"/>
+      
+      <circle class="star twinkle" cx="226.6" cy="0.0" r="0.56" fill-opacity="0.49" style="animation-duration: 6.58s; animation-delay: -5.84s;"/>
+      
+      <circle class="star twinkle" cx="33.8" cy="246.5" r="0.89" fill-opacity="0.69" style="animation-duration: 3.87s; animation-delay: -3.29s;"/>
+      
+      <circle class="star twinkle" cx="645.6" cy="180.0" r="0.95" fill-opacity="0.46" style="animation-duration: 5.27s; animation-delay: -4.2s;"/>
+      
+      <circle class="star twinkle" cx="160.3" cy="208.3" r="0.96" fill-opacity="0.41" style="animation-duration: 5.89s; animation-delay: -2.74s;"/>
+      
+      <circle class="star twinkle" cx="165.3" cy="37.0" r="0.85" fill-opacity="0.66" style="animation-duration: 2.94s; animation-delay: -2.37s;"/>
+      
+      <circle class="star" cx="617.7" cy="32.1" r="0.75" fill-opacity="0.7"/>
+      
+      <circle class="star twinkle" cx="417.5" cy="100.8" r="0.75" fill-opacity="0.39" style="animation-duration: 3.4s; animation-delay: -2.39s;"/>
+      
+      <circle class="star twinkle" cx="290.3" cy="132.2" r="0.64" fill-opacity="0.53" style="animation-duration: 2.72s; animation-delay: -2.72s;"/>
+      
+      <circle class="star twinkle" cx="299.2" cy="9.1" r="0.78" fill-opacity="0.65" style="animation-duration: 5.49s; animation-delay: -1.89s;"/>
+      
+      <circle class="star" cx="415.6" cy="0.7" r="0.42" fill-opacity="0.75"/>
+      
+      <circle class="star twinkle" cx="389.1" cy="133.2" r="0.56" fill-opacity="0.65" style="animation-duration: 7.23s; animation-delay: -5.55s;"/>
+      
+      <circle class="star twinkle" cx="655.1" cy="310.9" r="0.55" fill-opacity="0.32" style="animation-duration: 3.4s; animation-delay: -0.28s;"/>
+      
+      <circle class="star" cx="40.8" cy="129.5" r="0.92" fill-opacity="0.51"/>
+      
+      <circle class="star twinkle" cx="727.9" cy="4.1" r="0.76" fill-opacity="0.48" style="animation-duration: 7.3s; animation-delay: -1.88s;"/>
+      
+      <circle class="star twinkle" cx="451.6" cy="161.8" r="0.97" fill-opacity="0.6" style="animation-duration: 4.74s; animation-delay: -0.76s;"/>
+      
+      <circle class="star twinkle" cx="772.6" cy="325.6" r="0.53" fill-opacity="0.32" style="animation-duration: 4.26s; animation-delay: -3.85s;"/>
+      
+      <circle class="star twinkle" cx="723.7" cy="248.3" r="0.43" fill-opacity="0.65" style="animation-duration: 5.73s; animation-delay: -5.65s;"/>
+      
+      <circle class="star twinkle" cx="44.6" cy="15.0" r="0.85" fill-opacity="0.72" style="animation-duration: 3.99s; animation-delay: -2.36s;"/>
+      
+      <circle class="star twinkle" cx="606.3" cy="9.0" r="0.59" fill-opacity="0.42" style="animation-duration: 4.91s; animation-delay: -0.83s;"/>
+      
+      <circle class="star twinkle" cx="190.8" cy="14.7" r="0.81" fill-opacity="0.31" style="animation-duration: 3.48s; animation-delay: -0.13s;"/>
+      
+      <circle class="star" cx="742.1" cy="29.4" r="0.96" fill-opacity="0.69"/>
+      
+      <circle class="star" cx="111.8" cy="91.1" r="0.46" fill-opacity="0.72"/>
+      
+      <circle class="star twinkle" cx="502.7" cy="92.7" r="0.6" fill-opacity="0.67" style="animation-duration: 5.64s; animation-delay: -0.81s;"/>
+      
+      <circle class="star twinkle" cx="177.3" cy="3.3" r="0.83" fill-opacity="0.55" style="animation-duration: 6.85s; animation-delay: -1.83s;"/>
+      
+      <circle class="star twinkle" cx="329.4" cy="16.8" r="0.56" fill-opacity="0.68" style="animation-duration: 3.34s; animation-delay: -1.64s;"/>
+      
+      <circle class="star twinkle" cx="254.5" cy="280.4" r="0.47" fill-opacity="0.74" style="animation-duration: 6.98s; animation-delay: -4.66s;"/>
+      
+      <circle class="star twinkle" cx="168.9" cy="101.1" r="0.57" fill-opacity="0.42" style="animation-duration: 4.32s; animation-delay: -4.28s;"/>
+      
+      <circle class="star" cx="798.5" cy="291.3" r="0.46" fill-opacity="0.43"/>
+      
+      <circle class="star twinkle" cx="46.0" cy="197.9" r="0.58" fill-opacity="0.74" style="animation-duration: 6.54s; animation-delay: -2.23s;"/>
+      
+      <circle class="star twinkle" cx="112.1" cy="0.0" r="0.9" fill-opacity="0.54" style="animation-duration: 4.68s; animation-delay: -4.26s;"/>
+      
+      <circle class="star" cx="174.6" cy="134.8" r="0.48" fill-opacity="0.38"/>
+      
+      <circle class="star twinkle" cx="569.3" cy="24.5" r="0.45" fill-opacity="0.34" style="animation-duration: 4.98s; animation-delay: -1.36s;"/>
+      
+      <circle class="star twinkle" cx="164.8" cy="150.6" r="0.82" fill-opacity="0.67" style="animation-duration: 3.51s; animation-delay: -0.23s;"/>
+      
+      <circle class="star" cx="586.2" cy="78.7" r="0.83" fill-opacity="0.32"/>
+      
+      <circle class="star twinkle" cx="268.2" cy="250.6" r="0.92" fill-opacity="0.52" style="animation-duration: 7.05s; animation-delay: -3.36s;"/>
+      
+      <circle class="star twinkle" cx="697.6" cy="39.7" r="0.51" fill-opacity="0.67" style="animation-duration: 3.32s; animation-delay: -1.23s;"/>
+      
+      <circle class="star twinkle" cx="475.9" cy="0.1" r="0.71" fill-opacity="0.5" style="animation-duration: 3.1s; animation-delay: -2.22s;"/>
+      
+      <circle class="star twinkle" cx="653.2" cy="261.9" r="0.59" fill-opacity="0.62" style="animation-duration: 6.26s; animation-delay: -0.38s;"/>
+      
+      <circle class="star twinkle" cx="698.2" cy="306.1" r="0.7" fill-opacity="0.53" style="animation-duration: 5.19s; animation-delay: -0.11s;"/>
+      
+      <circle class="star twinkle" cx="773.9" cy="30.1" r="0.51" fill-opacity="0.35" style="animation-duration: 6.59s; animation-delay: -0.2s;"/>
+      
+      <circle class="star twinkle" cx="77.2" cy="186.1" r="0.52" fill-opacity="0.31" style="animation-duration: 5.38s; animation-delay: -2.81s;"/>
+      
+      <circle class="star twinkle" cx="562.1" cy="8.7" r="0.92" fill-opacity="0.62" style="animation-duration: 3.12s; animation-delay: -1.54s;"/>
+      
+      <circle class="star twinkle" cx="400.6" cy="43.0" r="0.47" fill-opacity="0.48" style="animation-duration: 5.46s; animation-delay: -4.7s;"/>
+      
+      <circle class="star" cx="124.8" cy="151.1" r="1.75" fill-opacity="0.83"/>
+      
+      <circle class="star twinkle" cx="741.3" cy="104.1" r="1.55" fill-opacity="0.97" style="animation-duration: 4.48s; animation-delay: -4.22s;"/>
+      
+      <circle class="star twinkle" cx="616.0" cy="91.3" r="1.44" fill-opacity="0.87" style="animation-duration: 7.41s; animation-delay: -5.96s;"/>
+      
+      <circle class="star twinkle" cx="722.0" cy="212.8" r="1.81" fill-opacity="0.81" style="animation-duration: 7.29s; animation-delay: -6.81s;"/>
+      
+      <circle class="star twinkle" cx="204.4" cy="112.6" r="1.68" fill-opacity="0.87" style="animation-duration: 2.85s; animation-delay: -1.23s;"/>
+      
+      <circle class="star" cx="403.7" cy="10.3" r="1.38" fill-opacity="0.99"/>
+      
+      <circle class="star" cx="740.8" cy="166.5" r="1.79" fill-opacity="0.98"/>
+      
+      <circle class="star twinkle" cx="36.8" cy="168.6" r="1.46" fill-opacity="0.94" style="animation-duration: 5.21s; animation-delay: -4.82s;"/>
+      
+      <circle class="star" cx="494.6" cy="68.9" r="1.61" fill-opacity="0.89"/>
+      
+      <circle class="star twinkle" cx="234.3" cy="82.9" r="1.69" fill-opacity="0.82" style="animation-duration: 7.28s; animation-delay: -3.74s;"/>
+      
+      <circle class="star twinkle" cx="219.4" cy="123.9" r="1.62" fill-opacity="0.83" style="animation-duration: 3.16s; animation-delay: -0.93s;"/>
+      
+      <circle class="star twinkle" cx="327.1" cy="78.5" r="1.45" fill-opacity="0.82" style="animation-duration: 6.7s; animation-delay: -4.09s;"/>
+      
+    </g>
+
+
+    <!-- TETON RANGE, LAKE AND FOREST: every layer has its own profile so the range reads with depth rather than as one shape repeated. Back to front: hazy distant domes, the jagged Teton wall (Buck Mtn, Nez Perce, South and Middle Teton, the Lower Saddle notch, Grand Teton at x=410, Gunsight, Mt Owen, Teewinot, Cascade Canyon, Mt St John, Rockchuck, Leigh Canyon, Mt Moran), then one landform that runs from the near ridge down into the valley floor, holding a crescent lake and the river feeding it, stands scattered over its shore, and four rows of forest that darken and close in as they come forward. -->
+
+    <!-- farfar: hazy distant summits, broad and rounded, no spires of their own -->
+    <path id="mountain-farfar"
+          d="M0,324.9 C6.3,324.2 25.7,321 38,320.8 C50.3,320.6 61,324.9 74,323.5 C87,322.2 102,315.8 116,312.6 C130,309.5 144.7,305.4 158,304.5
+             C171.3,303.6 183.7,305.6 196,307.2 C208.3,308.8 219.3,313.5 232,314 C244.7,314.5 258.7,312.4 272,309.9 C285.3,307.4 299,302.2 312,299 C325,295.9 337.7,293.4 350,290.9
+             C362.3,288.4 374.3,284.5 386,284.1 C397.7,283.6 409,285.4 420,288.2 C431,290.9 441,297.5 452,300.4 C463,303.3 474,306.3 486,305.8 C498,305.4 511.3,298.4 524,297.7
+             C536.7,297 549.7,299.7 562,301.8 C574.3,303.8 586,307.9 598,309.9 C610,312 621.7,314.5 634,314 C646.3,313.5 659.3,307.4 672,307.2 C684.7,307 697.3,310.6 710,312.6
+             C722.7,314.7 733,318.8 748,319.4 C763,320.1 791.3,317.2 800,316.7
+             L800,742 L0,742 Z"
+          fill="#58426f" />
+
+    <!-- far: the Teton wall itself, the only layer drawn with hard angular segments -->
+    <path id="mountain-far"
+          d="M0,345.4 L62,340.9 L118,334 L156,336.3 L190,322.6
+             L214,309 L226,313.5 L238,311.2 L252,316.9 L268,309
+             L280,299.8 L292,290.7 L300,294.1 L310,287.3 L318,291.9
+             L330,274.8 L338,265.6 L344,270.2 L352,279.3 L358,285
+             L366,291.9 L376,287.3 L386,272.5 L394,259.9 L400,249.7
+             L405,241.7 L410,236 L415,245.1 L419,255.4 L424,265.6
+             L430,271.3 L437,257.7 L443,263.4 L450,275.9 L458,281.6
+             L465,267.9 L470,277 L478,288.4 L492,302.1 L508,309
+             L522,305.5 L536,294.1 L548,299.8 L560,290.7 L574,298.7
+             L588,307.8 L604,311.2 L620,299.8 L634,289.6 L652,286.2
+             L672,287.3 L686,295.3 L700,306.7 L714,302.1 L728,311.2
+             L746,318.1 L768,329.5 L800,338.6
+             L800,742 L0,742 Z"
+          fill="#47335b" />
+
+    <!-- mid: near ridge, same fill as the valley floor so the two read as one landform -->
+    <path id="mountain-mid"
+          d="M0,339.2 C7.7,338.4 31.7,334.5 46,334.2 C60.3,333.8 72.3,337.5 86,337 C99.7,336.6 114.7,332.8 128,331.3 C141.3,329.7 154,327.8 166,327.7
+             C178,327.6 188,329.7 200,330.6 C212,331.4 225,333.3 238,332.7 C251,332.1 265,327.4 278,327 C291,326.5 303.7,330.3 316,329.8 C328.3,329.4 340,324.7 352,324.1
+             C364,323.5 375.3,326.6 388,326.2 C400.7,325.9 415,322 428,321.9 C441,321.8 454,324.2 466,325.5 C478,326.8 488,329.7 500,329.8 C512,330 525.3,327.3 538,326.2
+             C550.7,325.2 563.7,323.1 576,323.4 C588.3,323.6 599.7,326.2 612,327.7 C624.3,329.1 637.3,331.8 650,332 C662.7,332.2 675.3,328.9 688,329.1 C700.7,329.4 713.3,332.2 726,333.4
+             C738.7,334.6 751.7,336.2 764,336.3 C776.3,336.4 794,334.5 800,334.2
+             L800,742 L0,742 Z"
+          fill="#392a48" />
+
+    <!-- valley floor: the same landform again, carrying a distant treeline -->
+    <path id="mountain-near"
+          d="M0,349 C12,348.8 47.7,348.1 72,348 C96.3,347.9 122.3,348.7 146,348.6 C169.7,348.6 190.7,347.6 214,347.5 C237.3,347.5 262,348.3 286,348.3
+             C310,348.3 334.3,347.4 358,347.4 C381.7,347.3 404.7,348.2 428,348.2 C451.3,348.1 475,347.2 498,347.2 C521,347.2 542.7,347.9 566,348 C589.3,348.1 613.7,347.4 638,347.5
+             C662.3,347.6 685,348.4 712,348.5 C739,348.5 785.3,347.9 800,347.8
+             L800,742 L0,742 Z"
+          fill="#392a48" />
+    <g id="treeline-far" fill="#2b1d39">
+      <use href="#pine-far-a" transform="translate(-12, 343) scale(0.29)" />
+      <use href="#pine-far-c" transform="translate(10, 343) scale(0.21)" />
+      <use href="#pine-far-a" transform="translate(31, 340.5) scale(0.31)" />
+      <use href="#pine-far-b" transform="translate(51, 345.8) scale(0.23)" />
+      <use href="#pine-far-c" transform="translate(76, 342.2) scale(0.25)" />
+      <use href="#pine-far-a" transform="translate(92, 340.9) scale(0.27)" />
+      <use href="#pine-far-b" transform="translate(132, 343.3) scale(0.31)" />
+      <use href="#pine-far-c" transform="translate(165, 341.3) scale(0.26)" />
+      <use href="#pine-far-a" transform="translate(191, 342.8) scale(0.22)" />
+      <use href="#pine-far-a" transform="translate(224, 339.2) scale(0.33)" />
+      <use href="#pine-far-c" transform="translate(277, 342.2) scale(0.26)" />
+      <use href="#pine-far-c" transform="translate(322, 341.6) scale(0.23)" />
+      <use href="#pine-far-a" transform="translate(371, 341) scale(0.31)" />
+      <use href="#pine-far-c" transform="translate(380, 340.7) scale(0.29)" />
+      <use href="#pine-far-c" transform="translate(408, 340.1) scale(0.31)" />
+      <use href="#pine-far-a" transform="translate(437, 343.5) scale(0.23)" />
+      <use href="#pine-far-a" transform="translate(478, 337.9) scale(0.34)" />
+      <use href="#pine-far-a" transform="translate(485, 341.4) scale(0.26)" />
+      <use href="#pine-far-b" transform="translate(522, 345.2) scale(0.21)" />
+      <use href="#pine-far-b" transform="translate(556, 344.2) scale(0.22)" />
+      <use href="#pine-far-b" transform="translate(567, 341.8) scale(0.34)" />
+      <use href="#pine-far-a" transform="translate(628, 342.8) scale(0.23)" />
+      <use href="#pine-far-b" transform="translate(661, 342.7) scale(0.29)" />
+      <use href="#pine-far-c" transform="translate(701, 340) scale(0.29)" />
+      <use href="#pine-far-b" transform="translate(706, 345.5) scale(0.26)" />
+      <use href="#pine-far-a" transform="translate(727, 342.3) scale(0.24)" />
+      <use href="#pine-far-a" transform="translate(744, 343.3) scale(0.22)" />
+      <use href="#pine-far-b" transform="translate(774, 343.1) scale(0.31)" />
+      <use href="#pine-far-c" transform="translate(793, 340.3) scale(0.27)" />
+    </g>
+
+    <!-- the lake: a rounded shore with one shallow inlet bitten out of its left side, fed by a river whose source is off the left edge. Still water, no surface texture -->
+    <g id="lake">
+      <path d="M-20,342 C-11.7,342.3 13.7,343.8 30,344 C46.3,344.2 62,342.8 78,343 C94,343.2 110.3,344.3 126,345 C141.7,345.7 157.3,346.8 172,347
+             C186.7,347.2 200.7,345.7 214,346 C227.3,346.3 240,347.8 252,349 C264,350.2 276,351.7 286,353 C296,354.3 307.7,356.3 312,357"
+            fill="none" stroke="#10091b" stroke-width="3.4" stroke-linecap="round" />
+      <path d="M667.283,370.1 C667.3,370.5 667.7,372 667.3,372.5 C666.9,373 669.1,372.3 664.9,373.1 C660.8,373.9 648,376.6 642.4,377.3 C636.7,378.1 634,377.1 631,377.6
+             C628,378 629.9,379.3 624.4,380 C618.9,380.7 607.5,381.3 598.1,381.6 C588.6,382 577.8,381.5 567.8,382.1 C557.9,382.7 548.9,384.6 538.4,385.2 C527.9,385.8 515.5,385.9 504.8,385.8
+             C494.1,385.6 484.8,384.4 474.3,384.4 C463.9,384.5 454.4,386.2 441.8,386.2 C429.3,386.2 410.3,384.7 399.2,384.6 C388.2,384.5 385.3,385.3 375.5,385.5 C365.7,385.8 351.2,386.1 340.3,386
+             C329.4,385.9 320.5,385.5 310.3,385.1 C300.1,384.7 287.2,383.9 279,383.4 C270.7,382.8 264.3,382.9 260.8,382 C257.3,381 260.9,378.6 258.1,377.6 C255.2,376.6 242.4,376.3 243.7,375.8
+             C245,375.2 261.3,374.9 265.9,374.3 C270.6,373.7 269.2,372.7 271.5,372.1 C273.9,371.6 278.3,371.2 279.9,370.9 C281.5,370.6 281,370.4 281.2,370.2 C281.5,370.1 282.7,370.2 281.3,369.9
+             C279.8,369.6 275.4,369 272.5,368.5 C269.7,368 267.2,367.9 264,366.9 C260.8,365.9 254.4,363.2 253.3,362.5 C252.3,361.8 255.1,363.1 257.7,362.6 C260.4,362.1 264.6,360.4 269.1,359.4
+             C273.6,358.5 277.5,357.2 284.7,356.7 C291.9,356.2 304.5,356.8 312.4,356.3 C320.4,355.8 322,353.9 332.5,353.8 C343,353.7 364.8,355.6 375.3,355.8 C385.8,355.9 385.4,355.3 395.4,354.9
+             C405.5,354.5 423.6,353 435.6,353.1 C447.6,353.1 455,355 467.6,355.1 C480.1,355.2 499.4,353.7 511.1,353.6 C522.8,353.6 528.3,354.1 538,354.5 C547.7,355 559.1,355.6 569.3,356.5
+             C579.4,357.3 591.1,358.8 598.9,359.7 C606.6,360.5 610.1,361.2 615.6,361.3 C621.1,361.4 625.7,360.3 631.9,360.5 C638.1,360.7 648.7,361.5 652.9,362.3 C657.2,363.1 654.1,364.7 657.2,365.4
+             C660.3,366.2 670,366.1 671.6,366.9 C673.3,367.6 668,369.6 667.3,370.1 Z" fill="#10091b" />
+      <path d="M667.283,370.1 C667.3,370.5 667.7,372 667.3,372.5 C666.9,373 669.1,372.3 664.9,373.1 C660.8,373.9 648,376.6 642.4,377.3 C636.7,378.1 634,377.1 631,377.6
+             C628,378 629.9,379.3 624.4,380 C618.9,380.7 607.5,381.3 598.1,381.6 C588.6,382 577.8,381.5 567.8,382.1 C557.9,382.7 548.9,384.6 538.4,385.2 C527.9,385.8 515.5,385.9 504.8,385.8
+             C494.1,385.6 484.8,384.4 474.3,384.4 C463.9,384.5 454.4,386.2 441.8,386.2 C429.3,386.2 410.3,384.7 399.2,384.6 C388.2,384.5 385.3,385.3 375.5,385.5 C365.7,385.8 351.2,386.1 340.3,386
+             C329.4,385.9 320.5,385.5 310.3,385.1 C300.1,384.7 287.2,383.9 279,383.4 C270.7,382.8 264.3,382.9 260.8,382 C257.3,381 260.9,378.6 258.1,377.6 C255.2,376.6 242.4,376.3 243.7,375.8
+             C245,375.2 261.3,374.9 265.9,374.3 C270.6,373.7 269.2,372.7 271.5,372.1 C273.9,371.6 278.3,371.2 279.9,370.9 C281.5,370.6 281,370.4 281.2,370.2 C281.5,370.1 282.7,370.2 281.3,369.9
+             C279.8,369.6 275.4,369 272.5,368.5 C269.7,368 267.2,367.9 264,366.9 C260.8,365.9 254.4,363.2 253.3,362.5 C252.3,361.8 255.1,363.1 257.7,362.6 C260.4,362.1 264.6,360.4 269.1,359.4
+             C273.6,358.5 277.5,357.2 284.7,356.7 C291.9,356.2 304.5,356.8 312.4,356.3 C320.4,355.8 322,353.9 332.5,353.8 C343,353.7 364.8,355.6 375.3,355.8 C385.8,355.9 385.4,355.3 395.4,354.9
+             C405.5,354.5 423.6,353 435.6,353.1 C447.6,353.1 455,355 467.6,355.1 C480.1,355.2 499.4,353.7 511.1,353.6 C522.8,353.6 528.3,354.1 538,354.5 C547.7,355 559.1,355.6 569.3,356.5
+             C579.4,357.3 591.1,358.8 598.9,359.7 C606.6,360.5 610.1,361.2 615.6,361.3 C621.1,361.4 625.7,360.3 631.9,360.5 C638.1,360.7 648.7,361.5 652.9,362.3 C657.2,363.1 654.1,364.7 657.2,365.4
+             C660.3,366.2 670,366.1 671.6,366.9 C673.3,367.6 668,369.6 667.3,370.1 Z" fill="none" stroke="#4c315e" stroke-width="1.1" />
+    </g>
+
+    <!-- stands scattered over the shore, clustered rather than lined up -->
+    <g id="treeline-shore" fill="#261833">
+      <use href="#pine-far-a" transform="translate(770, 342.9) scale(0.4)" />
+      <use href="#pine-far-b" transform="translate(254, 349.5) scale(0.33)" />
+      <use href="#pine-far-a" transform="translate(64, 348) scale(0.36)" />
+      <use href="#pine-far-a" transform="translate(209, 348.1) scale(0.37)" />
+      <use href="#pine-far-a" transform="translate(231, 345.8) scale(0.48)" />
+      <use href="#pine-far-c" transform="translate(243, 344.4) scale(0.48)" />
+      <use href="#pine-far-c" transform="translate(234, 348.1) scale(0.41)" />
+      <use href="#pine-far-a" transform="translate(259, 345.9) scale(0.53)" />
+      <use href="#pine-far-b" transform="translate(209, 350.1) scale(0.55)" />
+      <use href="#pine-far-a" transform="translate(227, 349.1) scale(0.44)" />
+      <use href="#pine-far-c" transform="translate(234, 346.8) scale(0.47)" />
+      <use href="#pine-far-b" transform="translate(213, 351.9) scale(0.5)" />
+      <use href="#pine-far-a" transform="translate(297, 345.6) scale(0.57)" />
+      <use href="#pine-far-b" transform="translate(237, 352.4) scale(0.49)" />
+      <use href="#pine-far-b" transform="translate(198, 354.1) scale(0.42)" />
+      <use href="#pine-far-c" transform="translate(235, 346.2) scale(0.51)" />
+      <use href="#pine-far-b" transform="translate(214, 353.2) scale(0.47)" />
+      <use href="#pine-far-a" transform="translate(242, 347.4) scale(0.53)" />
+      <use href="#pine-far-a" transform="translate(224, 347.1) scale(0.54)" />
+      <use href="#pine-far-b" transform="translate(184, 351.1) scale(0.57)" />
+      <use href="#pine-far-b" transform="translate(273, 353.2) scale(0.5)" />
+      <use href="#pine-far-a" transform="translate(234, 346.6) scale(0.59)" />
+      <use href="#pine-far-b" transform="translate(279, 352.4) scale(0.59)" />
+      <use href="#pine-far-b" transform="translate(218, 354) scale(0.53)" />
+      <use href="#pine-far-c" transform="translate(192, 347.6) scale(0.54)" />
+      <use href="#pine-far-b" transform="translate(212, 353.3) scale(0.57)" />
+      <use href="#pine-far-a" transform="translate(112, 348.5) scale(0.58)" />
+      <use href="#pine-far-a" transform="translate(232, 349.2) scale(0.56)" />
+      <use href="#pine-far-c" transform="translate(215, 349.5) scale(0.51)" />
+      <use href="#pine-far-c" transform="translate(185, 346.8) scale(0.65)" />
+      <use href="#pine-far-c" transform="translate(134, 348.2) scale(0.61)" />
+      <use href="#pine-far-c" transform="translate(806, 348.4) scale(0.64)" />
+      <use href="#pine-far-a" transform="translate(45, 350.4) scale(0.64)" />
+      <use href="#pine-far-a" transform="translate(210, 351.5) scale(0.71)" />
+      <use href="#pine-far-c" transform="translate(186, 354) scale(0.59)" />
+      <use href="#pine-far-a" transform="translate(215, 351.9) scale(0.72)" />
+      <use href="#pine-far-b" transform="translate(679, 358.4) scale(0.74)" />
+      <use href="#pine-far-b" transform="translate(189, 360.2) scale(0.67)" />
+      <use href="#pine-far-c" transform="translate(218, 354.3) scale(0.62)" />
+      <use href="#pine-far-b" transform="translate(729, 361.9) scale(0.62)" />
+      <use href="#pine-far-c" transform="translate(201, 353.1) scale(0.68)" />
+      <use href="#pine-far-c" transform="translate(217, 355.2) scale(0.62)" />
+      <use href="#pine-far-b" transform="translate(104, 363.5) scale(0.67)" />
+      <use href="#pine-far-a" transform="translate(78, 357.8) scale(0.71)" />
+      <use href="#pine-far-b" transform="translate(257, 363) scale(0.81)" />
+      <use href="#pine-far-b" transform="translate(128, 364.9) scale(0.76)" />
+    </g>
+
+    <!-- forest rows, each a band serrated by conifers a shade darker than itself, unevenly spaced and crowding toward both edges. Each band lightens toward its lower edge (the haze-N gradients) so the next row's trees stand out against a strip of valley mist instead of merging into it. The distant rows use the pine-far shapes. -->
+    <g id="forest-1">
+      <path d="M0,377 C9.3,377.5 39.3,380 56,380 C72.7,380.1 81.3,377.3 100,377.4 C118.7,377.6 143,380.4 168,380.8 C193,381.2 229,380.3 250,379.9
+             C271,379.6 273,378.9 294,378.7 C315,378.5 353,378.7 376,378.8 C399,379 415.3,379.8 432,379.7 C448.7,379.5 455,378.3 476,378.1 C497,377.9 537,378.2 558,378.3
+             C579,378.5 585.3,378.6 602,378.8 C618.7,379.1 635,379.9 658,379.8 C681,379.7 719,378.1 740,378.1 C761,378.1 774,379.9 784,380 C794,380.2 797.3,379.1 800,378.9
+             L800,742 L0,742 Z" fill="url(#haze-1)" />
+      <g fill="#21142d">
+      <use href="#pine-far-b" transform="translate(-12, 373.4) scale(0.43)" />
+      <use href="#pine-far-c" transform="translate(8, 364.4) scale(0.5)" />
+      <use href="#pine-far-a" transform="translate(12, 369.8) scale(0.38)" />
+      <use href="#pine-far-c" transform="translate(38, 368.2) scale(0.43)" />
+      <use href="#pine-far-c" transform="translate(41, 369) scale(0.36)" />
+      <use href="#pine-far-a" transform="translate(56, 370.6) scale(0.38)" />
+      <use href="#pine-far-b" transform="translate(59, 372.1) scale(0.48)" />
+      <use href="#pine-far-a" transform="translate(84, 373.4) scale(0.31)" />
+      <use href="#pine-far-b" transform="translate(103, 371.9) scale(0.44)" />
+      <use href="#pine-far-b" transform="translate(138, 369.8) scale(0.45)" />
+      <use href="#pine-far-c" transform="translate(172, 369) scale(0.33)" />
+      <use href="#pine-far-c" transform="translate(196, 365.9) scale(0.43)" />
+      <use href="#pine-far-a" transform="translate(242, 370.1) scale(0.32)" />
+      <use href="#pine-far-c" transform="translate(266, 369.9) scale(0.31)" />
+      <use href="#pine-far-a" transform="translate(286, 367.8) scale(0.38)" />
+      <use href="#pine-far-c" transform="translate(329, 366.5) scale(0.41)" />
+      <use href="#pine-far-b" transform="translate(359, 375.5) scale(0.32)" />
+      <use href="#pine-far-a" transform="translate(378, 368.5) scale(0.36)" />
+      <use href="#pine-far-a" transform="translate(382, 372.5) scale(0.33)" />
+      <use href="#pine-far-c" transform="translate(413, 363.9) scale(0.49)" />
+      <use href="#pine-far-c" transform="translate(441, 366.6) scale(0.41)" />
+      <use href="#pine-far-b" transform="translate(478, 368.8) scale(0.51)" />
+      <use href="#pine-far-c" transform="translate(505, 366.2) scale(0.41)" />
+      <use href="#pine-far-a" transform="translate(542, 366.5) scale(0.51)" />
+      <use href="#pine-far-c" transform="translate(579, 365.7) scale(0.47)" />
+      <use href="#pine-far-b" transform="translate(607, 369.8) scale(0.44)" />
+      <use href="#pine-far-b" transform="translate(642, 370.4) scale(0.44)" />
+      <use href="#pine-far-b" transform="translate(676, 373.2) scale(0.36)" />
+      <use href="#pine-far-a" transform="translate(695, 367.5) scale(0.45)" />
+      <use href="#pine-far-a" transform="translate(699, 369.5) scale(0.39)" />
+      <use href="#pine-far-b" transform="translate(720, 370.6) scale(0.38)" />
+      <use href="#pine-far-b" transform="translate(725, 372.1) scale(0.39)" />
+      <use href="#pine-far-c" transform="translate(729, 370.5) scale(0.34)" />
+      <use href="#pine-far-b" transform="translate(742, 373.8) scale(0.34)" />
+      <use href="#pine-far-a" transform="translate(767, 369.6) scale(0.41)" />
+      <use href="#pine-far-a" transform="translate(792, 367.4) scale(0.39)" />
+      <use href="#pine-far-a" transform="translate(795, 366) scale(0.45)" />
+      <use href="#pine-far-c" transform="translate(811, 369.4) scale(0.33)" />
+      </g>
+    </g>
+    <g id="forest-2">
+      <path d="M0,400.1 C11.3,400.4 45.3,401.5 68,401.6 C90.7,401.8 111,401.1 136,401.2 C161,401.4 193,402.4 218,402.5 C243,402.6 261,402.1 286,401.8
+             C311,401.4 340.7,400.7 368,400.4 C395.3,400.1 427,400 450,400.1 C473,400.1 487.3,400.8 506,400.7 C524.7,400.7 545.3,399.8 562,399.9 C578.7,399.9 587.3,400.2 606,400.9
+             C624.7,401.5 649,403.6 674,404 C699,404.3 735,402.8 756,402.7 C777,402.7 792.7,403.6 800,403.8
+             L800,742 L0,742 Z" fill="url(#haze-2)" />
+      <g fill="#1a0e25">
+      <use href="#pine-far-b" transform="translate(-12, 390.3) scale(0.62)" />
+      <use href="#pine-far-a" transform="translate(24, 384.7) scale(0.69)" />
+      <use href="#pine-far-b" transform="translate(59, 394.3) scale(0.53)" />
+      <use href="#pine-far-a" transform="translate(88, 381.3) scale(0.75)" />
+      <use href="#pine-far-b" transform="translate(106, 389.2) scale(0.75)" />
+      <use href="#pine-far-a" transform="translate(148, 385.3) scale(0.64)" />
+      <use href="#pine-far-b" transform="translate(157, 385.9) scale(0.75)" />
+      <use href="#pine-far-c" transform="translate(200, 379.1) scale(0.67)" />
+      <use href="#pine-far-a" transform="translate(236, 387.4) scale(0.52)" />
+      <use href="#pine-far-b" transform="translate(246, 388.8) scale(0.73)" />
+      <use href="#pine-far-b" transform="translate(301, 389.4) scale(0.74)" />
+      <use href="#pine-far-b" transform="translate(346, 389.1) scale(0.67)" />
+      <use href="#pine-far-a" transform="translate(395, 381.7) scale(0.77)" />
+      <use href="#pine-far-b" transform="translate(433, 392.5) scale(0.57)" />
+      <use href="#pine-far-b" transform="translate(442, 393.8) scale(0.51)" />
+      <use href="#pine-far-c" transform="translate(489, 383.9) scale(0.58)" />
+      <use href="#pine-far-b" transform="translate(540, 390.4) scale(0.54)" />
+      <use href="#pine-far-a" transform="translate(575, 387.6) scale(0.55)" />
+      <use href="#pine-far-c" transform="translate(613, 380) scale(0.75)" />
+      <use href="#pine-far-a" transform="translate(635, 381.3) scale(0.74)" />
+      <use href="#pine-far-b" transform="translate(662, 391.1) scale(0.58)" />
+      <use href="#pine-far-c" transform="translate(693, 382) scale(0.6)" />
+      <use href="#pine-far-a" transform="translate(728, 380.8) scale(0.75)" />
+      <use href="#pine-far-b" transform="translate(764, 388.2) scale(0.66)" />
+      <use href="#pine-far-b" transform="translate(769, 385.8) scale(0.74)" />
+      <use href="#pine-far-c" transform="translate(803, 384.2) scale(0.62)" />
+      </g>
+    </g>
+    <g id="forest-3">
+      <path d="M0,436.2 C13.7,435.9 59,435 82,434.6 C105,434.2 115,433.3 138,433.7 C161,434.1 192.7,436.9 220,437.1 C247.3,437.2 274.7,435.4 302,434.7
+             C329.3,434.1 359,433.1 384,433 C409,432.8 427,433.3 452,433.7 C477,434.1 511,435.1 534,435.6 C557,436.1 569.3,436.7 590,436.6 C610.7,436.5 633,435.2 658,434.9
+             C683,434.6 719,434.8 740,434.8 C761,434.9 774,435.1 784,435.1 C794,435.1 797.3,434.8 800,434.8
+             L800,742 L0,742 Z" fill="url(#haze-3)" />
+      <g fill="#140a1d">
+      <use href="#pine-c" transform="translate(-12, 396.8) scale(1.23)" />
+      <use href="#pine-b" transform="translate(34, 410.3) scale(1.17)" />
+      <use href="#pine-c" transform="translate(75, 403) scale(0.95)" />
+      <use href="#pine-a" transform="translate(94, 409.1) scale(0.9)" />
+      <use href="#pine-b" transform="translate(106, 420.4) scale(0.83)" />
+      <use href="#pine-c" transform="translate(165, 407.4) scale(0.93)" />
+      <use href="#pine-a" transform="translate(221, 406.4) scale(0.93)" />
+      <use href="#pine-a" transform="translate(261, 409.7) scale(0.93)" />
+      <use href="#pine-a" transform="translate(329, 401.9) scale(1.08)" />
+      <use href="#pine-a" transform="translate(360, 405.8) scale(1.01)" />
+      <use href="#pine-a" transform="translate(399, 411.8) scale(0.83)" />
+      <use href="#pine-a" transform="translate(473, 409.3) scale(0.86)" />
+      <use href="#pine-b" transform="translate(534, 418.5) scale(0.86)" />
+      <use href="#pine-c" transform="translate(540, 400.1) scale(1.14)" />
+      <use href="#pine-a" transform="translate(555, 405.8) scale(0.98)" />
+      <use href="#pine-a" transform="translate(599, 401.8) scale(1.16)" />
+      <use href="#pine-b" transform="translate(645, 412.9) scale(1.11)" />
+      <use href="#pine-a" transform="translate(701, 408.9) scale(0.96)" />
+      <use href="#pine-a" transform="translate(731, 400.9) scale(1.19)" />
+      <use href="#pine-b" transform="translate(757, 412.3) scale(1.19)" />
+      <use href="#pine-b" transform="translate(782, 416.1) scale(0.97)" />
+      </g>
+    </g>
+    <g id="forest-4">
+      <path d="M0,518.2 C13.7,518.6 59,520.5 82,520.4 C105,520.4 117.3,517.9 138,517.9 C158.7,517.9 187.3,519.9 206,520.5 C224.7,521 231.3,521.2 250,521.2
+             C268.7,521.2 297.3,521.1 318,520.6 C338.7,520.1 353.3,518.4 374,518.3 C394.7,518.3 417,520.1 442,520.3 C467,520.6 496.7,519.6 524,519.8 C551.3,519.9 581,520.7 606,521.1
+             C631,521.5 649,522.1 674,521.9 C699,521.8 735,520.7 756,520.4 C777,520.2 792.7,520.5 800,520.5
+             L800,742 L0,742 Z" fill="url(#haze-4)" />
+      <g fill="#0f0617">
+      <use href="#pine-c" transform="translate(-12, 402.7) scale(3.47)" />
+      <use href="#pine-c" transform="translate(69, 389.2) scale(3.97)" />
+      <use href="#pine-a" transform="translate(80, 375.8) scale(4.68)" />
+      <use href="#pine-a" transform="translate(149, 376.8) scale(4.71)" />
+      <use href="#pine-c" transform="translate(161, 406.8) scale(3.41)" />
+      <use href="#pine-b" transform="translate(272, 433.1) scale(3.9)" />
+      <use href="#pine-a" transform="translate(352, 410.6) scale(3.64)" />
+      <use href="#pine-a" transform="translate(462, 401.7) scale(3.95)" />
+      <use href="#pine-b" transform="translate(603, 403.8) scale(5.34)" />
+      <use href="#pine-b" transform="translate(668, 402.7) scale(5.24)" />
+      <use href="#pine-c" transform="translate(775, 392.2) scale(3.77)" />
+      <use href="#pine-c" transform="translate(788, 353) scale(5.01)" />
+      </g>
+    </g>
+  </g>
+
+  <!-- COLLAGE LAYOUT -->
+
+  <!-- CARD 1: Contributions (full-width classic activity chart, top) -->
+  <g id="card-contributions" transform="translate(40, 26) rotate(-0.6)">
+    <!-- ART ZONE: Contributions Card Background -->
+    <g id="art-card-contrib-bg"></g>
+
+    <rect width="720" height="210" rx="18" class="card-bg" filter="url(#card-shadow)" />
+    <text x="30" y="48" class="text-title">Contributions</text>
+    <text x="690" y="48" class="text-title" text-anchor="end" style="font-weight: bold; font-family: system-ui;">8,675</text>
+
+    <!-- Classic GitHub-style calendar: weekday labels, month labels, week/day grid -->
+    <g transform="translate(66, 92)">
+      <!-- baseline sits ~3.5px below the row's centre so the 10px label is optically centred on it -->
+      <text x="-14" y="22.0" text-anchor="end" class="text-cal-label">Mon</text>
+      <text x="-14" y="48.0" text-anchor="end" class="text-cal-label">Wed</text>
+      <text x="-14" y="74.0" text-anchor="end" class="text-cal-label">Fri</text>
+
+      
+        <text x="0" y="-8" class="text-cal-label">Oct</text>
+      
+        <text x="78" y="-8" class="text-cal-label">Dec</text>
+      
+        <text x="130" y="-8" class="text-cal-label">Jan</text>
+      
+        <text x="182" y="-8" class="text-cal-label">Feb</text>
+      
+        <text x="234" y="-8" class="text-cal-label">Mar</text>
+      
+        <text x="299" y="-8" class="text-cal-label">Apr</text>
+      
+        <text x="351" y="-8" class="text-cal-label">May</text>
+      
+        <text x="416" y="-8" class="text-cal-label">Jun</text>
+      
+        <text x="468" y="-8" class="text-cal-label">Jul</text>
+      
+        <text x="520" y="-8" class="text-cal-label">Aug</text>
+      
+        <text x="585" y="-8" class="text-cal-label">Sep</text>
+      
+
+      <!-- Cells are drawn fully visible and the fade-in starts at 0s, holding at 0 until each cell's stagger point. Anything that doesn't run SMIL (static previews, snapshots) still shows the finished calendar instead of an empty grid. -->
+      
+        <rect x="0" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.0000;1"
+                   dur="0.5s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="0" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-1">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.0079;1"
+                   dur="0.504s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="0" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-3">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.0157;1"
+                   dur="0.508s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="0" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-1">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.0234;1"
+                   dur="0.512s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="0" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-2">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.0310;1"
+                   dur="0.516s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="0" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.0385;1"
+                   dur="0.52s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="0" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-1">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.0458;1"
+                   dur="0.524s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="13" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-2">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.0530;1"
+                   dur="0.528s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="13" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.0602;1"
+                   dur="0.532s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="13" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-3">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.0672;1"
+                   dur="0.536s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="13" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.0741;1"
+                   dur="0.54s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="13" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-3">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.0809;1"
+                   dur="0.544s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="13" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.0876;1"
+                   dur="0.548s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="13" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.0942;1"
+                   dur="0.552s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="26" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.1007;1"
+                   dur="0.556s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="26" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-3">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.1071;1"
+                   dur="0.56s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="26" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.1135;1"
+                   dur="0.5640000000000001s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="26" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.1197;1"
+                   dur="0.5680000000000001s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="26" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.1259;1"
+                   dur="0.572s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="26" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-2">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.1319;1"
+                   dur="0.576s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="26" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-1">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.1379;1"
+                   dur="0.58s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="39" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-2">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.1438;1"
+                   dur="0.584s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="39" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-3">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.1497;1"
+                   dur="0.588s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="39" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-2">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.1554;1"
+                   dur="0.592s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="39" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-1">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.1611;1"
+                   dur="0.596s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="39" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.1667;1"
+                   dur="0.6s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="39" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.1722;1"
+                   dur="0.604s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="39" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.1776;1"
+                   dur="0.608s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="52" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-1">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.1830;1"
+                   dur="0.612s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="52" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-2">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.1883;1"
+                   dur="0.616s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="52" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.1935;1"
+                   dur="0.62s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="52" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.1987;1"
+                   dur="0.624s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="52" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-3">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2038;1"
+                   dur="0.628s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="52" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-3">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2089;1"
+                   dur="0.632s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="52" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-3">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2138;1"
+                   dur="0.636s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="65" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-2">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2188;1"
+                   dur="0.64s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="65" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-2">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2236;1"
+                   dur="0.644s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="65" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2284;1"
+                   dur="0.648s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="65" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2331;1"
+                   dur="0.652s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="65" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2378;1"
+                   dur="0.656s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="65" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-1">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2424;1"
+                   dur="0.66s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="65" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-1">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2470;1"
+                   dur="0.664s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="78" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2515;1"
+                   dur="0.668s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="78" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-1">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2560;1"
+                   dur="0.6719999999999999s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="78" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2604;1"
+                   dur="0.6759999999999999s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="78" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-1">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2647;1"
+                   dur="0.6799999999999999s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="78" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-2">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2690;1"
+                   dur="0.6839999999999999s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="78" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-1">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2733;1"
+                   dur="0.688s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="78" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-1">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2775;1"
+                   dur="0.692s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="91" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2816;1"
+                   dur="0.696s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="91" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-3">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2857;1"
+                   dur="0.7s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="91" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-1">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2898;1"
+                   dur="0.704s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="91" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2938;1"
+                   dur="0.708s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="91" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-1">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2978;1"
+                   dur="0.712s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="91" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3017;1"
+                   dur="0.716s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="91" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3056;1"
+                   dur="0.72s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="104" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3094;1"
+                   dur="0.724s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="104" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3132;1"
+                   dur="0.728s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="104" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3169;1"
+                   dur="0.732s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="104" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3207;1"
+                   dur="0.736s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="104" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3243;1"
+                   dur="0.74s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="104" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3280;1"
+                   dur="0.744s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="104" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3316;1"
+                   dur="0.748s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="117" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3351;1"
+                   dur="0.752s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="117" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3386;1"
+                   dur="0.756s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="117" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3421;1"
+                   dur="0.76s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="117" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3455;1"
+                   dur="0.764s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="117" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3490;1"
+                   dur="0.768s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="117" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3523;1"
+                   dur="0.772s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="117" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3557;1"
+                   dur="0.776s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="130" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3590;1"
+                   dur="0.78s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="130" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3622;1"
+                   dur="0.784s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="130" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3655;1"
+                   dur="0.788s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="130" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3687;1"
+                   dur="0.792s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="130" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3719;1"
+                   dur="0.796s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="130" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-3">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3750;1"
+                   dur="0.8s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="130" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-3">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3781;1"
+                   dur="0.804s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="143" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-2">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3812;1"
+                   dur="0.808s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="143" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-2">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3842;1"
+                   dur="0.812s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="143" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-1">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3873;1"
+                   dur="0.8160000000000001s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="143" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3902;1"
+                   dur="0.8200000000000001s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="143" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-1">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3932;1"
+                   dur="0.8240000000000001s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="143" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3961;1"
+                   dur="0.8280000000000001s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="143" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3990;1"
+                   dur="0.8320000000000001s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="156" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4019;1"
+                   dur="0.8360000000000001s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="156" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-1">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4048;1"
+                   dur="0.8400000000000001s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="156" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4076;1"
+                   dur="0.844s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="156" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4104;1"
+                   dur="0.848s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="156" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4131;1"
+                   dur="0.852s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="156" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4159;1"
+                   dur="0.856s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="156" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4186;1"
+                   dur="0.86s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="169" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4213;1"
+                   dur="0.864s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="169" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4240;1"
+                   dur="0.868s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="169" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4266;1"
+                   dur="0.872s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="169" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4292;1"
+                   dur="0.876s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="169" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4318;1"
+                   dur="0.88s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="169" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4344;1"
+                   dur="0.884s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="169" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4369;1"
+                   dur="0.888s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="182" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4395;1"
+                   dur="0.892s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="182" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4420;1"
+                   dur="0.896s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="182" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4444;1"
+                   dur="0.9s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="182" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4469;1"
+                   dur="0.904s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="182" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4493;1"
+                   dur="0.9079999999999999s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="182" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4518;1"
+                   dur="0.9119999999999999s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="182" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4541;1"
+                   dur="0.9159999999999999s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="195" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4565;1"
+                   dur="0.9199999999999999s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="195" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4589;1"
+                   dur="0.9239999999999999s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="195" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4612;1"
+                   dur="0.9279999999999999s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="195" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4635;1"
+                   dur="0.9319999999999999s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="195" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4658;1"
+                   dur="0.9359999999999999s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="195" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4681;1"
+                   dur="0.94s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="195" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4703;1"
+                   dur="0.944s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="208" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4726;1"
+                   dur="0.948s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="208" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4748;1"
+                   dur="0.952s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="208" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4770;1"
+                   dur="0.956s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="208" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4792;1"
+                   dur="0.96s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="208" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4813;1"
+                   dur="0.964s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="208" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4835;1"
+                   dur="0.968s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="208" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-1">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4856;1"
+                   dur="0.972s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="221" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-1">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4877;1"
+                   dur="0.976s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="221" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4898;1"
+                   dur="0.98s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="221" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4919;1"
+                   dur="0.984s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="221" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4939;1"
+                   dur="0.988s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="221" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4960;1"
+                   dur="0.992s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="221" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4980;1"
+                   dur="0.996s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="221" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5000;1"
+                   dur="1.0s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="234" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5020;1"
+                   dur="1.004s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="234" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5040;1"
+                   dur="1.008s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="234" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5059;1"
+                   dur="1.012s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="234" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5079;1"
+                   dur="1.016s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="234" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5098;1"
+                   dur="1.02s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="234" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5117;1"
+                   dur="1.024s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="234" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5136;1"
+                   dur="1.028s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="247" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5155;1"
+                   dur="1.032s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="247" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5174;1"
+                   dur="1.036s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="247" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5192;1"
+                   dur="1.04s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="247" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5211;1"
+                   dur="1.044s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="247" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5229;1"
+                   dur="1.048s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="247" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5247;1"
+                   dur="1.052s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="247" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5265;1"
+                   dur="1.056s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="260" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5283;1"
+                   dur="1.06s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="260" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5301;1"
+                   dur="1.064s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="260" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5318;1"
+                   dur="1.068s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="260" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5336;1"
+                   dur="1.072s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="260" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5353;1"
+                   dur="1.076s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="260" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5370;1"
+                   dur="1.08s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="260" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5387;1"
+                   dur="1.084s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="273" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5404;1"
+                   dur="1.088s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="273" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5421;1"
+                   dur="1.092s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="273" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5438;1"
+                   dur="1.096s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="273" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5455;1"
+                   dur="1.1s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="273" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5471;1"
+                   dur="1.104s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="273" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5487;1"
+                   dur="1.108s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="273" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5504;1"
+                   dur="1.112s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="286" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5520;1"
+                   dur="1.116s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="286" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5536;1"
+                   dur="1.12s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="286" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5552;1"
+                   dur="1.124s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="286" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5567;1"
+                   dur="1.1280000000000001s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="286" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5583;1"
+                   dur="1.1320000000000001s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="286" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5599;1"
+                   dur="1.1360000000000001s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="286" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5614;1"
+                   dur="1.1400000000000001s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="299" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5629;1"
+                   dur="1.1440000000000001s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="299" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5645;1"
+                   dur="1.1480000000000001s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="299" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5660;1"
+                   dur="1.1520000000000001s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="299" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5675;1"
+                   dur="1.1560000000000001s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="299" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5690;1"
+                   dur="1.1600000000000001s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="299" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5704;1"
+                   dur="1.1640000000000001s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="299" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5719;1"
+                   dur="1.1680000000000001s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="312" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5734;1"
+                   dur="1.1720000000000002s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="312" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5748;1"
+                   dur="1.1760000000000002s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="312" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5763;1"
+                   dur="1.1800000000000002s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="312" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5777;1"
+                   dur="1.1840000000000002s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="312" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5791;1"
+                   dur="1.188s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="312" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5805;1"
+                   dur="1.192s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="312" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5819;1"
+                   dur="1.196s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="325" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5833;1"
+                   dur="1.2s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="325" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5847;1"
+                   dur="1.204s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="325" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5861;1"
+                   dur="1.208s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="325" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5875;1"
+                   dur="1.212s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="325" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5888;1"
+                   dur="1.216s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="325" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5902;1"
+                   dur="1.22s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="325" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5915;1"
+                   dur="1.224s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="338" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5928;1"
+                   dur="1.228s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="338" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5942;1"
+                   dur="1.232s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="338" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5955;1"
+                   dur="1.236s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="338" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5968;1"
+                   dur="1.24s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="338" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5981;1"
+                   dur="1.244s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="338" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5994;1"
+                   dur="1.248s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="338" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6006;1"
+                   dur="1.252s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="351" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6019;1"
+                   dur="1.256s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="351" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6032;1"
+                   dur="1.26s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="351" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-1">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6044;1"
+                   dur="1.264s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="351" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6057;1"
+                   dur="1.268s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="351" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6069;1"
+                   dur="1.272s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="351" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6082;1"
+                   dur="1.276s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="351" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6094;1"
+                   dur="1.28s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="364" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6106;1"
+                   dur="1.284s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="364" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6118;1"
+                   dur="1.288s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="364" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6130;1"
+                   dur="1.292s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="364" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6142;1"
+                   dur="1.296s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="364" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6154;1"
+                   dur="1.3s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="364" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6166;1"
+                   dur="1.304s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="364" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6177;1"
+                   dur="1.308s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="377" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6189;1"
+                   dur="1.312s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="377" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6201;1"
+                   dur="1.3159999999999998s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="377" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6212;1"
+                   dur="1.3199999999999998s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="377" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6224;1"
+                   dur="1.3239999999999998s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="377" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6235;1"
+                   dur="1.3279999999999998s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="377" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6246;1"
+                   dur="1.3319999999999999s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="377" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6257;1"
+                   dur="1.3359999999999999s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="390" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6269;1"
+                   dur="1.3399999999999999s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="390" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-1">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6280;1"
+                   dur="1.3439999999999999s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="390" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-3">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6291;1"
+                   dur="1.3479999999999999s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="390" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-3">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6302;1"
+                   dur="1.3519999999999999s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="390" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6313;1"
+                   dur="1.3559999999999999s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="390" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-2">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6324;1"
+                   dur="1.3599999999999999s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="390" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6334;1"
+                   dur="1.3639999999999999s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="403" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6345;1"
+                   dur="1.3679999999999999s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="403" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6356;1"
+                   dur="1.3719999999999999s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="403" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6366;1"
+                   dur="1.376s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="403" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6377;1"
+                   dur="1.38s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="403" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6387;1"
+                   dur="1.384s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="403" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6398;1"
+                   dur="1.388s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="403" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6408;1"
+                   dur="1.392s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="416" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6418;1"
+                   dur="1.396s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="416" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6429;1"
+                   dur="1.4s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="416" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6439;1"
+                   dur="1.404s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="416" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-2">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6449;1"
+                   dur="1.408s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="416" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6459;1"
+                   dur="1.412s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="416" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6469;1"
+                   dur="1.416s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="416" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6479;1"
+                   dur="1.42s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="429" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6489;1"
+                   dur="1.424s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="429" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6499;1"
+                   dur="1.428s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="429" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6508;1"
+                   dur="1.432s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="429" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6518;1"
+                   dur="1.436s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="429" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6528;1"
+                   dur="1.44s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="429" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6537;1"
+                   dur="1.444s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="429" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6547;1"
+                   dur="1.448s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="442" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6556;1"
+                   dur="1.452s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="442" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-2">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6566;1"
+                   dur="1.456s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="442" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-3">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6575;1"
+                   dur="1.46s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="442" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-1">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6585;1"
+                   dur="1.464s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="442" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6594;1"
+                   dur="1.468s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="442" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6603;1"
+                   dur="1.472s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="442" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-1">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6612;1"
+                   dur="1.476s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="455" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-2">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6622;1"
+                   dur="1.48s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="455" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-3">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6631;1"
+                   dur="1.484s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="455" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6640;1"
+                   dur="1.488s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="455" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6649;1"
+                   dur="1.492s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="455" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6658;1"
+                   dur="1.496s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="455" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6667;1"
+                   dur="1.5s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="455" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6676;1"
+                   dur="1.504s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="468" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6684;1"
+                   dur="1.508s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="468" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6693;1"
+                   dur="1.512s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="468" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6702;1"
+                   dur="1.516s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="468" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6711;1"
+                   dur="1.52s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="468" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6719;1"
+                   dur="1.524s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="468" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6728;1"
+                   dur="1.528s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="468" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6736;1"
+                   dur="1.532s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="481" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6745;1"
+                   dur="1.536s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="481" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6753;1"
+                   dur="1.54s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="481" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6762;1"
+                   dur="1.544s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="481" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6770;1"
+                   dur="1.548s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="481" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6778;1"
+                   dur="1.552s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="481" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6787;1"
+                   dur="1.556s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="481" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6795;1"
+                   dur="1.56s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="494" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6803;1"
+                   dur="1.564s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="494" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6811;1"
+                   dur="1.568s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="494" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6819;1"
+                   dur="1.572s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="494" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-3">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6827;1"
+                   dur="1.576s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="494" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6835;1"
+                   dur="1.58s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="494" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6843;1"
+                   dur="1.584s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="494" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6851;1"
+                   dur="1.588s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="507" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6859;1"
+                   dur="1.592s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="507" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6867;1"
+                   dur="1.596s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="507" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6875;1"
+                   dur="1.6s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="507" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6883;1"
+                   dur="1.604s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="507" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6891;1"
+                   dur="1.608s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="507" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6898;1"
+                   dur="1.612s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="507" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6906;1"
+                   dur="1.616s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="520" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6914;1"
+                   dur="1.62s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="520" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6921;1"
+                   dur="1.624s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="520" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6929;1"
+                   dur="1.628s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="520" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6936;1"
+                   dur="1.632s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="520" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6944;1"
+                   dur="1.636s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="520" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6951;1"
+                   dur="1.64s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="520" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6959;1"
+                   dur="1.644s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="533" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6966;1"
+                   dur="1.648s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="533" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6973;1"
+                   dur="1.652s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="533" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6981;1"
+                   dur="1.656s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="533" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6988;1"
+                   dur="1.66s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="533" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6995;1"
+                   dur="1.664s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="533" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7002;1"
+                   dur="1.668s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="533" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7010;1"
+                   dur="1.672s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="546" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7017;1"
+                   dur="1.676s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="546" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7024;1"
+                   dur="1.68s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="546" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-2">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7031;1"
+                   dur="1.684s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="546" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-1">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7038;1"
+                   dur="1.688s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="546" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-2">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7045;1"
+                   dur="1.692s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="546" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7052;1"
+                   dur="1.696s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="546" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7059;1"
+                   dur="1.7s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="559" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7066;1"
+                   dur="1.704s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="559" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7073;1"
+                   dur="1.708s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="559" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7079;1"
+                   dur="1.712s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="559" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-1">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7086;1"
+                   dur="1.716s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="559" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7093;1"
+                   dur="1.72s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="559" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7100;1"
+                   dur="1.724s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="559" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7106;1"
+                   dur="1.728s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="572" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-3">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7113;1"
+                   dur="1.732s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="572" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7120;1"
+                   dur="1.736s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="572" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7126;1"
+                   dur="1.74s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="572" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7133;1"
+                   dur="1.744s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="572" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7140;1"
+                   dur="1.748s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="572" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7146;1"
+                   dur="1.752s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="572" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7153;1"
+                   dur="1.756s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="585" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7159;1"
+                   dur="1.76s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="585" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7166;1"
+                   dur="1.764s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="585" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7172;1"
+                   dur="1.768s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="585" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7178;1"
+                   dur="1.772s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="585" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7185;1"
+                   dur="1.776s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="585" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7191;1"
+                   dur="1.78s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="585" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7197;1"
+                   dur="1.784s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="598" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7204;1"
+                   dur="1.788s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="598" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7210;1"
+                   dur="1.792s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="598" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7216;1"
+                   dur="1.796s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="598" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7222;1"
+                   dur="1.8s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="598" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7228;1"
+                   dur="1.804s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="598" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7235;1"
+                   dur="1.808s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="598" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7241;1"
+                   dur="1.812s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="611" y="0" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7247;1"
+                   dur="1.816s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="611" y="13" width="11" height="11" rx="2"
+              class="cal-lvl-3">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7253;1"
+                   dur="1.82s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="611" y="26" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7259;1"
+                   dur="1.824s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="611" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-4">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7265;1"
+                   dur="1.828s" begin="0s" fill="freeze" />
+        </rect>
+      
+    </g>
+
+    <!-- ART ZONE: Contributions Card Foreground -->
+    <g id="art-card-contrib-fg"></g>
+  </g>
+
+  <!-- ART ZONE: MIDGROUND - open valley band between card 1 and the bottom row, where the near Teton ridgeline reads clearly. -->
+  <g id="art-midground"></g>
+
+  <!-- CARD 2: Languages (bottom left) -->
+  <g id="card-languages" transform="translate(40, 372) rotate(0.4)">
+    <!-- ART ZONE: Languages Card Background -->
+    <g id="art-card-lang-bg"></g>
+
+    <rect width="460" height="300" rx="18" class="card-bg" filter="url(#card-shadow)" />
+    <text x="30" y="48" class="text-title">Languages</text>
+
+    <g transform="translate(30, 88)">
+      
+        <g transform="translate(0, 0)">
+          <text x="0" y="0" class="text-lang-name">JavaScript</text>
+          <text x="400" y="0" class="text-lang-pct" text-anchor="end">8.4 MB</text>
+          <!-- True bar chart: length is size relative to the largest language shown, not a percentage of a whole. Gradient fill + soft glow, animated width. -->
+          <rect x="0" y="8" width="400" height="4" rx="2" fill="#30203e" opacity="0.5" />
+          <!-- Drawn at full length, same static-fallback pattern as the calendar cells: the grow animation holds at 0 until this row's stagger point. -->
+          
+          
+          <rect x="0" y="8" width="400.0" height="4" rx="2" fill="url(#bar-grad)" filter="url(#bar-glow)" opacity="0.9">
+            <animate attributeName="width" values="0;0;400.0" keyTimes="0;0.0000;1"
+                     dur="1.2s" begin="0s" fill="freeze"
+                     calcMode="spline" keySplines="0 0 1 1;0.25 0.1 0.25 1" />
+          </rect>
+        </g>
+      
+        <g transform="translate(0, 30)">
+          <text x="0" y="0" class="text-lang-name">C</text>
+          <text x="400" y="0" class="text-lang-pct" text-anchor="end">7.4 MB</text>
+          <!-- True bar chart: length is size relative to the largest language shown, not a percentage of a whole. Gradient fill + soft glow, animated width. -->
+          <rect x="0" y="8" width="400" height="4" rx="2" fill="#30203e" opacity="0.5" />
+          <!-- Drawn at full length, same static-fallback pattern as the calendar cells: the grow animation holds at 0 until this row's stagger point. -->
+          
+          
+          <rect x="0" y="8" width="353.5" height="4" rx="2" fill="url(#bar-grad)" filter="url(#bar-glow)" opacity="0.9">
+            <animate attributeName="width" values="0;0;353.5" keyTimes="0;0.1111;1"
+                     dur="1.3499999999999999s" begin="0s" fill="freeze"
+                     calcMode="spline" keySplines="0 0 1 1;0.25 0.1 0.25 1" />
+          </rect>
+        </g>
+      
+        <g transform="translate(0, 60)">
+          <text x="0" y="0" class="text-lang-name">Assembly</text>
+          <text x="400" y="0" class="text-lang-pct" text-anchor="end">675.6 KB</text>
+          <!-- True bar chart: length is size relative to the largest language shown, not a percentage of a whole. Gradient fill + soft glow, animated width. -->
+          <rect x="0" y="8" width="400" height="4" rx="2" fill="#30203e" opacity="0.5" />
+          <!-- Drawn at full length, same static-fallback pattern as the calendar cells: the grow animation holds at 0 until this row's stagger point. -->
+          
+          
+          <rect x="0" y="8" width="31.4" height="4" rx="2" fill="url(#bar-grad)" filter="url(#bar-glow)" opacity="0.9">
+            <animate attributeName="width" values="0;0;31.4" keyTimes="0;0.2000;1"
+                     dur="1.5s" begin="0s" fill="freeze"
+                     calcMode="spline" keySplines="0 0 1 1;0.25 0.1 0.25 1" />
+          </rect>
+        </g>
+      
+        <g transform="translate(0, 90)">
+          <text x="0" y="0" class="text-lang-name">VHDL</text>
+          <text x="400" y="0" class="text-lang-pct" text-anchor="end">286.7 KB</text>
+          <!-- True bar chart: length is size relative to the largest language shown, not a percentage of a whole. Gradient fill + soft glow, animated width. -->
+          <rect x="0" y="8" width="400" height="4" rx="2" fill="#30203e" opacity="0.5" />
+          <!-- Drawn at full length, same static-fallback pattern as the calendar cells: the grow animation holds at 0 until this row's stagger point. -->
+          
+          
+          <rect x="0" y="8" width="13.3" height="4" rx="2" fill="url(#bar-grad)" filter="url(#bar-glow)" opacity="0.9">
+            <animate attributeName="width" values="0;0;13.3" keyTimes="0;0.2727;1"
+                     dur="1.65s" begin="0s" fill="freeze"
+                     calcMode="spline" keySplines="0 0 1 1;0.25 0.1 0.25 1" />
+          </rect>
+        </g>
+      
+        <g transform="translate(0, 120)">
+          <text x="0" y="0" class="text-lang-name">C++</text>
+          <text x="400" y="0" class="text-lang-pct" text-anchor="end">144.1 KB</text>
+          <!-- True bar chart: length is size relative to the largest language shown, not a percentage of a whole. Gradient fill + soft glow, animated width. -->
+          <rect x="0" y="8" width="400" height="4" rx="2" fill="#30203e" opacity="0.5" />
+          <!-- Drawn at full length, same static-fallback pattern as the calendar cells: the grow animation holds at 0 until this row's stagger point. -->
+          
+          
+          <rect x="0" y="8" width="6.7" height="4" rx="2" fill="url(#bar-grad)" filter="url(#bar-glow)" opacity="0.9">
+            <animate attributeName="width" values="0;0;6.7" keyTimes="0;0.3333;1"
+                     dur="1.7999999999999998s" begin="0s" fill="freeze"
+                     calcMode="spline" keySplines="0 0 1 1;0.25 0.1 0.25 1" />
+          </rect>
+        </g>
+      
+        <g transform="translate(0, 150)">
+          <text x="0" y="0" class="text-lang-name">MATLAB</text>
+          <text x="400" y="0" class="text-lang-pct" text-anchor="end">134.0 KB</text>
+          <!-- True bar chart: length is size relative to the largest language shown, not a percentage of a whole. Gradient fill + soft glow, animated width. -->
+          <rect x="0" y="8" width="400" height="4" rx="2" fill="#30203e" opacity="0.5" />
+          <!-- Drawn at full length, same static-fallback pattern as the calendar cells: the grow animation holds at 0 until this row's stagger point. -->
+          
+          
+          <rect x="0" y="8" width="6.2" height="4" rx="2" fill="url(#bar-grad)" filter="url(#bar-glow)" opacity="0.9">
+            <animate attributeName="width" values="0;0;6.2" keyTimes="0;0.3846;1"
+                     dur="1.95s" begin="0s" fill="freeze"
+                     calcMode="spline" keySplines="0 0 1 1;0.25 0.1 0.25 1" />
+          </rect>
+        </g>
+      
+    </g>
+
+    <!-- ART ZONE: Languages Card Foreground -->
+    <g id="art-card-lang-fg"></g>
+  </g>
+
+  <!-- CARD 3: Open-source PRs + streaks (bottom right, top half) -->
+  <g id="card-stats" transform="translate(540, 372) rotate(-1.4)">
+    <!-- ART ZONE: Stats Card Background -->
+    <g id="art-card-stats-bg"></g>
+
+    <rect width="220" height="158" rx="18" class="card-bg" filter="url(#card-shadow)" />
+
+    <g transform="translate(24, 68)">
+      <text x="0" y="0" class="text-data-bold">69</text>
+      <text x="0" y="24" class="text-data-label">Open-Source PRs</text>
+      <text x="0" y="43" class="text-lang-pct" style="font-style: italic;">5-day streak</text>
+      <text x="0" y="61" class="text-lang-pct" style="font-style: italic;">Longest: 32 days</text>
+    </g>
+
+    <!-- ART ZONE: Stats Card Foreground -->
+    <g id="art-card-stats-fg"></g>
+  </g>
+
+  <!-- CARD 4: Website Link (bottom right, bottom half) -->
+  <g id="card-link" transform="translate(540, 550) rotate(1.6)">
+    <!-- ART ZONE: Link Card Background -->
+    <g id="art-card-link-bg"></g>
+
+    <rect width="220" height="136" rx="18" class="card-bg" filter="url(#card-shadow)" />
+
+    <a href="https://emma-stensland.com" target="_blank" rel="noopener noreferrer">
+      <text x="110" y="44" text-anchor="middle" class="text-link">emma-stensland.com</text>
+      <line x1="25" y1="53" x2="195" y2="53" stroke="#ff5c93" stroke-width="1.5" />
+    </a>
+
+    <!-- Small best-effort widgets sourced from the site itself at generation time - see get_site_widgets() in update_svg.py. Any subset can be missing (site hiccup) and this just renders fewer lines, never a broken one. -->
+    <g transform="translate(25, 70)" text-anchor="start">
+      
+        <text x="0" y="0" class="text-tiny">• 4 guestbook signs</text>
+      
+      
+        <text x="0" y="16" class="text-tiny">• 76,428,278 bots caught</text>
+      
+      
+        <text x="0" y="32" class="text-tiny">• 636.97 GB fed to bots</text>
+      
+    </g>
+
+    <!-- ART ZONE: Link Card Foreground -->
+    <g id="art-card-link-fg"></g>
+  </g>
+
+  <!-- ART ZONE: FOREGROUND -->
+  <g id="art-foreground"></g>
+
+</svg>
