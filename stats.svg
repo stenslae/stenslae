@@ -832,6 +832,16 @@
       <use href="#pine-far-a" transform="translate(727, 342.3) scale(0.24)" />
       <use href="#pine-far-a" transform="translate(744, 343.3) scale(0.22)" />
       <use href="#pine-far-b" transform="translate(774, 343.1) scale(0.31)" />
+      <use href="#pine-far-b" transform="translate(146, 342.7) scale(0.34)" />
+      <use href="#pine-far-a" transform="translate(510, 341.9) scale(0.29)" />
+      <use href="#pine-far-a" transform="translate(672, 340.0) scale(0.3)" />
+      <use href="#pine-far-c" transform="translate(182, 342.1) scale(0.23)" />
+      <use href="#pine-far-b" transform="translate(249, 346.1) scale(0.19)" />
+      <use href="#pine-far-a" transform="translate(794, 342.2) scale(0.27)" />
+      <use href="#pine-far-a" transform="translate(612, 340.1) scale(0.31)" />
+      <use href="#pine-far-a" transform="translate(644, 342.0) scale(0.27)" />
+      <use href="#pine-far-b" transform="translate(335, 345.2) scale(0.24)" />
+      <use href="#pine-far-b" transform="translate(110, 345.8) scale(0.26)" />
       <use href="#pine-far-c" transform="translate(793, 340.3) scale(0.27)" />
     </g>
 
@@ -909,6 +919,22 @@
       <use href="#pine-far-b" transform="translate(104, 363.5) scale(0.67)" />
       <use href="#pine-far-a" transform="translate(78, 357.8) scale(0.71)" />
       <use href="#pine-far-b" transform="translate(257, 363) scale(0.81)" />
+      <use href="#pine-far-b" transform="translate(723, 362.1) scale(0.58)" />
+      <use href="#pine-far-a" transform="translate(210, 348.0) scale(0.49)" />
+      <use href="#pine-far-c" transform="translate(728, 355.5) scale(0.6)" />
+      <use href="#pine-far-a" transform="translate(181, 350.4) scale(0.49)" />
+      <use href="#pine-far-a" transform="translate(710, 358.3) scale(0.57)" />
+      <use href="#pine-far-b" transform="translate(236, 359.9) scale(0.65)" />
+      <use href="#pine-far-a" transform="translate(86, 351.7) scale(0.5)" />
+      <use href="#pine-far-b" transform="translate(221, 352.0) scale(0.54)" />
+      <use href="#pine-far-c" transform="translate(200, 355.0) scale(0.61)" />
+      <use href="#pine-far-b" transform="translate(234, 351.7) scale(0.42)" />
+      <use href="#pine-far-a" transform="translate(752, 358.6) scale(0.54)" />
+      <use href="#pine-far-b" transform="translate(251, 350.0) scale(0.29)" />
+      <use href="#pine-far-c" transform="translate(217, 347.0) scale(0.46)" />
+      <use href="#pine-far-b" transform="translate(245, 355.6) scale(0.47)" />
+      <use href="#pine-far-a" transform="translate(262, 357.4) scale(0.8)" />
+      <use href="#pine-far-c" transform="translate(123, 345.2) scale(0.67)" />
       <use href="#pine-far-b" transform="translate(128, 364.9) scale(0.76)" />
     </g>
 
@@ -957,6 +983,19 @@
       <use href="#pine-far-a" transform="translate(792, 367.4) scale(0.39)" />
       <use href="#pine-far-a" transform="translate(795, 366) scale(0.45)" />
       <use href="#pine-far-c" transform="translate(811, 369.4) scale(0.33)" />
+      <use href="#pine-far-c" transform="translate(26, 369.8) scale(0.35)" />
+      <use href="#pine-far-b" transform="translate(552, 371.7) scale(0.47)" />
+      <use href="#pine-far-c" transform="translate(304, 367.5) scale(0.38)" />
+      <use href="#pine-far-c" transform="translate(369, 363.3) scale(0.49)" />
+      <use href="#pine-far-a" transform="translate(630, 370.8) scale(0.37)" />
+      <use href="#pine-far-a" transform="translate(399, 365.5) scale(0.46)" />
+      <use href="#pine-far-b" transform="translate(154, 375.9) scale(0.29)" />
+      <use href="#pine-far-a" transform="translate(217, 368.1) scale(0.43)" />
+      <use href="#pine-far-c" transform="translate(249, 365.4) scale(0.42)" />
+      <use href="#pine-far-b" transform="translate(458, 372.3) scale(0.39)" />
+      <use href="#pine-far-a" transform="translate(429, 369.3) scale(0.33)" />
+      <use href="#pine-far-a" transform="translate(666, 369.5) scale(0.37)" />
+      <use href="#pine-far-c" transform="translate(121, 366.1) scale(0.41)" />
       </g>
     </g>
     <g id="forest-2">
@@ -991,6 +1030,15 @@
       <use href="#pine-far-b" transform="translate(764, 388.2) scale(0.66)" />
       <use href="#pine-far-b" transform="translate(769, 385.8) scale(0.74)" />
       <use href="#pine-far-c" transform="translate(803, 384.2) scale(0.62)" />
+      <use href="#pine-far-b" transform="translate(711, 389.4) scale(0.63)" />
+      <use href="#pine-far-c" transform="translate(748, 380.9) scale(0.72)" />
+      <use href="#pine-far-b" transform="translate(276, 385.2) scale(0.86)" />
+      <use href="#pine-far-b" transform="translate(43, 394.0) scale(0.48)" />
+      <use href="#pine-far-a" transform="translate(376, 383.0) scale(0.77)" />
+      <use href="#pine-far-a" transform="translate(125, 379.8) scale(0.83)" />
+      <use href="#pine-far-c" transform="translate(784, 387.3) scale(0.51)" />
+      <use href="#pine-far-b" transform="translate(413, 388.7) scale(0.74)" />
+      <use href="#pine-far-a" transform="translate(329, 384.8) scale(0.69)" />
       </g>
     </g>
     <g id="forest-3">
@@ -1020,6 +1068,13 @@
       <use href="#pine-a" transform="translate(731, 400.9) scale(1.19)" />
       <use href="#pine-b" transform="translate(757, 412.3) scale(1.19)" />
       <use href="#pine-b" transform="translate(782, 416.1) scale(0.97)" />
+      <use href="#pine-b" transform="translate(381, 412.3) scale(0.99)" />
+      <use href="#pine-b" transform="translate(9, 415.6) scale(1.02)" />
+      <use href="#pine-b" transform="translate(195, 418.3) scale(0.79)" />
+      <use href="#pine-c" transform="translate(508, 405.6) scale(0.98)" />
+      <use href="#pine-a" transform="translate(181, 409.8) scale(0.97)" />
+      <use href="#pine-a" transform="translate(718, 405.5) scale(0.99)" />
+      <use href="#pine-c" transform="translate(155, 401.5) scale(1.14)" />
       </g>
     </g>
     <g id="forest-4">
@@ -1040,6 +1095,10 @@
       <use href="#pine-b" transform="translate(668, 402.7) scale(5.24)" />
       <use href="#pine-c" transform="translate(775, 392.2) scale(3.77)" />
       <use href="#pine-c" transform="translate(788, 353) scale(5.01)" />
+      <use href="#pine-c" transform="translate(510, 398.6) scale(3.44)" />
+      <use href="#pine-c" transform="translate(222, 341.9) scale(5.42)" />
+      <use href="#pine-c" transform="translate(413, 367.1) scale(4.54)" />
+      <use href="#pine-a" transform="translate(322, 407.4) scale(3.54)" />
       </g>
     </g>
   </g>
@@ -1053,7 +1112,7 @@
 
     <rect width="720" height="210" rx="18" class="card-bg" filter="url(#card-shadow)" />
     <text x="30" y="48" class="text-title">Contributions</text>
-    <text x="690" y="48" class="text-title" text-anchor="end" style="font-weight: bold; font-family: system-ui;">8,675</text>
+    <text x="690" y="48" class="text-title" text-anchor="end" style="font-weight: bold; font-family: system-ui;">8,805</text>
 
     <!-- Classic GitHub-style calendar: weekday labels, month labels, week/day grid -->
     <g transform="translate(66, 92)">
@@ -3419,6 +3478,13 @@
                    dur="1.828s" begin="0s" fill="freeze" />
         </rect>
       
+        <rect x="611" y="52" width="11" height="11" rx="2"
+              class="cal-lvl-0">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7271;1"
+                   dur="1.832s" begin="0s" fill="freeze" />
+        </rect>
+      
     </g>
 
     <!-- ART ZONE: Contributions Card Foreground -->
@@ -3534,7 +3600,7 @@
     <g id="art-card-lang-fg"></g>
   </g>
 
-  <!-- CARD 3: Open-source PRs + streaks (bottom right, top half) -->
+  <!-- CARD 3: Merged open-source PRs + streaks (bottom right, top half) -->
   <g id="card-stats" transform="translate(540, 372) rotate(-1.4)">
     <!-- ART ZONE: Stats Card Background -->
     <g id="art-card-stats-bg"></g>
@@ -3542,8 +3608,8 @@
     <rect width="220" height="158" rx="18" class="card-bg" filter="url(#card-shadow)" />
 
     <g transform="translate(24, 68)">
-      <text x="0" y="0" class="text-data-bold">69</text>
-      <text x="0" y="24" class="text-data-label">Open-Source PRs</text>
+      <text x="0" y="0" class="text-data-bold">46</text>
+      <text x="0" y="24" class="text-data-label">Merged OSS PRs</text>
       <text x="0" y="43" class="text-lang-pct" style="font-style: italic;">5-day streak</text>
       <text x="0" y="61" class="text-lang-pct" style="font-style: italic;">Longest: 32 days</text>
     </g>
@@ -3570,10 +3636,10 @@
         <text x="0" y="0" class="text-tiny">• 4 guestbook signs</text>
       
       
-        <text x="0" y="16" class="text-tiny">• 76,428,278 bots caught</text>
+        <text x="0" y="16" class="text-tiny">• 76,436,932 bots caught</text>
       
       
-        <text x="0" y="32" class="text-tiny">• 636.97 GB fed to bots</text>
+        <text x="0" y="32" class="text-tiny">• 630.46 GB fed to bots</text>
       
     </g>
 
