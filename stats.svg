@@ -1112,7 +1112,7 @@
 
     <rect width="720" height="210" rx="18" class="card-bg" filter="url(#card-shadow)" />
     <text x="30" y="48" class="text-title">Contributions</text>
-    <text x="690" y="48" class="text-title" text-anchor="end" style="font-weight: bold; font-family: system-ui;">9,817</text>
+    <text x="690" y="48" class="text-title" text-anchor="end" style="font-weight: bold; font-family: system-ui;">10,079</text>
 
     <!-- Classic GitHub-style calendar: weekday labels, month labels, week/day grid -->
     <g transform="translate(66, 92)">
@@ -3471,6 +3471,13 @@
                    dur="1.824s" begin="0s" fill="freeze" />
         </rect>
       
+        <rect x="611" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-3">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7265;1"
+                   dur="1.828s" begin="0s" fill="freeze" />
+        </rect>
+      
     </g>
 
     <!-- ART ZONE: Contributions Card Foreground -->
@@ -3513,8 +3520,8 @@
           <!-- Drawn at full length, same static-fallback pattern as the calendar cells: the grow animation holds at 0 until this row's stagger point. -->
           
           
-          <rect x="0" y="8" width="359.8" height="4" rx="2" fill="url(#bar-grad)" filter="url(#bar-glow)" opacity="0.9">
-            <animate attributeName="width" values="0;0;359.8" keyTimes="0;0.1111;1"
+          <rect x="0" y="8" width="359.7" height="4" rx="2" fill="url(#bar-grad)" filter="url(#bar-glow)" opacity="0.9">
+            <animate attributeName="width" values="0;0;359.7" keyTimes="0;0.1111;1"
                      dur="1.3499999999999999s" begin="0s" fill="freeze"
                      calcMode="spline" keySplines="0 0 1 1;0.25 0.1 0.25 1" />
           </rect>
@@ -3543,8 +3550,8 @@
           <!-- Drawn at full length, same static-fallback pattern as the calendar cells: the grow animation holds at 0 until this row's stagger point. -->
           
           
-          <rect x="0" y="8" width="13.6" height="4" rx="2" fill="url(#bar-grad)" filter="url(#bar-glow)" opacity="0.9">
-            <animate attributeName="width" values="0;0;13.6" keyTimes="0;0.2727;1"
+          <rect x="0" y="8" width="13.5" height="4" rx="2" fill="url(#bar-grad)" filter="url(#bar-glow)" opacity="0.9">
+            <animate attributeName="width" values="0;0;13.5" keyTimes="0;0.2727;1"
                      dur="1.65s" begin="0s" fill="freeze"
                      calcMode="spline" keySplines="0 0 1 1;0.25 0.1 0.25 1" />
           </rect>
@@ -3596,7 +3603,7 @@
     <g transform="translate(24, 68)">
       <text x="0" y="0" class="text-data-bold">47</text>
       <text x="0" y="24" class="text-data-label">Merged OSS PRs</text>
-      <text x="0" y="43" class="text-lang-pct" style="font-style: italic;">11-day streak</text>
+      <text x="0" y="43" class="text-lang-pct" style="font-style: italic;">12-day streak</text>
       <text x="0" y="61" class="text-lang-pct" style="font-style: italic;">Longest: 32 days</text>
     </g>
 
@@ -3622,10 +3629,10 @@
         <text x="0" y="0" class="text-tiny">• 4 guestbook signs</text>
       
       
-        <text x="0" y="16" class="text-tiny">• 88,182,185 bots caught</text>
+        <text x="0" y="16" class="text-tiny">• 88,920,978 bots caught</text>
       
       
-        <text x="0" y="32" class="text-tiny">• 612.99 GB fed to bots</text>
+        <text x="0" y="32" class="text-tiny">• 635.41 GB fed to bots</text>
       
     </g>
 
