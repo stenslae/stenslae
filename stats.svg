@@ -1112,7 +1112,7 @@
 
     <rect width="720" height="210" rx="18" class="card-bg" filter="url(#card-shadow)" />
     <text x="30" y="48" class="text-title">Contributions</text>
-    <text x="690" y="48" class="text-title" text-anchor="end" style="font-weight: bold; font-family: system-ui;">7,295</text>
+    <text x="690" y="48" class="text-title" text-anchor="end" style="font-weight: bold; font-family: system-ui;">7,297</text>
 
     <!-- Classic GitHub-style calendar: weekday labels, month labels, week/day grid -->
     <g transform="translate(66, 92)">
@@ -3473,6 +3473,13 @@
                    dur="1.824s" begin="0s" fill="freeze" />
         </rect>
       
+        <rect x="611" y="39" width="11" height="11" rx="2"
+              class="cal-lvl-1">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7265;1"
+                   dur="1.828s" begin="0s" fill="freeze" />
+        </rect>
+      
     </g>
 
     <!-- ART ZONE: Contributions Card Foreground -->
@@ -3494,7 +3501,7 @@
       
         <g transform="translate(0, 0)">
           <text x="0" y="0" class="text-lang-name">JavaScript</text>
-          <text x="400" y="0" class="text-lang-pct" text-anchor="end">9.3 MB</text>
+          <text x="400" y="0" class="text-lang-pct" text-anchor="end">9.4 MB</text>
           <!-- True bar chart: length is size relative to the largest language shown, not a percentage of a whole. Gradient fill + soft glow, animated width. -->
           <rect x="0" y="8" width="400" height="4" rx="2" fill="#30203e" opacity="0.5" />
           <!-- Drawn at full length, same static-fallback pattern as the calendar cells: the grow animation holds at 0 until this row's stagger point. -->
@@ -3515,8 +3522,8 @@
           <!-- Drawn at full length, same static-fallback pattern as the calendar cells: the grow animation holds at 0 until this row's stagger point. -->
           
           
-          <rect x="0" y="8" width="318.1" height="4" rx="2" fill="url(#bar-grad)" filter="url(#bar-glow)" opacity="0.9">
-            <animate attributeName="width" values="0;0;318.1" keyTimes="0;0.1111;1"
+          <rect x="0" y="8" width="317.8" height="4" rx="2" fill="url(#bar-grad)" filter="url(#bar-glow)" opacity="0.9">
+            <animate attributeName="width" values="0;0;317.8" keyTimes="0;0.1111;1"
                      dur="1.3499999999999999s" begin="0s" fill="freeze"
                      calcMode="spline" keySplines="0 0 1 1;0.25 0.1 0.25 1" />
           </rect>
@@ -3596,9 +3603,9 @@
     <rect width="220" height="158" rx="18" class="card-bg" filter="url(#card-shadow)" />
 
     <g transform="translate(24, 68)">
-      <text x="0" y="0" class="text-data-bold">48</text>
+      <text x="0" y="0" class="text-data-bold">49</text>
       <text x="0" y="24" class="text-data-label">Merged OSS PRs</text>
-      <text x="0" y="43" class="text-lang-pct" style="font-style: italic;">18-day streak</text>
+      <text x="0" y="43" class="text-lang-pct" style="font-style: italic;">19-day streak</text>
       <text x="0" y="61" class="text-lang-pct" style="font-style: italic;">Longest: 32 days</text>
     </g>
 
@@ -3624,10 +3631,10 @@
         <text x="0" y="0" class="text-tiny">• 4 guestbook signs</text>
       
       
-        <text x="0" y="16" class="text-tiny">• 92,614,051 bots caught</text>
+        <text x="0" y="16" class="text-tiny">• 93,342,858 bots caught</text>
       
       
-        <text x="0" y="32" class="text-tiny">• 696.58 GB fed to bots</text>
+        <text x="0" y="32" class="text-tiny">• 699.88 GB fed to bots</text>
       
     </g>
 
