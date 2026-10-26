@@ -1112,7 +1112,7 @@
 
     <rect width="720" height="210" rx="18" class="card-bg" filter="url(#card-shadow)" />
     <text x="30" y="48" class="text-title">Contributions</text>
-    <text x="690" y="48" class="text-title" text-anchor="end" style="font-weight: bold; font-family: system-ui;">7,776</text>
+    <text x="690" y="48" class="text-title" text-anchor="end" style="font-weight: bold; font-family: system-ui;">7,766</text>
 
     <!-- Classic GitHub-style calendar: weekday labels, month labels, week/day grid -->
     <g transform="translate(66, 92)">
@@ -1124,31 +1124,31 @@
       
         <text x="0" y="-8" class="text-cal-label">Nov</text>
       
-        <text x="78" y="-8" class="text-cal-label">Jan</text>
+        <text x="65" y="-8" class="text-cal-label">Jan</text>
       
-        <text x="130" y="-8" class="text-cal-label">Feb</text>
+        <text x="117" y="-8" class="text-cal-label">Feb</text>
       
-        <text x="182" y="-8" class="text-cal-label">Mar</text>
+        <text x="169" y="-8" class="text-cal-label">Mar</text>
       
-        <text x="247" y="-8" class="text-cal-label">Apr</text>
+        <text x="234" y="-8" class="text-cal-label">Apr</text>
       
-        <text x="299" y="-8" class="text-cal-label">May</text>
+        <text x="286" y="-8" class="text-cal-label">May</text>
       
-        <text x="364" y="-8" class="text-cal-label">Jun</text>
+        <text x="351" y="-8" class="text-cal-label">Jun</text>
       
-        <text x="416" y="-8" class="text-cal-label">Jul</text>
+        <text x="403" y="-8" class="text-cal-label">Jul</text>
       
-        <text x="468" y="-8" class="text-cal-label">Aug</text>
+        <text x="455" y="-8" class="text-cal-label">Aug</text>
       
-        <text x="533" y="-8" class="text-cal-label">Sep</text>
+        <text x="520" y="-8" class="text-cal-label">Sep</text>
       
-        <text x="585" y="-8" class="text-cal-label">Oct</text>
+        <text x="572" y="-8" class="text-cal-label">Oct</text>
       
 
       <!-- Cells are drawn fully visible and the fade-in starts at 0s, holding at 0 until each cell's stagger point. Anything that doesn't run SMIL (static previews, snapshots) still shows the finished calendar instead of an empty grid. -->
       
         <rect x="0" y="0" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-2">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.0000;1"
                    dur="0.5s" begin="0s" fill="freeze" />
@@ -1162,7 +1162,7 @@
         </rect>
       
         <rect x="0" y="26" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.0157;1"
                    dur="0.508s" begin="0s" fill="freeze" />
@@ -1176,56 +1176,56 @@
         </rect>
       
         <rect x="0" y="52" width="11" height="11" rx="2"
-              class="cal-lvl-3">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.0310;1"
                    dur="0.516s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="0" y="65" width="11" height="11" rx="2"
-              class="cal-lvl-3">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.0385;1"
                    dur="0.52s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="0" y="78" width="11" height="11" rx="2"
-              class="cal-lvl-3">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.0458;1"
                    dur="0.524s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="13" y="0" width="11" height="11" rx="2"
-              class="cal-lvl-2">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.0530;1"
                    dur="0.528s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="13" y="13" width="11" height="11" rx="2"
-              class="cal-lvl-2">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.0602;1"
                    dur="0.532s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="13" y="26" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.0672;1"
                    dur="0.536s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="13" y="39" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.0741;1"
                    dur="0.54s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="13" y="52" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-2">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.0809;1"
                    dur="0.544s" begin="0s" fill="freeze" />
@@ -1253,63 +1253,63 @@
         </rect>
       
         <rect x="26" y="13" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-3">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.1071;1"
                    dur="0.56s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="26" y="26" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.1135;1"
                    dur="0.5640000000000001s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="26" y="39" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.1197;1"
                    dur="0.5680000000000001s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="26" y="52" width="11" height="11" rx="2"
-              class="cal-lvl-2">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.1259;1"
                    dur="0.572s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="26" y="65" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.1319;1"
                    dur="0.576s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="26" y="78" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.1379;1"
                    dur="0.58s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="39" y="0" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.1438;1"
                    dur="0.584s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="39" y="13" width="11" height="11" rx="2"
-              class="cal-lvl-3">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.1497;1"
                    dur="0.588s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="39" y="26" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.1554;1"
                    dur="0.592s" begin="0s" fill="freeze" />
@@ -1323,7 +1323,7 @@
         </rect>
       
         <rect x="39" y="52" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.1667;1"
                    dur="0.6s" begin="0s" fill="freeze" />
@@ -1421,42 +1421,42 @@
         </rect>
       
         <rect x="65" y="52" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2378;1"
                    dur="0.656s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="65" y="65" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-3">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2424;1"
                    dur="0.66s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="65" y="78" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-3">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2470;1"
                    dur="0.664s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="78" y="0" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-2">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2515;1"
                    dur="0.668s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="78" y="13" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-2">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2560;1"
                    dur="0.6719999999999999s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="78" y="26" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2604;1"
                    dur="0.6759999999999999s" begin="0s" fill="freeze" />
@@ -1470,42 +1470,42 @@
         </rect>
       
         <rect x="78" y="52" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2690;1"
                    dur="0.6839999999999999s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="78" y="65" width="11" height="11" rx="2"
-              class="cal-lvl-3">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2733;1"
                    dur="0.688s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="78" y="78" width="11" height="11" rx="2"
-              class="cal-lvl-3">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2775;1"
                    dur="0.692s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="91" y="0" width="11" height="11" rx="2"
-              class="cal-lvl-2">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2816;1"
                    dur="0.696s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="91" y="13" width="11" height="11" rx="2"
-              class="cal-lvl-2">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2857;1"
                    dur="0.7s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="91" y="26" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2898;1"
                    dur="0.704s" begin="0s" fill="freeze" />
@@ -1519,7 +1519,7 @@
         </rect>
       
         <rect x="91" y="52" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.2978;1"
                    dur="0.712s" begin="0s" fill="freeze" />
@@ -1540,14 +1540,14 @@
         </rect>
       
         <rect x="104" y="0" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3094;1"
                    dur="0.724s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="104" y="13" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3132;1"
                    dur="0.728s" begin="0s" fill="freeze" />
@@ -1729,21 +1729,21 @@
         </rect>
       
         <rect x="143" y="78" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.3990;1"
                    dur="0.8320000000000001s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="156" y="0" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4019;1"
                    dur="0.8360000000000001s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="156" y="13" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4048;1"
                    dur="0.8400000000000001s" begin="0s" fill="freeze" />
@@ -1778,21 +1778,21 @@
         </rect>
       
         <rect x="156" y="78" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4186;1"
                    dur="0.86s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="169" y="0" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4213;1"
                    dur="0.864s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="169" y="13" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.4240;1"
                    dur="0.868s" begin="0s" fill="freeze" />
@@ -2240,7 +2240,7 @@
         </rect>
       
         <rect x="286" y="26" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5552;1"
                    dur="1.124s" begin="0s" fill="freeze" />
@@ -2289,7 +2289,7 @@
         </rect>
       
         <rect x="299" y="26" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5660;1"
                    dur="1.1520000000000001s" begin="0s" fill="freeze" />
@@ -2380,21 +2380,21 @@
         </rect>
       
         <rect x="325" y="13" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5847;1"
                    dur="1.204s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="325" y="26" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5861;1"
                    dur="1.208s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="325" y="39" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-3">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5875;1"
                    dur="1.212s" begin="0s" fill="freeze" />
@@ -2408,21 +2408,21 @@
         </rect>
       
         <rect x="325" y="65" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-2">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5902;1"
                    dur="1.22s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="325" y="78" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5915;1"
                    dur="1.224s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="338" y="0" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5928;1"
                    dur="1.228s" begin="0s" fill="freeze" />
@@ -2443,21 +2443,21 @@
         </rect>
       
         <rect x="338" y="39" width="11" height="11" rx="2"
-              class="cal-lvl-3">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5968;1"
                    dur="1.24s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="338" y="52" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5981;1"
                    dur="1.244s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="338" y="65" width="11" height="11" rx="2"
-              class="cal-lvl-2">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.5994;1"
                    dur="1.248s" begin="0s" fill="freeze" />
@@ -2534,42 +2534,42 @@
         </rect>
       
         <rect x="364" y="26" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6130;1"
                    dur="1.292s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="364" y="39" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6142;1"
                    dur="1.296s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="364" y="52" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6154;1"
                    dur="1.3s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="364" y="65" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6166;1"
                    dur="1.304s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="364" y="78" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-2">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6177;1"
                    dur="1.308s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="377" y="0" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6189;1"
                    dur="1.312s" begin="0s" fill="freeze" />
@@ -2583,21 +2583,21 @@
         </rect>
       
         <rect x="377" y="26" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-3">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6212;1"
                    dur="1.3199999999999998s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="377" y="39" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6224;1"
                    dur="1.3239999999999998s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="377" y="52" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6235;1"
                    dur="1.3279999999999998s" begin="0s" fill="freeze" />
@@ -2611,42 +2611,42 @@
         </rect>
       
         <rect x="377" y="78" width="11" height="11" rx="2"
-              class="cal-lvl-2">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6257;1"
                    dur="1.3359999999999999s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="390" y="0" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-2">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6269;1"
                    dur="1.3399999999999999s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="390" y="13" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-2">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6280;1"
                    dur="1.3439999999999999s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="390" y="26" width="11" height="11" rx="2"
-              class="cal-lvl-3">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6291;1"
                    dur="1.3479999999999999s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="390" y="39" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-2">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6302;1"
                    dur="1.3519999999999999s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="390" y="52" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6313;1"
                    dur="1.3559999999999999s" begin="0s" fill="freeze" />
@@ -2660,63 +2660,63 @@
         </rect>
       
         <rect x="390" y="78" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6334;1"
                    dur="1.3639999999999999s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="403" y="0" width="11" height="11" rx="2"
-              class="cal-lvl-2">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6345;1"
                    dur="1.3679999999999999s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="403" y="13" width="11" height="11" rx="2"
-              class="cal-lvl-2">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6356;1"
                    dur="1.3719999999999999s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="403" y="26" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6366;1"
                    dur="1.376s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="403" y="39" width="11" height="11" rx="2"
-              class="cal-lvl-2">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6377;1"
                    dur="1.38s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="403" y="52" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6387;1"
                    dur="1.384s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="403" y="65" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6398;1"
                    dur="1.388s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="403" y="78" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6408;1"
                    dur="1.392s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="416" y="0" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6418;1"
                    dur="1.396s" begin="0s" fill="freeze" />
@@ -2730,7 +2730,7 @@
         </rect>
       
         <rect x="416" y="26" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6439;1"
                    dur="1.404s" begin="0s" fill="freeze" />
@@ -2744,70 +2744,70 @@
         </rect>
       
         <rect x="416" y="52" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6459;1"
                    dur="1.412s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="416" y="65" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6469;1"
                    dur="1.416s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="416" y="78" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6479;1"
                    dur="1.42s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="429" y="0" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6489;1"
                    dur="1.424s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="429" y="13" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6499;1"
                    dur="1.428s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="429" y="26" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6508;1"
                    dur="1.432s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="429" y="39" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6518;1"
                    dur="1.436s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="429" y="52" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6528;1"
                    dur="1.44s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="429" y="65" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6537;1"
                    dur="1.444s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="429" y="78" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6547;1"
                    dur="1.448s" begin="0s" fill="freeze" />
@@ -2828,14 +2828,14 @@
         </rect>
       
         <rect x="442" y="26" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6575;1"
                    dur="1.46s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="442" y="39" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6585;1"
                    dur="1.464s" begin="0s" fill="freeze" />
@@ -2870,28 +2870,28 @@
         </rect>
       
         <rect x="455" y="13" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6631;1"
                    dur="1.484s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="455" y="26" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6640;1"
                    dur="1.488s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="455" y="39" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6649;1"
                    dur="1.492s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="455" y="52" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6658;1"
                    dur="1.496s" begin="0s" fill="freeze" />
@@ -2912,7 +2912,7 @@
         </rect>
       
         <rect x="468" y="0" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6684;1"
                    dur="1.508s" begin="0s" fill="freeze" />
@@ -2926,21 +2926,21 @@
         </rect>
       
         <rect x="468" y="26" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6702;1"
                    dur="1.516s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="468" y="39" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6711;1"
                    dur="1.52s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="468" y="52" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6719;1"
                    dur="1.524s" begin="0s" fill="freeze" />
@@ -2961,7 +2961,7 @@
         </rect>
       
         <rect x="481" y="0" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6745;1"
                    dur="1.536s" begin="0s" fill="freeze" />
@@ -2975,21 +2975,21 @@
         </rect>
       
         <rect x="481" y="26" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6762;1"
                    dur="1.544s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="481" y="39" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6770;1"
                    dur="1.548s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="481" y="52" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-2">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6778;1"
                    dur="1.552s" begin="0s" fill="freeze" />
@@ -3003,7 +3003,7 @@
         </rect>
       
         <rect x="481" y="78" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6795;1"
                    dur="1.56s" begin="0s" fill="freeze" />
@@ -3024,7 +3024,7 @@
         </rect>
       
         <rect x="494" y="26" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6819;1"
                    dur="1.572s" begin="0s" fill="freeze" />
@@ -3038,7 +3038,7 @@
         </rect>
       
         <rect x="494" y="52" width="11" height="11" rx="2"
-              class="cal-lvl-2">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6835;1"
                    dur="1.58s" begin="0s" fill="freeze" />
@@ -3059,28 +3059,28 @@
         </rect>
       
         <rect x="507" y="0" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-3">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6859;1"
                    dur="1.592s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="507" y="13" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6867;1"
                    dur="1.596s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="507" y="26" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6875;1"
                    dur="1.6s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="507" y="39" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6883;1"
                    dur="1.604s" begin="0s" fill="freeze" />
@@ -3101,14 +3101,14 @@
         </rect>
       
         <rect x="507" y="78" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6906;1"
                    dur="1.616s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="520" y="0" width="11" height="11" rx="2"
-              class="cal-lvl-3">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6914;1"
                    dur="1.62s" begin="0s" fill="freeze" />
@@ -3129,7 +3129,7 @@
         </rect>
       
         <rect x="520" y="39" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-0">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.6936;1"
                    dur="1.632s" begin="0s" fill="freeze" />
@@ -3199,56 +3199,56 @@
         </rect>
       
         <rect x="533" y="78" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7010;1"
                    dur="1.672s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="546" y="0" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7017;1"
                    dur="1.676s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="546" y="13" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-3">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7024;1"
                    dur="1.68s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="546" y="26" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7031;1"
                    dur="1.684s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="546" y="39" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7038;1"
                    dur="1.688s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="546" y="52" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-3">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7045;1"
                    dur="1.692s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="546" y="65" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7052;1"
                    dur="1.696s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="546" y="78" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-2">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7059;1"
                    dur="1.7s" begin="0s" fill="freeze" />
@@ -3262,7 +3262,7 @@
         </rect>
       
         <rect x="559" y="13" width="11" height="11" rx="2"
-              class="cal-lvl-3">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7073;1"
                    dur="1.708s" begin="0s" fill="freeze" />
@@ -3283,7 +3283,7 @@
         </rect>
       
         <rect x="559" y="52" width="11" height="11" rx="2"
-              class="cal-lvl-3">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7093;1"
                    dur="1.72s" begin="0s" fill="freeze" />
@@ -3297,7 +3297,7 @@
         </rect>
       
         <rect x="559" y="78" width="11" height="11" rx="2"
-              class="cal-lvl-2">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7106;1"
                    dur="1.728s" begin="0s" fill="freeze" />
@@ -3318,21 +3318,21 @@
         </rect>
       
         <rect x="572" y="26" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-3">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7126;1"
                    dur="1.74s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="572" y="39" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-3">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7133;1"
                    dur="1.744s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="572" y="52" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7140;1"
                    dur="1.748s" begin="0s" fill="freeze" />
@@ -3367,14 +3367,14 @@
         </rect>
       
         <rect x="585" y="26" width="11" height="11" rx="2"
-              class="cal-lvl-3">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7172;1"
                    dur="1.768s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="585" y="39" width="11" height="11" rx="2"
-              class="cal-lvl-3">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7178;1"
                    dur="1.772s" begin="0s" fill="freeze" />
@@ -3402,28 +3402,28 @@
         </rect>
       
         <rect x="598" y="0" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-1">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7204;1"
                    dur="1.788s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="598" y="13" width="11" height="11" rx="2"
-              class="cal-lvl-4">
+              class="cal-lvl-3">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7210;1"
                    dur="1.792s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="598" y="26" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-4">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7216;1"
                    dur="1.796s" begin="0s" fill="freeze" />
         </rect>
       
         <rect x="598" y="39" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-2">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7222;1"
                    dur="1.8s" begin="0s" fill="freeze" />
@@ -3437,7 +3437,7 @@
         </rect>
       
         <rect x="598" y="65" width="11" height="11" rx="2"
-              class="cal-lvl-1">
+              class="cal-lvl-2">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7235;1"
                    dur="1.808s" begin="0s" fill="freeze" />
@@ -3455,48 +3455,6 @@
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7247;1"
                    dur="1.816s" begin="0s" fill="freeze" />
-        </rect>
-      
-        <rect x="611" y="13" width="11" height="11" rx="2"
-              class="cal-lvl-3">
-          
-          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7253;1"
-                   dur="1.82s" begin="0s" fill="freeze" />
-        </rect>
-      
-        <rect x="611" y="26" width="11" height="11" rx="2"
-              class="cal-lvl-4">
-          
-          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7259;1"
-                   dur="1.824s" begin="0s" fill="freeze" />
-        </rect>
-      
-        <rect x="611" y="39" width="11" height="11" rx="2"
-              class="cal-lvl-2">
-          
-          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7265;1"
-                   dur="1.828s" begin="0s" fill="freeze" />
-        </rect>
-      
-        <rect x="611" y="52" width="11" height="11" rx="2"
-              class="cal-lvl-1">
-          
-          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7271;1"
-                   dur="1.832s" begin="0s" fill="freeze" />
-        </rect>
-      
-        <rect x="611" y="65" width="11" height="11" rx="2"
-              class="cal-lvl-2">
-          
-          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7277;1"
-                   dur="1.836s" begin="0s" fill="freeze" />
-        </rect>
-      
-        <rect x="611" y="78" width="11" height="11" rx="2"
-              class="cal-lvl-4">
-          
-          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7283;1"
-                   dur="1.84s" begin="0s" fill="freeze" />
         </rect>
       
     </g>
@@ -3624,8 +3582,8 @@
     <g transform="translate(24, 68)">
       <text x="0" y="0" class="text-data-bold">57</text>
       <text x="0" y="24" class="text-data-label">Merged OSS PRs</text>
-      <text x="0" y="43" class="text-lang-pct" style="font-style: italic;">36-day streak</text>
-      <text x="0" y="61" class="text-lang-pct" style="font-style: italic;">Longest: 36 days</text>
+      <text x="0" y="43" class="text-lang-pct" style="font-style: italic;">37-day streak</text>
+      <text x="0" y="61" class="text-lang-pct" style="font-style: italic;">Longest: 37 days</text>
     </g>
 
     <!-- ART ZONE: Stats Card Foreground -->
@@ -3650,10 +3608,10 @@
         <text x="0" y="0" class="text-tiny">• 5 guestbook signs</text>
       
       
-        <text x="0" y="16" class="text-tiny">• 102,916,372 bots caught</text>
+        <text x="0" y="16" class="text-tiny">• 103,480,439 bots caught</text>
       
       
-        <text x="0" y="32" class="text-tiny">• 784.72 GB fed to bots</text>
+        <text x="0" y="32" class="text-tiny">• 787.45 GB fed to bots</text>
       
     </g>
 
