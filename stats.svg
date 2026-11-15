@@ -1112,7 +1112,7 @@
 
     <rect width="720" height="210" rx="18" class="card-bg" filter="url(#card-shadow)" />
     <text x="30" y="48" class="text-title">Contributions</text>
-    <text x="690" y="48" class="text-title" text-anchor="end" style="font-weight: bold; font-family: system-ui;">7,795</text>
+    <text x="690" y="48" class="text-title" text-anchor="end" style="font-weight: bold; font-family: system-ui;">7,796</text>
 
     <!-- Classic GitHub-style calendar: weekday labels, month labels, week/day grid -->
     <g transform="translate(66, 92)">
@@ -3494,6 +3494,13 @@
                    dur="1.836s" begin="0s" fill="freeze" />
         </rect>
       
+        <rect x="611" y="78" width="11" height="11" rx="2"
+              class="cal-lvl-1">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7283;1"
+                   dur="1.84s" begin="0s" fill="freeze" />
+        </rect>
+      
     </g>
 
     <!-- ART ZONE: Contributions Card Foreground -->
@@ -3619,8 +3626,8 @@
     <g transform="translate(24, 68)">
       <text x="0" y="0" class="text-data-bold">70</text>
       <text x="0" y="24" class="text-data-label">Merged OSS PRs</text>
-      <text x="0" y="43" class="text-lang-pct" style="font-style: italic;">56-day streak</text>
-      <text x="0" y="61" class="text-lang-pct" style="font-style: italic;">Longest: 56 days</text>
+      <text x="0" y="43" class="text-lang-pct" style="font-style: italic;">57-day streak</text>
+      <text x="0" y="61" class="text-lang-pct" style="font-style: italic;">Longest: 57 days</text>
     </g>
 
     <!-- ART ZONE: Stats Card Foreground -->
@@ -3642,13 +3649,13 @@
     <!-- Small best-effort widgets sourced from the site itself at generation time - see get_site_widgets() in update_svg.py. Any subset can be missing (site hiccup) and this just renders fewer lines, never a broken one. -->
     <g transform="translate(25, 70)" text-anchor="start">
       
-        <text x="0" y="0" class="text-tiny">• 5 guestbook signs</text>
+        <text x="0" y="0" class="text-tiny">• 6 guestbook signs</text>
       
       
-        <text x="0" y="16" class="text-tiny">• 114,226,835 bots caught</text>
+        <text x="0" y="16" class="text-tiny">• 115,370,615 bots caught</text>
       
       
-        <text x="0" y="32" class="text-tiny">• 858.55 GB fed to bots</text>
+        <text x="0" y="32" class="text-tiny">• 862.84 GB fed to bots</text>
       
     </g>
 
