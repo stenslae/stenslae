@@ -1112,7 +1112,7 @@
 
     <rect width="720" height="210" rx="18" class="card-bg" filter="url(#card-shadow)" />
     <text x="30" y="48" class="text-title">Contributions</text>
-    <text x="690" y="48" class="text-title" text-anchor="end" style="font-weight: bold; font-family: system-ui;">7,986</text>
+    <text x="690" y="48" class="text-title" text-anchor="end" style="font-weight: bold; font-family: system-ui;">7,996</text>
 
     <!-- Classic GitHub-style calendar: weekday labels, month labels, week/day grid -->
     <g transform="translate(66, 92)">
@@ -3472,7 +3472,7 @@
         </rect>
       
         <rect x="611" y="39" width="11" height="11" rx="2"
-              class="cal-lvl-0">
+              class="cal-lvl-3">
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7265;1"
                    dur="1.828s" begin="0s" fill="freeze" />
@@ -3483,6 +3483,13 @@
           
           <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7271;1"
                    dur="1.832s" begin="0s" fill="freeze" />
+        </rect>
+      
+        <rect x="611" y="65" width="11" height="11" rx="2"
+              class="cal-lvl-2">
+          
+          <animate attributeName="opacity" values="0;0;1" keyTimes="0;0.7277;1"
+                   dur="1.836s" begin="0s" fill="freeze" />
         </rect>
       
     </g>
@@ -3527,8 +3534,8 @@
           <!-- Drawn at full length, same static-fallback pattern as the calendar cells: the grow animation holds at 0 until this row's stagger point. -->
           
           
-          <rect x="0" y="8" width="279.7" height="4" rx="2" fill="url(#bar-grad)" filter="url(#bar-glow)" opacity="0.9">
-            <animate attributeName="width" values="0;0;279.7" keyTimes="0;0.1111;1"
+          <rect x="0" y="8" width="279.5" height="4" rx="2" fill="url(#bar-grad)" filter="url(#bar-glow)" opacity="0.9">
+            <animate attributeName="width" values="0;0;279.5" keyTimes="0;0.1111;1"
                      dur="1.3499999999999999s" begin="0s" fill="freeze"
                      calcMode="spline" keySplines="0 0 1 1;0.25 0.1 0.25 1" />
           </rect>
@@ -3610,8 +3617,8 @@
     <g transform="translate(24, 68)">
       <text x="0" y="0" class="text-data-bold">78</text>
       <text x="0" y="24" class="text-data-label">Merged OSS PRs</text>
-      <text x="0" y="43" class="text-lang-pct" style="font-style: italic;">1-day streak</text>
-      <text x="0" y="61" class="text-lang-pct" style="font-style: italic;">Longest: 67 days</text>
+      <text x="0" y="43" class="text-lang-pct" style="font-style: italic;">70-day streak</text>
+      <text x="0" y="61" class="text-lang-pct" style="font-style: italic;">Longest: 70 days</text>
     </g>
 
     <!-- ART ZONE: Stats Card Foreground -->
